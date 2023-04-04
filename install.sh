@@ -29,8 +29,14 @@ else
     echo "Unknown"
 fi
 
+# Symlink to tmux config file
+ln -s ~/dotFiles/tmux ~/config/
+
+
 # Install NeoVim Plugin Manager
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# symlink to nvim configuration
+ln -s ~/dotFiles/nvim ~/.config/
 
 #symlink to ranger FileManager
 ln -s ~/dotFiles/ranger ~/.config/ranger
