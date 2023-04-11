@@ -46,6 +46,7 @@ eval "$(starship init zsh)"
 ##   Creating symlinks   ###
 ############################
 
+# Create configration folder
 mkdir ~/.config
 
 # Symlink to tmux config file
