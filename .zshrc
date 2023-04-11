@@ -1,21 +1,4 @@
-alias python="python3"
-alias pip="pip3"
-alias rr=". ranger"
-alias ls="lsd"
-alias vim="nvim"
-case `uname` in
-  Darwin)
-    alias cat="bat"
-  ;;
-  Linux)
-    alias cat="batcat"
-  ;;
-  FreeBSD)
-    # commands for FreeBSD go here
-  ;;
-esac
-
-
+#Functions
 function catdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
@@ -27,3 +10,10 @@ function mkcd() {
 
 
 eval "$(starship init zsh)"
+
+#Aliases
+alias python="python3"
+alias pip="pip3"
+alias rr=". ranger"
+alias ls="lsd"
+alias vim="nvim"

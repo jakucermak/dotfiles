@@ -30,22 +30,26 @@ else
     done
 fi
 
-# Symlink to tmux config file
-ln -s ~/dotFiles/tmux ~/config/
+
 
 
 # Install NeoVim Plugin Manager
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-# symlink to nvim configuration
-ln -s ~/dotFiles/nvim ~/.config/
 
-#symlink to ranger FileManager
-ln -s ~/dotFiles/ranger ~/.config/ranger
 
 # Install Oh-My-ZSH
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init zsh)"
+
+############################
+##   Creating symlinks   ###
+############################
+
+mkdir ~/.config
+
+# Symlink to tmux config file
+ln -s ~/dotFiles/tmux ~/.config/
 
 #symlink to .zsh config file
 rm ~/.zshrc
@@ -53,3 +57,9 @@ ln -s ~/dotFiles/.zshrc ~/.zshrc
 
 #symlink to batcat config file
 ln -s ~/dotFiles/bat/ ~/.config/
+
+# symlink to nvim configuration
+ln -s ~/dotFiles/nvim ~/.config/
+
+#symlink to ranger FileManager
+ln -s ~/dotFiles/ranger ~/.config/ranger
