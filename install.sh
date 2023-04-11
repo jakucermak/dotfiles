@@ -13,20 +13,21 @@ darwin_install() {
 gnu_install() {
     sudo apt install $1 -y
 }
-if [ $os == "linux-gnu" ]; then
-    echo "Installing necessary tools for Linux-GNU" ;
-    for tool in ${tools[@]}; do
-        echo "installing" $tool
-        gnu_install $tool
-    done
-elif [[ $os == "darwin"* ]]; then
+
+
+if [[ $os == "darwin"* ]]; then
     echo "Installing necessary tools for macOS"
     for tool in ${tools[@]}; do
         echo "installing: " $tool
         darwin_install $tool
     done
 else
-    echo "Unknown"
+    echo "$os"
+    echo "Installing necessary tools for Linux-GNU" ;
+    for tool in ${tools[@]}; do
+        echo "installing" $tool
+        gnu_install $tool
+    done
 fi
 
 # Symlink to tmux config file
