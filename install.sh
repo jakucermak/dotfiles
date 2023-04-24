@@ -21,6 +21,7 @@ if [[ $os == "darwin"* ]]; then
         echo "installing: " $tool
         darwin_install $tool
     done
+    defaults write com.apple.dock "autohide-delay" -float "0" && killall Dock
 else
     echo "$os"
     echo "Installing necessary tools for Linux-GNU" ;
@@ -33,6 +34,7 @@ fi
 
 
 
+
 # Install NeoVim Plugin Manager
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -41,6 +43,11 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.g
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init zsh)"
+
+# Installing plugins for ohmyzsh
+echo "Installing oh-my-zsh plugins"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 ############################
 ##   Creating symlinks   ###
