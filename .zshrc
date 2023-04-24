@@ -128,5 +128,4 @@ function mkcd() {
     mkdir -p "$@" && cd "$_";
 }
 
-
 eval "$(starship init zsh)"
