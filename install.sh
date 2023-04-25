@@ -31,10 +31,6 @@ else
     done
 fi
 
-
-
-
-
 # Install NeoVim Plugin Manager
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
