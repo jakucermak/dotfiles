@@ -1,5 +1,4 @@
 set number
-set listchars=tab:···,trail:·,extends:·,precedes:·,space:·
 set list
 call plug#begin()
 	Plug 'nvim-lualine/lualine.nvim'
@@ -62,7 +61,12 @@ require('lualine').setup {
 
 
 require'nvim-treesitter.configs'.setup {
-  highlight = {
+
+	ensure_installed = { "lua" , "vim", "python"},
+	auto_install = true,
+
+
+highlight = {
     enable = true,
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
