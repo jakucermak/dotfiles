@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Install necessary tools
-tools=("neovim" "ranger" "tmux" "lsd" "bat" "zsh")
+tools=("neovim" "ranger" "tmux" "bat" "zsh")
 
 
 os="$OSTYPE"

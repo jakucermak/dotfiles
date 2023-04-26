@@ -17,20 +17,14 @@
 	</array>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>BadgeRightMargin</key>
 	<integer>10</integer>
 	<key>BadgeTopMargin</key>
 	<integer>10</integer>
+	<key>CheckTestRelease</key>
+	<true/>
 	<key>Coprocess MRU</key>
 	<array>
 		<string>ssh pi@raspberrypi.local</string>
@@ -1810,11 +1804,11 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.04397694393992424</real>
+				<real>0.10980392156862745</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.12156862765550613</real>
+				<real>0.30196078431372547</real>
 				<key>Red Component</key>
 				<real>0.0</real>
 			</dict>
@@ -1992,13 +1986,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.064321540296077728</real>
+				<real>0.011764705882352941</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.083151340484619141</real>
+				<real>0.47058823529411764</real>
 				<key>Red Component</key>
-				<real>0.0016387200448662043</real>
+				<real>0.0039215686274509803</real>
 			</dict>
 			<key>Ansi 9 Color</key>
 			<dict>
@@ -2063,7 +2057,9 @@
 				<real>0.098531007766723633</real>
 			</dict>
 			<key>Bound Hosts</key>
-			<array/>
+			<array>
+				<string>pi@*</string>
+			</array>
 			<key>Character Encoding</key>
 			<integer>4</integer>
 			<key>Close Sessions On End</key>
@@ -2112,7 +2108,7 @@
 				<real>0.99999600648880005</real>
 			</dict>
 			<key>Custom Command</key>
-			<string>Yes</string>
+			<string>No</string>
 			<key>Custom Directory</key>
 			<string>Recycle</string>
 			<key>Default Bookmark</key>
@@ -2599,7 +2595,7 @@
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
-			<string>SSH 2 RPI</string>
+			<string>SSH</string>
 			<key>Non Ascii Font</key>
 			<string>Monaco 12</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -2652,6 +2648,8 @@
 			<false/>
 			<key>Shortcut</key>
 			<string></string>
+			<key>Show Mark Indicators</key>
+			<false/>
 			<key>Show Status Bar</key>
 			<true/>
 			<key>Show Timestamps</key>

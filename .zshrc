@@ -129,3 +129,5 @@ function mkcd() {
 }
 
 eval "$(starship init zsh)"
+
+source ~/.iterm2_shell_integration.zsh
