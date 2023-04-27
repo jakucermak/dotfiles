@@ -11,6 +11,7 @@ return require('packer').startup(function(use)
 	use 'nvim-treesitter/nvim-treesitter'
 	use 'mhinz/vim-signify'
 	use 'f-person/git-blame.nvim'
+	use 'christoomey/vim-tmux-navigator'
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		-- or                            , branch = '0.1.x',
