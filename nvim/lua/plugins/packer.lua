@@ -6,8 +6,11 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
-
-
+	use 'navarasu/onedark.nvim'
+	use 'xiyaowong/transparent.nvim'
+	use 'nvim-treesitter/nvim-treesitter'
+	use 'mhinz/vim-signify'
+	use 'f-person/git-blame.nvim'
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		-- or                            , branch = '0.1.x',
@@ -19,7 +22,26 @@ return require('packer').startup(function(use)
 		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
 	}
 
-	-- Using Packer
-	use 'navarasu/onedark.nvim'
-	use 'xiyaowong/transparent.nvim' 
+
+	use {
+		'VonHeikemen/lsp-zero.nvim',
+		branch = 'v2.x',
+		requires = {
+			-- LSP Support
+			{'neovim/nvim-lspconfig'},             -- Required
+			{                                      -- Optional
+			'williamboman/mason.nvim',
+			run = function()
+				pcall(vim.cmd, 'MasonUpdate')
+			end,
+		},
+		{'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+		-- Autocompletion
+		{'hrsh7th/nvim-cmp'},     -- Required
+		{'hrsh7th/cmp-nvim-lsp'}, -- Required
+		{'L3MON4D3/LuaSnip'},     -- Required
+	}
+}
+
 end)
