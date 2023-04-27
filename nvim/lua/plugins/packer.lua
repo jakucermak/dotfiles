@@ -12,6 +12,7 @@ return require('packer').startup(function(use)
 	use 'mhinz/vim-signify'
 	use 'f-person/git-blame.nvim'
 	use 'christoomey/vim-tmux-navigator'
+	use 'sidebar-nvim/sidebar.nvim'
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		-- or                            , branch = '0.1.x',
@@ -43,6 +44,15 @@ return require('packer').startup(function(use)
 		{'hrsh7th/cmp-nvim-lsp'}, -- Required
 		{'L3MON4D3/LuaSnip'},     -- Required
 	}
+}
+use {
+	'nvim-tree/nvim-tree.lua',
+	requires = {
+		'nvim-tree/nvim-web-devicons', -- optional
+	},
+	config = function()
+		require("nvim-tree").setup {}
+	end
 }
 
 end)
