@@ -12,6 +12,7 @@ return require('packer').startup(function(use)
 	use 'mhinz/vim-signify'
 	use 'f-person/git-blame.nvim'
 	use 'christoomey/vim-tmux-navigator'
+	use 'terryma/vim-multiple-cursors'
 	use 'sidebar-nvim/sidebar.nvim'
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',

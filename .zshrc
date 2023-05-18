@@ -101,12 +101,19 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 
 #Aliases
+
+#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#  exec tmux new -As tmux
+#fi
+
+
 alias python="python3"
 alias pip="pip3"
 alias rr=". ranger"
 alias ls="lsd"
 alias vim="nvim"
 alias py="python3"
+alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl --launch-or-new-window"
 
 case `uname` in
 
@@ -131,3 +138,4 @@ function mkcd() {
 eval "$(starship init zsh)"
 
 source ~/.iterm2_shell_integration.zsh
+

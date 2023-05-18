@@ -4297,6 +4297,21 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
+	<key>Snippets</key>
+	<array>
+		<dict>
+			<key>escaping</key>
+			<integer>2</integer>
+			<key>guid</key>
+			<string>D8DAD31C-08FA-44EE-B44F-052E7C5A0F05</string>
+			<key>title</key>
+			<string>SSHFS RPI</string>
+			<key>value</key>
+			<string>sshfs pi@raspberrypi.local:/home/pi/BluetoothHID/ Projects/remB_HID</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>StatusBarPosition</key>
@@ -4311,7 +4326,8 @@
 	<integer>10</integer>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Profiles</string>
+		<string>Actions</string>
+		<string>Snippets</string>
 	</array>
 	<key>UseBorder</key>
 	<false/>
