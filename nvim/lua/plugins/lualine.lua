@@ -1,12 +1,13 @@
 require('lualine').setup {
 	options = {
 		icons_enabled = true,
-		theme = 'onedark',
-		component_separators = { left = '', right = ''},
+		theme = 'ayu',
+		component_separators = { left = '|', right = ''},
 		section_separators = { left = '', right = ''},
 		disabled_filetypes = {
-			statusline = {},
-			winbar = {},
+			statusline = {'NvimTree'},
+			winbar = {'NVimTree'},
+			{ 'packer', 'NvimTree' },
 		},
 		ignore_focus = {},
 		always_divide_middle = true,
@@ -38,3 +39,6 @@ require('lualine').setup {
 	inactive_winbar = {},
 	extensions = {}
 }
+
+-- vim.o.showmode = false
+-- vim.o.laststatus = 2

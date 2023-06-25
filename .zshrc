@@ -114,6 +114,7 @@ alias ls="lsd"
 alias vim="nvim"
 alias py="python3"
 alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl --launch-or-new-window"
+alias nv="/Applications/Neovide.app/Contents/MacOS/neovide"
 
 case `uname` in
 
