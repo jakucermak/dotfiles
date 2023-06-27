@@ -7,6 +7,7 @@ require("plugins.lsp")
 require("plugins.nvimtree")
 require("plugins.gitsigns")
 require("plugins.toggle_term")
+require("plugins.dap.dap")
 
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -21,7 +22,7 @@ end
 -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
 vim.g.neovide_transparency = 0.0
 vim.g.transparency = 1.0
-vim.g.neovide_background_color = "#242936" .. alpha()
+vim.g.neovide_background_color = "1f232e" .. alpha()
 
 require('ayu').setup({
     mirage = true, -- Set to `true` to use `mirage` variant instead of `dark` for dark background.

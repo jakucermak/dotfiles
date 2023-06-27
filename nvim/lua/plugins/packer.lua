@@ -65,4 +65,10 @@ return require('packer').startup(function(use)
 	use { "akinsho/toggleterm.nvim", tag = '*', config = function()
 		require("toggleterm").setup()
 	end }
+	use "mfussenegger/nvim-dap-python"
+
+	use 'mfussenegger/nvim-dap'
+	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+	use "nvim-telescope/telescope-dap.nvim"
+	use "theHamsta/nvim-dap-virtual-text"
 end)
