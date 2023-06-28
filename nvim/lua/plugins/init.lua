@@ -1,0 +1,7 @@
+require("plugins.packer")
+require("plugins.treesitter")
+require("plugins.telescope")
+require("plugins.gitsigns")
+require("plugins.lsp")
+require("plugins.lualine")
+require("plugins.dap")

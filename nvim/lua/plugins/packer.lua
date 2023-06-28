@@ -35,7 +35,7 @@ return require('packer').startup(function(use)
 		}
 	}
 	use 'lewis6991/gitsigns.nvim'
-	use 'tpope/vim-fugitive'
+	use 'f-person/git-blame.nvim'
 	use {
 		'nvim-lualine/lualine.nvim',
 		requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -44,5 +44,13 @@ return require('packer').startup(function(use)
 		"FeiyouG/command_center.nvim",
 		requires = { "nvim-telescope/telescope.nvim" }
 	}
+	use {
+		'numToStr/Comment.nvim',
+		config = function()
+			require('Comment').setup()
+		end
+	}
 	use 'cohama/lexima.vim'
+	use 'mfussenegger/nvim-dap'
+	use "rcarriga/nvim-dap-ui"
 end)
