@@ -53,4 +53,9 @@ return require('packer').startup(function(use)
 	use 'cohama/lexima.vim'
 	use 'mfussenegger/nvim-dap'
 	use "rcarriga/nvim-dap-ui"
+	use 'kdheepak/tabline.nvim'
+	use 'kyazdani42/nvim-web-devicons'
+	use { 'glepnir/dashboard-nvim',
+	event = 'VimEnter'}
+	use 'cljoly/telescope-repo.nvim'
 end)
