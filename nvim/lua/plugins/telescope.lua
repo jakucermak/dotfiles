@@ -1,4 +1,8 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require("telescope").setup {
+
 
 	defaults = {
 		layout_config = {
@@ -12,7 +16,6 @@ require("telescope").setup {
 			grouped = true,
 			initial_browser = "tree",
 			-- disables netrw and use telescope-file-browser in its place
-			hijack_netrw = true,
 			mappings = {
 				["i"] = {
 					-- your custom insert mode mappings

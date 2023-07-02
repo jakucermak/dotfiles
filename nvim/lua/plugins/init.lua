@@ -1,4 +1,5 @@
 require("plugins.packer")
+require("plugins.toggleterm")
 require("plugins.tabline")
 require("plugins.treesitter")
 require("plugins.telescope")

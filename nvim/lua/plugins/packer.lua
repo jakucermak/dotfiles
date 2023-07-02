@@ -58,4 +58,5 @@ return require('packer').startup(function(use)
 	use { 'glepnir/dashboard-nvim',
 	event = 'VimEnter'}
 	use 'cljoly/telescope-repo.nvim'
+	use "akinsho/toggleterm.nvim"
 end)

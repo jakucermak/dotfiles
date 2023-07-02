@@ -1,5 +1,9 @@
 -- Main
 vim.g.mapleader = " "
+vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
 
 -- Telescope
 local file_browser = require "telescope".extensions.file_browser.file_browser
@@ -17,3 +21,6 @@ vim.keymap.set("n", "<leader>do", vim.cmd.DapContinue)
 vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
 vim.keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim. fn. input('Breakpoint condition: '))<CR>")
 vim.keymap.set("n", "<leader>b", vim.cmd.DapToggleBreakpoint)
+
+-- ToggleTerm 
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
