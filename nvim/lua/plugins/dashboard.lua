@@ -1,5 +1,5 @@
-local yoda_small =  {
-        [[    __.-._            Try not.     ]],
+local yoda_small = {
+	[[    __.-._            Try not.     ]],
 	[[    '-._"7'        Do or do not.   ]],
 	[[     /'.-c        There is no try. ]],
 	[[     |  /T                         ]],
@@ -18,6 +18,7 @@ local yoda_quote = {
 
 local db = require('dashboard')
 local telescope = require('telescope.builtin')
+
 
 local function search_files()
 	telescope.find_files {
@@ -38,29 +39,27 @@ db.setup {
 		header = yoda_small,
 		shortcut = {
 
-        {
-          icon = ' ',
-          desc = 'Files',
-          group = 'Function',
-          action = search_files ,
-          key = 'f',
-        },
-        {
-          icon = ' ',
-          desc = 'Apps',
-          group = 'String',
-          action = 'Telescope',
-          key = 'a',
-        },
-        {
-          icon = ' ',
-          desc = 'dotfiles',
-          group = 'Constant',
-          action = dotfiles,
-          key = 'd',
-        },
-      },
+			{
+				icon = ' ',
+				desc = 'Files',
+				group = 'Function',
+				action = search_files,
+				key = 'f',
+			},
+			{
+				icon = ' ',
+				desc = 'Apps',
+				group = 'String',
+				action = 'Telescope',
+				key = 'a',
+			},
+			{
+				icon = ' ',
+				desc = 'dotfiles',
+				group = 'Constant',
+				action = dotfiles,
+				key = 'd',
+			},
+		}
 	}
 }
-
-

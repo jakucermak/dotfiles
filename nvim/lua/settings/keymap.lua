@@ -5,6 +5,17 @@ vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true}
 vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
 vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
 
+-- Buffers
+vim.keymap.set('n', '<leader>bd', vim.cmd.bdelete)
+vim.keymap.set('n', '<leader>bn', vim.cmd.bnext)
+vim.keymap.set('n', '<leader>bp', vim.cmd.bprevious)
+
+--ToggleTerm
+vim.keymap.set('n', '<leader>t', vim.cmd.ToggleTerm)
+
+-- Dashboard
+vim.keymap.set('n', '<leader>D', vim.cmd.Dashboard)
+
 -- Telescope
 local file_browser = require "telescope".extensions.file_browser.file_browser
 local builtin = require('telescope.builtin')
