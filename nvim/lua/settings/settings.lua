@@ -1,10 +1,11 @@
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.opt.guifont = { "JetBrains Mono NL Custom", ":h14" }
-
+vim.opt.list = true
+vim.opt.listchars = { space = ".", eol = '↩', tab = ' ➝ ' }
 vim.api.nvim_exec('language en_US', true)
 
-vim.opt.signcolumn = "yes:2"
+vim.opt.signcolumn = "yes:3"
 vim.opt.fillchars = { eob = ' ' }
 
 vim.cmd [[colorscheme ayu-mirage]]
@@ -30,7 +31,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
 		vim.fn.sign_define('DapLogPoint',
 			{ text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
 		vim.fn.sign_define('DapStopped',
-			{ text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
+			{ text = '⇨', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 		-- more commands
 	end,
 })

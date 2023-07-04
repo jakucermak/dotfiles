@@ -63,4 +63,17 @@ return require('packer').startup(function(use)
 		end,
 		event = 'VimEnter',
 	}
+	use { 'RishabhRD/lspactions',
+		requires = { 'nvim-lua/popup.nvim',
+			'nvim-lua/plenary.nvim'
+		}
+	}
+	use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
+	use 'ThePrimeagen/harpoon'
+	use { 'nyngwang/NeoZoom.lua',
+		config = function()
+			require("plugins.neo_zoom")
+		end
+	}
+	use "lukas-reineke/indent-blankline.nvim"
 end)

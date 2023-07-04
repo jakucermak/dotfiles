@@ -25,9 +25,24 @@ require("telescope").setup {
 				},
 			},
 		},
+		repo = {
+			list = {
+				fd_opts = {
+					"--no-ignore-vcs",
+				},
+				search_dirs = {
+					"~/Projects",
+				},
+
+			},
+			setting = {
+				auto_lcd = true
+			}
+		}
 	},
 }
 
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("command_center")
-require'telescope'.load_extension('repo')
+require 'telescope'.load_extension('repo')
+require("telescope").load_extension('harpoon')
