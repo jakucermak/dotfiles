@@ -1,8 +1,8 @@
 vim.wo.number = true
 vim.wo.relativenumber = true
-vim.opt.guifont = { "JetBrains Mono NL Custom", ":h14" }
+vim.opt.guifont = { "JetBrainsMonoNL Nerd Font", ":h14" }
 vim.opt.list = true
-vim.opt.listchars = { space = ".", eol = '↩', tab = ' ➝ ' }
+vim.opt.listchars = { space = ".", eol = '↩', tab = '  ' }
 vim.api.nvim_exec('language en_US', true)
 
 vim.opt.signcolumn = "yes:3"
@@ -11,6 +11,9 @@ vim.opt.fillchars = { eob = ' ' }
 vim.cmd [[colorscheme ayu-mirage]]
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 
+vim.api.nvim_set_hl(0,'LineNrAbove', { fg = '#5F6166' })
+vim.api.nvim_set_hl(0, 'LineNr', {fg = '#C8C9C3'})
+vim.api.nvim_set_hl(0,'LineNrBelow', { fg = '#5F6166' })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
 
@@ -39,6 +42,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufNew" }, {
 -- NEOVIDE
 if vim.g.neovide then
 	-- Put anything you want to happen only in Neovide here
+	vim.g.neovide_padding_top = 55
 	vim.g.neovide_padding_left = 15
 	vim.g.neovide_remember_window_size = true
 	vim.g.neovide_input_use_logo = true
