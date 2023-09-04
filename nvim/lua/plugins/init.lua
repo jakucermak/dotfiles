@@ -1,12 +1,11 @@
-require("plugins.packer")
-require("plugins.code_fold")
-require("plugins.toggleterm")
-require("plugins.tabline")
-require("plugins.treesitter")
-require("plugins.telescope")
-require("plugins.gitsigns")
-require("plugins.lsp")
-require("plugins.lualine")
-require("plugins.dap")
-require("plugins.harpoon")
-require("plugins.indentline")
+require('plugins.treesitter')
+require('plugins.lsp')
+require('plugins.lualine')
+require('plugins.neozoom')
+require('plugins.tint')
+
+vim.cmd [[packadd packer.nvim]]
+
+return require('packer').startup( function(use)
+	use 'wbthomason/packer.nvim'
+end)
