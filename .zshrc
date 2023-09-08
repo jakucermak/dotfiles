@@ -102,9 +102,6 @@ source $ZSH/oh-my-zsh.sh
 
 #Aliases
 
-#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#  exec tmux new -As tmux
-#fi
 
 
 alias python="python3"
@@ -113,16 +110,22 @@ alias rr=". ranger"
 alias ls="lsd"
 alias vim="nvim"
 alias py="python3"
-alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl --launch-or-new-window"
-alias nv="/Applications/Neovide.app/Contents/MacOS/neovide"
 
 case `uname` in
 
     Darwin)
         alias cat="bat"
+	alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl --launch-or-new-window"
+	alias nv="/Applications/Neovide.app/Contents/MacOS/neovide"
+	export PATH="/opt/homebrew/opt/flex/bin:$PATH"
+	export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+	source ~/.iterm2_shell_integration.zsh
         ;;
     Linux)
         alias cat="batcat"
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+ exec tmux new -As tmux
+fi
         ;;
 esac
 
@@ -138,7 +141,4 @@ function mkcd() {
 
 eval "$(starship init zsh)"
 
-source ~/.iterm2_shell_integration.zsh
 
-export PATH="/opt/homebrew/opt/flex/bin:$PATH"
-export PATH="/opt/homebrew/opt/bison/bin:$PATH"
