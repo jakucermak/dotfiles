@@ -28,4 +28,6 @@ return require('packer').startup(function(use)
 	}
 	use 'nyngwang/NeoZoom.lua'
 	use 'levouh/tint.nvim'
+	use 'lewis6991/gitsigns.nvim'
+	use "akinsho/toggleterm.nvim"
 end)

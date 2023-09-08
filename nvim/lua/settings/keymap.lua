@@ -10,6 +10,13 @@ end
 arrows()
 
 vim.g.mapleader = " "
+
+--Split navigation
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+
 -- Treesitter
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files,{})
@@ -26,3 +33,7 @@ vim.keymap.set('n', '<C-p>', harpoon_ui.nav_prev)
 vim.keymap.set('n','<C-ESC>', function ()
 	vim.cmd('NeoZoomToggle') 
 end, { silent = true, nowait = true })
+
+--Toggleterm
+vim.keymap.set('t', '<esc>t', [[<C-\><C-n>]])
+vim.keymap.set('n', '<leader>t', vim.cmd.ToggleTerm)
