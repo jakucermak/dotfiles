@@ -1,8 +1,8 @@
 #! /bin/bash
 
 # Install necessary tools
-tools=("curl" "ranger" "tmux" "bat" "zsh", "ripgrep", "tree")
-rust_tools=("lsd" "bottom")
+tools=("curl" "ranger" "tmux" "zsh" "tree")
+rust_tools=("lsd" "bottom" "ripgrep" "bat")
 echo "Install rust toolchain"
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -28,8 +28,9 @@ elif [[ $rust_version == *"rustc"* ]]; then
 		else
 			echo -e "\033[31m $tool not installed\033[0m"
 		fi
-
+	done
     echo $rust_version
+
 else
     echo -e "\033[31mAn unknown error occurred while checking the Rust installation.\033[0m"
     echo -e "\033[31mOutput from the attempt to get the version: $rust_version \033[0m"
