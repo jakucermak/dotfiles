@@ -141,4 +141,4 @@ function mkcd() {
 
 eval "$(starship init zsh)"
 
-
+export PATH=$PATH:~/.local/bin

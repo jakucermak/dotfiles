@@ -28,6 +28,7 @@ elif [[ $rust_version == *"rustc"* ]]; then
 		else
 			echo -e "\033[31m $tool not installed\033[0m"
 		fi
+	done
 
     echo $rust_version
 else
