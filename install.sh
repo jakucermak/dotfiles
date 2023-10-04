@@ -18,6 +18,7 @@ if [[ $rust_version == *"command not found"* ]] || [[ $rust_version == *"rustc: 
 # Then check for a successful installation
 elif [[ $rust_version == *"rustc"* ]]; then
     echo "Rust is correctly installed!"
+    echo $rust_version
     echo "Continues with installation of Rust tools"
 
 	for tool in ${rust_tools[@]}; do
@@ -29,11 +30,6 @@ elif [[ $rust_version == *"rustc"* ]]; then
 			echo -e "\033[31m $tool not installed\033[0m"
 		fi
 	done
-<<<<<<< HEAD
-
-=======
->>>>>>> 82510bc049f0b02ef7f6ede2e1f1fa14df277c1c
-    echo $rust_version
 
 else
     echo -e "\033[31mAn unknown error occurred while checking the Rust installation.\033[0m"
