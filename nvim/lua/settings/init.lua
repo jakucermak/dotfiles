@@ -1,5 +1,6 @@
 require('settings.keymap')
 vim.cmd [[colorscheme ayu]]
+vim.opt.fillchars = { eob = ' ' }
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.opt.guifont = { "JetBrainsMonoNL Nerd Font", ":h14" }
