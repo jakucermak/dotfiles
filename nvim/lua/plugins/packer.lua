@@ -35,4 +35,5 @@ return require('packer').startup(function(use)
 		{ 'MunifTanjim/nui.nvim'},
 		{ 'rcarriga/nvim-notify'}
 	}}
+	use {"shortcuts/no-neck-pain.nvim", tag = "*" }
 end)
