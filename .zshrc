@@ -138,7 +138,5 @@ function mkcd() {
 
 eval "$(starship init zsh)"
 
-source ~/.iterm2_shell_integration.zsh
-
 export PATH="/opt/homebrew/opt/flex/bin:$PATH"
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
