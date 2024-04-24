@@ -1,11 +1,8 @@
+
 require('plugins.packer')
 require('plugins.treesitter')
 require('plugins.lsp')
 require('plugins.lualine')
 require('plugins.neozoom')
 require('plugins.tint')
-require('plugins.gitsigns')
-require('plugins.toggleterm')
-require('plugins.comments')
-require('plugins.noice')
-require('no-neck-pain')
+

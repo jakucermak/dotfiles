@@ -1,0 +1,65 @@
+#!/usr/bin/env sh
+
+#
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+#
+# see this wiki page for information:
+#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
+#
+ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+ sudo yabai --load-sa
+#
+
+# global settings
+yabai -m config                                 \
+    external_bar                 off:40:0       \
+    menubar_opacity              1.0            \
+    mouse_follows_focus          on            \
+    focus_follows_mouse          off            \
+    window_origin_display        default        \
+    window_placement             second_child   \
+    window_zoom_persist          on             \
+    window_shadow                on             \
+    window_animation_duration    0.0            \
+    window_opacity_duration      0.0            \
+    active_window_opacity        1.0            \
+    normal_window_opacity        0.90           \
+    window_opacity               off            \
+    insert_feedback_color        0xffd75f5f     \
+    split_ratio                  0.50           \
+    split_type                   auto           \
+    auto_balance                 off            \
+    top_padding                  25             \
+    bottom_padding               25             \
+    left_padding                 25             \
+    right_padding                25             \
+    window_gap                   25             \
+    layout                       bsp            \
+    mouse_modifier               fn             \
+    mouse_action1                move           \
+    mouse_action2                resize         \
+    mouse_drop_action            swap
+
+echo "yabai configuration loaded.."
+
+# Rules
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="ˆSafari|SigmaOS$" space=1
+yabai -m rule --add app="^Zed Preview|Neovide" space=2
+yabai -m rule --add app="^Warp|Alacritty" space=3
+yabai -m rule --add app="Slack|Messages" space=4
+yabai -m rule --add app="Music" space=5
+yabai -m rule --add app="Spark Desktop" space=6
+
+# Yabai Indicator
+yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_created action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_destroyed action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_focused action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_moved action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_resized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'

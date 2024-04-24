@@ -1,9 +1,16 @@
 require('settings.keymap')
+
 vim.cmd [[colorscheme ayu]]
 vim.opt.fillchars = { eob = ' ' }
 vim.wo.number = true
 vim.wo.relativenumber = true
-vim.opt.guifont = { "JetBrainsMonoNL Nerd Font", ":h14" }
+
+if vim.g.neovide then
+	vim.opt.guifont = { "JetBrainsMonoNL Nerd Font", ":h14" }
+	vim.opt.linespace = 8
+end
+
+vim.opt.fillchars = { eob = ' ' }
 
 vim.api.nvim_set_hl(0,'LineNrAbove', { fg = '#5F6166' })
 vim.api.nvim_set_hl(0, 'LineNr', {fg = '#C8C9C3'})
