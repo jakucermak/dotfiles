@@ -9,6 +9,10 @@ require('mason-lspconfig').setup({
 		lsp.default_setup,
 	}
 })
-
+require('lspconfig').bashls.setup({
+	filetypes = {
+		'zsh'
+	}
+})
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
