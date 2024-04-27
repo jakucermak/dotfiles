@@ -107,3 +107,11 @@ ln -s ~/dotFiles/nvim ~/.config/
 
 #symlink to ranger FileManager
 ln -s ~/dotFiles/ranger ~/.config/ranger
+ 
+# symlink to yabai and skhd configs
+ln -s ~/dotfiles/.yabairc ~/.yabairc
+ln -s ~/dotfiles/.skhdrc ~/.skhdrc
+
+# symlink to sketchybar config folder and install it
+ln -s ~/dotfiles/sketchybar ~/.config/sketchybar
+sh ~/.config/sketchybar/helpers/install.sh

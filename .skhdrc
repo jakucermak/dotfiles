@@ -151,10 +151,10 @@ shift + ctrl - 6 : yabai -m window --space  6; yabai -m space --focus 6
 # alt - f : yabai -m window --toggle zoom-fullscreen
 
 # toggle window split type
-# alt - e : yabai -m window --toggle split
+alt - e : yabai -m window --toggle split
 
 # float / unfloat window and center on screen
- alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # toggle sticky(+float), picture-in-picture
 # alt - p : yabai -m window --toggle sticky --toggle pip
