@@ -28,4 +28,12 @@ return require('packer').startup(function(use)
 	}
 	use 'nyngwang/NeoZoom.lua'
 	use 'levouh/tint.nvim'
+	use 'tpope/vim-commentary'
+	use { 
+		"folke/noice.nvim",
+		requires = {
+			{ "MunifTanjim/nui.nvim" },
+			{ "rcarriga/nvim-notify" },
+		},
+	}
 end)
