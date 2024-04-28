@@ -1,2 +1,2 @@
-require("plugins")
-require("settings")
+require("jakub.lazy")
+require("jakub.settings")
