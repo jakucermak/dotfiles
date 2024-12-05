@@ -6,9 +6,11 @@ sbar = require("sketchybar")
 
 -- Bundle the entire initial configuration into a single message to sketchybar
 sbar.begin_config()
+sbar.add("event", "aerospace_workspace_change")
 require("bar")
 require("default")
 require("items")
+sbar.hotload(true)
 sbar.end_config()
 
 -- Run the event loop of the sketchybar module (without this there will be no

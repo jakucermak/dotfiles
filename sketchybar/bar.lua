@@ -4,11 +4,10 @@ local colors = require("colors")
 sbar.bar({
     topmost = "window",
     height = 40,
-    color = colors.bar.bg,
+    color = colors.with_alpha(colors.bar.bg, 0.8),
     padding_right = 0,
     padding_left = 0,
     margin = 25,
     corner_radius = 20,
-    y_offset = 6
-
+    y_offset = 05
 })

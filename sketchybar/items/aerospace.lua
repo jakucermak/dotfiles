@@ -5,8 +5,26 @@ local app_icons = require("helpers.app_icons")
 
 local spaces = {}
 
-for i = 1, 10, 1 do
-    local space = sbar.add("space", "space." .. i, {
+
+local s = [[
+1
+2
+3
+4
+5
+6
+7
+]]
+
+local numbers = {}
+for num in s:gmatch("%d") do
+    table.insert(numbers, tonumber(num))
+end
+
+for _, i in ipairs(numbers) do
+    print("space." .. i)
+
+    local space = sbar.add("item", "space." .. i, {
         space = i,
         icon = {
             font = { family = settings.font.numbers },
@@ -67,13 +85,13 @@ for i = 1, 10, 1 do
         }
     })
 
-    space:subscribe("space_change", function(env)
+    space:subscribe("aerospace_workspace_change", function(env)
         local selected = env.SELECTED == "true"
         local color = selected and colors.grey or colors.bg2
         space:set({
             icon = { highlight = selected, },
             label = { highlight = selected },
-            background = { color = selected and colors.green or colors.transparent }
+            background = { color = selected and colors.green or colors.bg2 }
         })
         space_bracket:set({
             background = { border_color = selected and colors.grey or colors.bg2 }
@@ -86,7 +104,7 @@ for i = 1, 10, 1 do
             space:set({ popup = { drawing = "toggle" } })
         else
             local op = (env.BUTTON == "right") and "--destroy" or "--focus"
-            sbar.exec("yabai -m space " .. op .. " " .. env.SID)
+            sbar.exec("aerospace workspace " .. env.SID)
         end
     end)
 

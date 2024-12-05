@@ -26,6 +26,8 @@ return {
     ["Godot"] = ":godot:",
     ["Android Messages"] = ":android_messages:",
     ["Zed"] = ":zed:",
+    ["Zed Preview"] = ":zed:",
+    ["OpenVPN Connect"] = ":openvpn_connect:",
     ["Anytype"] = ":anytype:",
     ["TeamSpeak 3"] = ":team_speak:",
     ["LibreWolf"] = ":libre_wolf:",

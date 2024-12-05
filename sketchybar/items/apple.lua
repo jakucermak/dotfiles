@@ -32,6 +32,27 @@ local apple = sbar.add("item", {
     click_script = "$CONFIG_DIR/helpers/menus/bin/menus -s 0"
 })
 
+apple:subscribe("mouse.entered", function()
+    sbar.animate("tanh", 30, function()
+    apple:set({
+        icon = {
+            string = icons.pill,
+        }
+
+    })
+    end)
+end)
+
+apple:subscribe("mouse.exited", function()
+    sbar.animate("tanh", 30, function()
+    apple:set({
+        icon = {
+            string = icons.pill_lines,
+        }
+    })
+    end)
+end)
+
 -- Double border for apple using a single item bracket
 sbar.add("bracket", {apple.name}, {
     background = {
@@ -41,4 +62,3 @@ sbar.add("bracket", {apple.name}, {
         border_width = 0
     }
 })
-
