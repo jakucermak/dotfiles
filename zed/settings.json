@@ -1,0 +1,120 @@
+// Zed settings // // For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "features": {
+    "inline_completion_provider": "none"
+  },
+  "theme": "Ayu Dark Flat (Blur)",
+  "language_models": {
+    "openai": {
+      "version": "1",
+      "available_models": []
+    }
+  },
+  "vim_mode": true,
+  "ui_font_size": 18,
+  "buffer_font_size": 16,
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true
+  },
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+
+  "show_whitespaces": "all",
+  "assistant": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
+    },
+    "provider": null,
+    "version": "2",
+    // Whether to show the assistant panel button in the status bar.
+    "button": true,
+    // Where to dock the assistant. Can be 'left', 'right' or 'bottom'.
+    "dock": "right",
+    // Default width when the assistant is docked to the left or right.
+    "default_width": 640,
+    // Default height when the assistant is docked to the bottom.
+    "default_height": 640.0,
+    // The default OpenAI API endpoint to use when starting new conversations.
+    "openai_api_url": "https://api.openai.com/v1",
+    // The default OpenAI model to use when starting new conversations. This
+    // setting can take three values:
+    //
+    // 1. "gpt-3.5-turbo-0613""
+    // 2. "gpt-4-0613""
+    // 3. "gpt-4-1106-preview"
+    "default_open_ai_model": "gpt-4o"
+  },
+  "terminal": {
+    "dock": "bottom",
+    "font_family": "JetBrainsMono Nerd Font"
+  },
+  "vim": {
+    "use_system_clipboard": "never"
+  },
+  "git": {
+    "git_gutter": "tracked_files",
+    "gutter_debounce": 1000,
+    "inline_blame": {
+      "enabled": true,
+      "show_hover": true
+    }
+  },
+  "relative_line_numbers": true,
+  "jupyter": {
+    "kernel_selections": {
+      "python": "conda-env",
+      "typescript": "deno",
+      "javascript": "deno"
+    }
+  },
+  "lsp": {
+    "ansible-language-server": {
+      "settings": {
+        "ansible": {
+          "path": "/opt/homebrew/opt/ansible@9/bin/ansible"
+        },
+        "executionEnvironment": {
+          "enabled": false
+        },
+        "python": {
+          "interpreterPath": "python3"
+        },
+        "validation": {
+          "enabled": true,
+          "lint": {
+            "enabled": true,
+            "path": "ansible-lint"
+          }
+        }
+      }
+    }
+  },
+  "file_types": {
+    "Ansible": [
+      "**.ansible.yml",
+      "**/defaults/**.yml",
+      "**/defaults/**.yaml",
+      "**/meta/**.yml",
+      "**/meta/**.yaml",
+      "**/tasks/**.yml",
+      "**/tasks/*.yml",
+      "**/tasks/*.yaml",
+      "**/handlers/*.yml",
+      "**/handlers/*.yaml",
+      "**/group_vars/**.yml",
+      "**/group_vars/**.yaml",
+      "**playbook*.yaml",
+      "**playbook*.yml",
+      "/Users/jakubcermak/HUG/ansible_playbooks/*.yml"
+    ]
+  }
+}
