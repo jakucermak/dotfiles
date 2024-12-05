@@ -118,3 +118,7 @@ sh ~/.config/sketchybar/helpers/install.sh
 
 # symlink to alacritty
 ln -s ~/dotfiles/alacritty ~/.config/alacritty
+
+# symlins to zeds themes and config.
+ln -s ~/dotFiles/zed/settings.json ~/.config/zed/settings.json
+ln -s ~/dotfiles/zed/themes ~/.config/zed/themes
