@@ -13,9 +13,8 @@
 
 # global settings
 yabai -m config                                 \
-    external_bar                 on:00:0       \
-    menubar_opacity              0.0            \
-    mouse_follows_focus          on            \
+    menubar_opacity              1            \
+    mouse_follows_focus          off            \
     focus_follows_mouse          off            \
     window_origin_display        default        \
     window_placement             second_child   \
@@ -24,13 +23,13 @@ yabai -m config                                 \
     window_animation_duration    0.0            \
     window_opacity_duration      0.0            \
     active_window_opacity        1.0            \
-    normal_window_opacity        0.90           \
+    normal_window_opacity        1.0           	\
     window_opacity               off            \
     insert_feedback_color        0xffd75f5f     \
     split_ratio                  0.50           \
     split_type                   auto           \
     auto_balance                 off            \
-    top_padding                  25             \
+    top_padding                  0             \
     bottom_padding               25             \
     left_padding                 25             \
     right_padding                25             \
@@ -42,25 +41,15 @@ yabai -m config                                 \
     mouse_drop_action            swap		\
     window_focus		 on
 
+   yabai -m config external_bar all:60:00
+
 echo "yabai configuration loaded.."
 
 # Rules
 yabai -m rule --add app="^System Settings$" manage=off
-yabai -m rule --add app="ˆSafari|SigmaOS$" space=1
+yabai -m rule --add app="^Safari|SigmaOS|Google Chrome$" space=1
 yabai -m rule --add app="^Zed Preview|Neovide$" space=2
-yabai -m rule --add app="^Warp|Alacritty$" space=3
-yabai -m rule --add app="Slack|Messages" space=4
-yabai -m rule --add app="^Music|Podcasts$" space=5
+yabai -m rule --add app="^Warp|Termius|Termius Beta$" space=3
+yabai -m rule --add app="Slack|Messages|WhatsApp" space=4
+yabai -m rule --add app="^Music|Podcasts|Obsidian|VNC Viewer|Chromium$" space=5
 yabai -m rule --add app="Spark Desktop" space=6
-
-# Yabai Indicator
-# yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_created action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_destroyed action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_focused action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_moved action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_resized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
-# yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
