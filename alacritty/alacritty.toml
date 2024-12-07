@@ -7,7 +7,7 @@ decorations = "Transparent"
 dynamic_padding = false
 opacity = 0.9
 blur = true
-option_as_alt = "OnlyLeft"
+option_as_alt = "OnlyRight"
 
 
 [window.padding]

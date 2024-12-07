@@ -91,3 +91,7 @@ esac
 #
 
 export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
+
+# precmd () {
+#     tmux set -qg status-left "#S #P $(pwd)"
+# }
