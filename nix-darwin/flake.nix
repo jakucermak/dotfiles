@@ -42,7 +42,36 @@
 
         # List packages installed in system profile. To search by name, run:
         # $ nix-env -qaP | grep wget
+	environment.systemPackages = 
+[
 
+    pkgs.alacritty
+    pkgs.mkalias
+    pkgs.neovim
+    pkgs.tmux
+    pkgs.zoxide
+    pkgs.raycast
+    pkgs.slack
+    pkgs.fzf
+    pkgs.nixd
+    pkgs.nixfmt
+    pkgs.lsd
+    pkgs.bat
+    pkgs.tree
+    pkgs.ripgrep-all
+    pkgs.bottom
+    pkgs.curl
+    pkgs.starship
+    pkgs.rustup
+    pkgs.python312
+    pkgs.python312Packages.ansible-core
+    pkgs.ansible-lint
+    pkgs.zsh-autosuggestions
+    pkgs.zsh-autocomplete
+    pkgs.nil
+    pkgs.ranger
+    pkgs.realvnc-vnc-viewer
+];
         homebrew = {
           enable = true;
           brews = [
@@ -115,8 +144,9 @@
       };
     in {
       # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#simple
-      darwinConfigurations."book-pro".system = nix-darwin.lib.darwinSystem {
+      # $ darwin-rebuild build --flake .#book-pro
+      darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
+	system = "aarch64-darwin";
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
