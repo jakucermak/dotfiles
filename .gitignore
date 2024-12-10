@@ -6,4 +6,4 @@ tmux/plugins
 nvim/plugin/*
 nvim/lazy-lock.json
 *.log
-
+.vim/
