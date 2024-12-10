@@ -26,10 +26,20 @@ alias rr=". ranger"
 alias ls="lsd"
 alias py="python3"
 alias ssh='TERM=xterm-256color ssh'
-alias vncviewer="/Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer"
+
+vncparams=(
+"-ColorLevel=full"
+"-WarnUnencrypted=0"
+"-SendSpecialKeys=0"
+"-Scaling=AspectFit"
+)
+
+alias vncviewer="/nix/store/3l40allr06rscvnigaxk0wml7ryz7rms-realvnc-vnc-viewer-7.12.1/Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer"
 
 function hugvnc() {
-    vncviewer "${1}" -passwordFile ~/passwd
+    echo ${vncparams[@]}
+
+    vncviewer "${1}" ${vncparams[@]} -passwordFile ~/passwd
 }
 
 

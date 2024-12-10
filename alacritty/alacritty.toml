@@ -38,5 +38,5 @@ live_config_reload = true
 import = ["~/.config/alacritty/themes/themes/ayu_dark.toml"]
 
 [terminal.shell]
-program = "/opt/homebrew/bin/tmux"
+program = "/run/current-system/sw/bin/tmux"
 args = ["new-session", "-A", "-s", "main"]

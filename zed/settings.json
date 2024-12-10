@@ -80,7 +80,7 @@
     "ansible-language-server": {
       "settings": {
         "ansible": {
-          "path": "/opt/homebrew/opt/ansible@9/bin/ansible"
+          "path": "/run/current-system/sw/bin/ansible"
         },
         "executionEnvironment": {
           "enabled": false
@@ -96,6 +96,18 @@
           }
         }
       }
+    },
+    "nixd": {
+      "settings": {
+        "diagnostic": {
+          "suppress": ["sema-extra-with"]
+        }
+      }
+    }
+  },
+  "languages": {
+    "Nix": {
+      "language_servers": ["nixd", "nil"]
     }
   },
   "file_types": {
