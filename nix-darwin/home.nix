@@ -15,7 +15,7 @@
     pkgs.starship
     pkgs.neovim
     pkgs.nixd
-    pkgs.nixfmt
+    pkgs.nixfmt-classic
     pkgs.nil
     pkgs.realvnc-vnc-viewer
     pkgs.raycast
