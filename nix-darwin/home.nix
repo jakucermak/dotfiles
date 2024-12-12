@@ -11,10 +11,6 @@
   # environment.
   nixpkgs.config.allowUnfree = true;
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-    #
     pkgs.git
     pkgs.starship
     pkgs.neovim
@@ -30,7 +26,7 @@
   # plain files is through 'home.file'.
   home.file = let
     dotfiles =
-      config.lib.file.mkOutOfStoreSymlink "/Users/yourusername/dotfiles";
+      config.lib.file.mkOutOfStoreSymlink "/Users/jakubcermak/dotfiles";
   in {
 
     # ".config/nvim".source = ~/dotfiles/nvim;
