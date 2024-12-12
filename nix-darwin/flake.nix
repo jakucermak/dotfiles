@@ -119,7 +119,7 @@
           screensaver.askForPasswordDelay = 10;
           NSGlobalDomain._HIHideMenuBar = true;
           NSGlobalDomain.ApplePressAndHoldEnabled = false;
-          spaces.spans-displays = false;
+          spaces.spans-displays = true;
         };
 
       };
