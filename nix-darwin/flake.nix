@@ -30,52 +30,32 @@
       url = "github:FelixKratz/homebrew-formulae";
       flake = false;
     };
+    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager
     , homebrew-bundle, homebrew-core, homebrew-cask, homebrew-services
-    , homebrew-FelixKratz-formulae }:
+    , homebrew-FelixKratz-formulae, alacritty-theme }:
     let
-      configuration = { pkgs, config, ... }: {
+      inherit (self) outputs;
+      mkHome = modules: pkgs:
+        home-manager.lib.homeManagerConfiguration {
+          inherit modules pkgs;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
+
+      configuration = { pkgs, ... }: {
 
         nixpkgs.config.allowUnfree = true;
 
         # List packages installed in system profile. To search by name, run:
         # $ nix-env -qaP | grep wget
-	environment.systemPackages = 
-[
-
-    pkgs.alacritty
-    pkgs.mkalias
-    pkgs.neovim
-    pkgs.tmux
-    pkgs.zoxide
-    pkgs.raycast
-    pkgs.slack
-    pkgs.fzf
-    pkgs.nixd
-    pkgs.nixfmt
-    pkgs.lsd
-    pkgs.bat
-    pkgs.tree
-    pkgs.ripgrep-all
-    pkgs.bottom
-    pkgs.curl
-    pkgs.starship
-    pkgs.rustup
-    pkgs.python312
-    pkgs.python312Packages.ansible-core
-    pkgs.ansible-lint
-    pkgs.zsh-autosuggestions
-    pkgs.zsh-autocomplete
-    pkgs.nil
-    pkgs.ranger
-    pkgs.realvnc-vnc-viewer
-];
+        environment.systemPackages = [ pkgs.home-manager ];
         homebrew = {
           enable = true;
           brews = [
             "mas"
+            "telnet"
             {
               name = "FelixKratz/formulae/borders";
               start_service = true;
@@ -146,11 +126,12 @@
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#book-pro
       darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
-	system = "aarch64-darwin";
+        system = "aarch64-darwin";
         modules = [
           configuration
           nix-homebrew.darwinModules.nix-homebrew
           {
+            nixpkgs.overlays = [ alacritty-theme.overlays.default ];
             nix-homebrew = {
               enable = true;
               enableRosetta = true;
@@ -161,9 +142,18 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jakubcermak = import ./home.nix;
+            home-manager.users.jakubcermak = { ... }: {
+              imports = [ ./home.nix ];
+            };
           }
         ];
       };
+      homeConfigurations = {
+        # Laptops
+        darwin = mkHome [ ./home.nix ]
+          (nixpkgs.legacyPackages."aarch64-darwin".extend
+            alacritty-theme.overlays.default);
+      };
+
     };
 }
