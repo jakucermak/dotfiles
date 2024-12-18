@@ -50,12 +50,14 @@
 
         # List packages installed in system profile. To search by name, run:
         # $ nix-env -qaP | grep wget
-        environment.systemPackages = [ pkgs.home-manager ];
+        environment.systemPackages =
+          [ pkgs.home-manager pkgs.raycast pkgs.slack ];
         homebrew = {
           enable = true;
           brews = [
             "mas"
             "telnet"
+            "nmap"
             {
               name = "FelixKratz/formulae/borders";
               start_service = true;
@@ -71,6 +73,7 @@
             "zed@preview"
             "chatgpt"
             "openvpn-connect"
+            "vnc-viewer"
           ];
           masApps = {
             "Spark" = 6445813049;
@@ -114,7 +117,7 @@
             AppleShowAllExtensions = true;
             FXPreferredViewStyle = "clmv";
           };
-          loginwindow.LoginwindowText = "devops-toolbox";
+          loginwindow.LoginwindowText = "jakucermak-toolbox";
           screencapture.location = "~/Pictures/screenshots";
           screensaver.askForPasswordDelay = 10;
           NSGlobalDomain._HIHideMenuBar = true;
@@ -148,12 +151,6 @@
             };
           }
         ];
-      };
-      homeConfigurations = {
-        # Laptops
-        darwin = mkHome [ ./home.nix ]
-          (nixpkgs.legacyPackages."aarch64-darwin".extend
-            alacritty-theme.overlays.default);
       };
 
     };

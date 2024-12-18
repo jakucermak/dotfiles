@@ -80,7 +80,7 @@
     "ansible-language-server": {
       "settings": {
         "ansible": {
-          "path": "/run/current-system/sw/bin/ansible"
+          "path": "/etc/profiles/per-user/jakubcermak/bin/ansible"
         },
         "executionEnvironment": {
           "enabled": false

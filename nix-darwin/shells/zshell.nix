@@ -13,7 +13,9 @@
       enable = true;
       plugins = [
         { name = "zsh-users/zsh-autosuggestions"; }
-       {name = "zsh-users/zsh-syntax-highlighting";} # Simple plugin installation
+        {
+          name = "zsh-users/zsh-syntax-highlighting";
+        } # Simple plugin installation
       ];
     };
 
@@ -36,7 +38,7 @@
     };
 
     initExtra = ''
-      alias vncviewer="${pkgs.realvnc-vnc-viewer}/Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer";
+      alias vncviewer="/Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer";
 
       # VNC viewer setup
       vncparams=(

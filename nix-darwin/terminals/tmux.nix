@@ -68,15 +68,15 @@ in {
       set-window-option -g window-status-current-format "#[fg=yellow,bg=default,nobold,nounderscore,noitalics]#[fg=black,bg=yellow,nobold] #I  #W #[fg=yellow,bg=default,nobold,nounderscore,noitalics]"
 
       # Original key bindings
-      bind h select-pane -L
-      bind j select-pane -D
-      bind k select-pane -U
-      bind l select-pane -R
+      bind -n  C-k select-pane -U
+      bind -n  C-j select-pane -D
+      bind -n  C-h select-pane -L
+      bind -n  C-l select-pane -R
 
-      bind -n M-h resize-pane -L 1
-      bind -n M-l resize-pane -R 1
-      bind -n M-k resize-pane -U 1
-      bind -n M-j resize-pane -D 1
+      bind -r C-h resize-pane -L 1
+      bind -r C-l resize-pane -R 1
+      bind -r C-k resize-pane -U 1
+      bind -r C-j resize-pane -D 1
 
       bind C-p previous-window
       bind C-n next-window
