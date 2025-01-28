@@ -54,6 +54,7 @@
           [ pkgs.home-manager pkgs.raycast pkgs.slack ];
         homebrew = {
           enable = true;
+          onActivation.cleanup = "uninstall";
           brews = [
             "mas"
             "telnet"
@@ -66,6 +67,8 @@
               name = "FelixKratz/formulae/sketchybar";
               start_service = true;
             }
+            { name = "surrealdb/tap/surreal"; }
+            { name = "jesseduffield/lazygit/lazygit"; }
 
           ];
           casks = [
@@ -140,6 +143,7 @@
               enable = true;
               enableRosetta = true;
               user = "jakubcermak";
+              autoMigrate = true;
             };
           }
           home-manager.darwinModules.home-manager

@@ -2,6 +2,7 @@
 local colors = require("colors")
 local settings = require("settings")
 local app_icons = require("helpers.app_icons")
+local icons = require("icons")
 
 local max_workspaces = 9
 local query_workspaces = "aerospace list-workspaces --all --format '%{workspace}%{monitor-id}' --json"
@@ -51,14 +52,13 @@ local function updateWindows(workspace_index)
     local get_windows =
         string.format("aerospace list-windows --workspace %s --format '%%{app-name}' --json", workspace_index)
     sbar.exec(get_windows, function(open_windows)
-        print(dump(open_windows))
         local icon_line = ""
         local no_app = true
         for i, open_window in ipairs(open_windows) do
             no_app = false
             local app = open_window["app-name"]
             local lookup = app_icons[app]
-            local icon = ((lookup == nil) and app_icons["default"] or lookup)
+            local icon = ((lookup == nil) and app_icons["default"] or lookup )
             icon_line = icon_line .. " " .. icon
         end
         sbar.animate("tanh", 10, function()
@@ -82,7 +82,7 @@ local function updateWorkspaceMonitor(workspace_index)
         sbar.exec(query_monitor, function(monitor_number)
             local monitor_id_map = {}
             if tonumber(monitor_number) ~= 1 then
-                monitor_id_map = { [1] = 1, [2] = 2 } -- sketchybar monitor id is different from aerospace monitor id which is need to map monitor id
+                monitor_id_map = { [1] = 2, [2] = 1 } -- sketchybar monitor id is different from aerospace monitor id which is need to map monitor id
             else
                 monitor_id_map = { [1] = 1, [2] = 2 }
             end
@@ -94,41 +94,24 @@ local function updateWorkspaceMonitor(workspace_index)
             workspaces[workspace_index]:set({
                 display = workspace_monitor[workspace_index],
             })
-            workspaces[tonumber(focused_workspace)]:set({
-                icon = { highlight = true },
-                label = { highlight = true },
-                background = { border_width = 2 },
-            })
         end)
     end)
 end
 
 for workspace_index = 1, max_workspaces do
     local workspace = sbar.add("item", {
-        icon = {
-            color = colors.yellow,
-            highlight_color = colors.bg2,
-            drawing = false,
-            font = { family = settings.font.numbers },
-            string = workspace_index,
-            padding_left = 15,
-            padding_right = 8,
-        },
         label = {
             padding_right = 20,
             color = colors.grey,
-            highlight_color = colors.bg2,
-            font = "sketchybar-app-font:Regular:16.0",
-            y_offset = -1,
+            highlight_color = colors.green,
+            font = "sketchybar-app-font:Regular:18.0",
+            y_offset = 0,
         },
         padding_right = 2,
         padding_left = 2,
         background = {
             color = colors.transparent,
-            border_width = 0,
-            height = 28,
-            border_color = colors.green,
-            corner_radius = 20
+            border_color = colors.transparent,
         },
         click_script = "aerospace workspace " .. workspace_index,
     })
@@ -142,12 +125,7 @@ for workspace_index = 1, max_workspaces do
 
         sbar.animate("tanh", 10, function()
             workspace:set({
-                icon = { highlight = is_focused },
                 label = { highlight = is_focused },
-                background = {
-                    border_width = is_focused and 5 or 0,
-                    color = is_focused and colors.green or colors.transparent
-                },
             })
         end)
     end)
@@ -168,10 +146,6 @@ for workspace_index = 1, max_workspaces do
         workspaces[tonumber(focused_workspace)]:set({
             icon = { highlight = true },
             label = { highlight = true },
-            background = {
-                border_width = 2,
-                color = colors.green
-            },
         })
     end)
 end

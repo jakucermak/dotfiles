@@ -2,31 +2,32 @@ local settings = require("settings")
 
 local icons = {
     sf_symbols = {
-        plus = "􀅼",
-        loading = "􀖇",
-        apple = "􀣺",
-        line = "􀝷",
-        gear = "􀍟",
-        cpu = "􀫥",
-        clipboard = "􀉄",
-        aqi = "􀴿",
-        bookmark = "􀉟",
-        clock = "􀐫",
         Tornado = "􁛴",
+        active_space = "􀯺",
+        apple = "􀣺",
+        aqi = "􀴿",
         arrow_circle_down = "􀁱",
+        arrow_down = "􀆈",
+        bookmark = "􀉟",
+        circle = "􀀁",
+        clipboard = "􀉄",
+        clock = "􀐫",
+        cpu = "􀫥",
+        direct_current = "􀯝",
+        gear = "􀍟",
+        inactive_space = "􀯺",
+        line = "􀝷",
+        loading = "􀖇",
+        menu = "􁏯",
+        menu_bar = "􀾩",
+        menu_bar2 = "􀾚",
         pill = "􀝷",
         pill_lines = "􀝶",
+        plus = "􀅼",
+        rotate_circle = "􁱀",
+        spaces = "􁏮",
         stack = "􀐋",
         stack_right = "􀧏",
-        direct_current = "􀯝",
-        rotate_circle = "􁱀",
-        arrow_down = "􀆈",
-        menu_bar2 = "􀾚",
-        menu_bar = "􀾩",
-        active_space = "􀯺",
-        inactive_space = "􀯺",
-        spaces = "􁏮",
-        menu = "􁏯",
 
         switch = {
             on = "􀠩",
@@ -109,4 +110,3 @@ if not (settings.icons == "NerdFont") then
 else
     return icons.nerdfont
 end
-

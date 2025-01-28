@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }: {
-  imports =
-    [ ./shells/zshell.nix ./terminals/tmux.nix ./terminals/alacritty.nix ];
+  imports = [
+    ./shells/zshell.nix
+    ./terminals/tmux.nix
+    ./terminals/alacritty.nix
+    # ./terminals/zellij.nix
+  ];
 
   home.username = "jakubcermak";
   home.homeDirectory = "/Users/jakubcermak";
@@ -17,6 +21,7 @@
     pkgs.nixd
     pkgs.nixfmt-classic
     pkgs.nil
+    pkgs.zellij
 
   ];
 

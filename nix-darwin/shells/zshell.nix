@@ -80,6 +80,7 @@
       eval "$(starship init zsh)"
       eval "$(zoxide init zsh)"
       eval "$(fzf --zsh)"
+
     '';
 
     envExtra = ''
@@ -94,6 +95,7 @@
       esac
 
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
+      export PATH="$HOME/.cargo/bin:$PATH"
     '';
   };
 

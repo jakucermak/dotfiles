@@ -38,12 +38,11 @@
         };
       };
 
-      terminal = {
-        shell = {
-          program = "${pkgs.tmux}/bin/tmux";
-          args = [ "new-session" "-A" "-s" "main" ];
-        };
-      };
+      # terminal = {
+      #   shell = {
+      #     program = ""
+      #   };
+      # };
       # For the theme, you'll need to ensure the theme file is available
       # You might want to add this to your home.file entries or use import_yaml
       general = { import = [ pkgs.alacritty-theme.ayu_dark ]; };

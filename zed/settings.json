@@ -5,8 +5,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "outline_panel": {
+    "dock": "right"
+  },
   "features": {
-    "inline_completion_provider": "none"
+    "inline_completion_provider": "copilot"
   },
   "theme": "Ayu Dark Flat (Blur)",
   "language_models": {
