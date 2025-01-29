@@ -9,6 +9,8 @@ local query_workspaces = "aerospace list-workspaces --all --format '%{workspace}
 local query_monitor = "aerospace list-monitors --count"
 local workspace_monitor = {}
 
+local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" }
+
 function dump(o)
     if type(o) == 'table' then
         local s = '{ '
@@ -22,30 +24,6 @@ function dump(o)
     end
 end
 
--- Add padding to the left
-sbar.add("item", {
-    icon = {
-        color = colors.white,
-        highlight_color = colors.red,
-        drawing = false,
-    },
-    label = {
-        color = colors.grey,
-        highlight_color = colors.white,
-        drawing = false,
-    },
-    background = {
-        color = colors.bg1,
-        border_width = 1,
-        height = 28,
-        border_color = colors.black,
-        corner_radius = 9,
-        drawing = false,
-    },
-    padding_left = 6,
-    padding_right = 0,
-})
-
 local workspaces = {}
 
 local function updateWindows(workspace_index)
@@ -58,7 +36,7 @@ local function updateWindows(workspace_index)
             no_app = false
             local app = open_window["app-name"]
             local lookup = app_icons[app]
-            local icon = ((lookup == nil) and app_icons["default"] or lookup )
+            local icon = ((lookup == nil) and app_icons["default"] or lookup)
             icon_line = icon_line .. " " .. icon
         end
         sbar.animate("tanh", 10, function()
@@ -67,8 +45,8 @@ local function updateWindows(workspace_index)
             end
 
             workspaces[workspace_index]:set({
-                icon = { drawing = true },
-                label = { drawing = true, string = icon_line },
+                icon = { drawing = true, string = icon_line, font = "sketchybar-app-font:Regular:17.0", highlight_color = colors.green, color = colors.grey },
+                label = { drawing = true, string = superscript[workspace_index] },
                 background = { drawing = true },
                 padding_right = 1,
                 padding_left = 1,
@@ -101,14 +79,13 @@ end
 for workspace_index = 1, max_workspaces do
     local workspace = sbar.add("item", {
         label = {
-            padding_right = 20,
+            padding_right = 10,
             color = colors.grey,
             highlight_color = colors.green,
-            font = "sketchybar-app-font:Regular:18.0",
-            y_offset = 0,
+            y_offset = 1,
         },
-        padding_right = 2,
-        padding_left = 2,
+        padding_right = 1,
+        padding_left = 1,
         background = {
             color = colors.transparent,
             border_color = colors.transparent,
@@ -125,6 +102,7 @@ for workspace_index = 1, max_workspaces do
 
         sbar.animate("tanh", 10, function()
             workspace:set({
+                icon = { highlight = is_focused },
                 label = { highlight = is_focused },
             })
         end)

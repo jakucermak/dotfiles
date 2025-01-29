@@ -9,6 +9,6 @@ sbar.bar({
     padding_right = 0,
     padding_left = 0,
     margin = 5,
-    corner_radius = 20,
-    y_offset = 05
+    corner_radius = 15,
+    y_offset = 02
 })

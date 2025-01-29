@@ -59,6 +59,9 @@
             "mas"
             "telnet"
             "nmap"
+            "lua"
+            "switchaudio-osx"
+            "nowplaying-cli"
             {
               name = "FelixKratz/formulae/borders";
               start_service = true;
@@ -77,6 +80,9 @@
             "chatgpt"
             "openvpn-connect"
             "vnc-viewer"
+            "sf-symbols"
+            "font-sf-mono"
+            "font-sf-pro"
           ];
           masApps = {
             "Spark" = 6445813049;
