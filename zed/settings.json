@@ -5,8 +5,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "outline_panel": {
+    "dock": "right"
+  },
   "features": {
-    "inline_completion_provider": "none"
+    "inline_completion_provider": "copilot"
   },
   "theme": "Ayu Dark Flat (Blur)",
   "language_models": {
@@ -80,7 +83,7 @@
     "ansible-language-server": {
       "settings": {
         "ansible": {
-          "path": "/opt/homebrew/opt/ansible@9/bin/ansible"
+          "path": "/etc/profiles/per-user/jakubcermak/bin/ansible"
         },
         "executionEnvironment": {
           "enabled": false
@@ -96,6 +99,18 @@
           }
         }
       }
+    },
+    "nixd": {
+      "settings": {
+        "diagnostic": {
+          "suppress": ["sema-extra-with"]
+        }
+      }
+    }
+  },
+  "languages": {
+    "Nix": {
+      "language_servers": ["nixd", "nil"]
     }
   },
   "file_types": {

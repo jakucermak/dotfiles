@@ -33,7 +33,7 @@ local wg_vpn = sbar.add("alias", "WireGuard,Item-0", {
     click_script = "osascript -e '" .. wg_vpn_osa_script .. "'",
 })
 
-local ovpn = sbar.add("alias", "OpenVPN Connect,Item-0", {
+local ovpn = sbar.add("alias", "OpenVPN Connect,Item-1", {
     position = "right",
     alias = {
         color = colors.green,

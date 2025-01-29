@@ -2,11 +2,14 @@
 local colors = require("colors")
 local settings = require("settings")
 local app_icons = require("helpers.app_icons")
+local icons = require("icons")
 
 local max_workspaces = 9
 local query_workspaces = "aerospace list-workspaces --all --format '%{workspace}%{monitor-id}' --json"
 local query_monitor = "aerospace list-monitors --count"
 local workspace_monitor = {}
+
+local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" }
 
 function dump(o)
     if type(o) == 'table' then
@@ -21,37 +24,12 @@ function dump(o)
     end
 end
 
--- Add padding to the left
-sbar.add("item", {
-    icon = {
-        color = colors.white,
-        highlight_color = colors.red,
-        drawing = false,
-    },
-    label = {
-        color = colors.grey,
-        highlight_color = colors.white,
-        drawing = false,
-    },
-    background = {
-        color = colors.bg1,
-        border_width = 1,
-        height = 28,
-        border_color = colors.black,
-        corner_radius = 9,
-        drawing = false,
-    },
-    padding_left = 6,
-    padding_right = 0,
-})
-
 local workspaces = {}
 
 local function updateWindows(workspace_index)
     local get_windows =
         string.format("aerospace list-windows --workspace %s --format '%%{app-name}' --json", workspace_index)
     sbar.exec(get_windows, function(open_windows)
-        print(dump(open_windows))
         local icon_line = ""
         local no_app = true
         for i, open_window in ipairs(open_windows) do
@@ -67,8 +45,8 @@ local function updateWindows(workspace_index)
             end
 
             workspaces[workspace_index]:set({
-                icon = { drawing = true },
-                label = { drawing = true, string = icon_line },
+                icon = { drawing = true, string = icon_line, font = "sketchybar-app-font:Regular:17.0", highlight_color = colors.green, color = colors.grey },
+                label = { drawing = true, string = superscript[workspace_index] },
                 background = { drawing = true },
                 padding_right = 1,
                 padding_left = 1,
@@ -82,7 +60,7 @@ local function updateWorkspaceMonitor(workspace_index)
         sbar.exec(query_monitor, function(monitor_number)
             local monitor_id_map = {}
             if tonumber(monitor_number) ~= 1 then
-                monitor_id_map = { [1] = 1, [2] = 2 } -- sketchybar monitor id is different from aerospace monitor id which is need to map monitor id
+                monitor_id_map = { [1] = 2, [2] = 1 } -- sketchybar monitor id is different from aerospace monitor id which is need to map monitor id
             else
                 monitor_id_map = { [1] = 1, [2] = 2 }
             end
@@ -94,41 +72,23 @@ local function updateWorkspaceMonitor(workspace_index)
             workspaces[workspace_index]:set({
                 display = workspace_monitor[workspace_index],
             })
-            workspaces[tonumber(focused_workspace)]:set({
-                icon = { highlight = true },
-                label = { highlight = true },
-                background = { border_width = 2 },
-            })
         end)
     end)
 end
 
 for workspace_index = 1, max_workspaces do
     local workspace = sbar.add("item", {
-        icon = {
-            color = colors.yellow,
-            highlight_color = colors.bg2,
-            drawing = false,
-            font = { family = settings.font.numbers },
-            string = workspace_index,
-            padding_left = 15,
-            padding_right = 8,
-        },
         label = {
-            padding_right = 20,
+            padding_right = 10,
             color = colors.grey,
-            highlight_color = colors.bg2,
-            font = "sketchybar-app-font:Regular:16.0",
-            y_offset = -1,
+            highlight_color = colors.green,
+            y_offset = 1,
         },
-        padding_right = 2,
-        padding_left = 2,
+        padding_right = 1,
+        padding_left = 1,
         background = {
             color = colors.transparent,
-            border_width = 0,
-            height = 28,
-            border_color = colors.green,
-            corner_radius = 20
+            border_color = colors.transparent,
         },
         click_script = "aerospace workspace " .. workspace_index,
     })
@@ -144,10 +104,6 @@ for workspace_index = 1, max_workspaces do
             workspace:set({
                 icon = { highlight = is_focused },
                 label = { highlight = is_focused },
-                background = {
-                    border_width = is_focused and 5 or 0,
-                    color = is_focused and colors.green or colors.transparent
-                },
             })
         end)
     end)
@@ -168,10 +124,6 @@ for workspace_index = 1, max_workspaces do
         workspaces[tonumber(focused_workspace)]:set({
             icon = { highlight = true },
             label = { highlight = true },
-            background = {
-                border_width = 2,
-                color = colors.green
-            },
         })
     end)
 end
