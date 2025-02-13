@@ -8,7 +8,7 @@ sbar.bar({
     blur_radius = 50,
     padding_right = 0,
     padding_left = 0,
-    margin = 5,
-    corner_radius = 18,
-    y_offset = 02
+    margin = -2,
+    corner_radius = 5,
+    y_offset = 00
 })

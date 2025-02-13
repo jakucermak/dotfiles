@@ -8,6 +8,7 @@
       config = config;
       zjstatus = inputs.zjstatus.packages.${pkgs.system}.default;
     })
+    ./editors/nvim.nix
   ];
 
   home.username = "jakubcermak";
@@ -21,7 +22,6 @@
   home.packages = [
     pkgs.git
     pkgs.starship
-    pkgs.neovim
     pkgs.nixd
     pkgs.nixfmt-classic
     pkgs.nil
@@ -34,8 +34,6 @@
     dotfiles =
       config.lib.file.mkOutOfStoreSymlink "/Users/jakubcermak/dotfiles";
   in {
-
-    # ".config/nvim".source = ~/dotfiles/nvim;
     ".config/aerospace".source = "${dotfiles}/aerospace";
     ".config/zed/themes".source = "${dotfiles}/zed/themes";
     ".config/zed/settings.json".source = "${dotfiles}/zed/settings.json";

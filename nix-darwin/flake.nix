@@ -76,6 +76,7 @@
 
           ];
           casks = [
+            "zen-browser"
             "nikitabobko/tap/aerospace"
             "zed@preview"
             "chatgpt"

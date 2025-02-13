@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   home.sessionVariables = { EDITOR = "nvim"; };
+  xdg.configFile.nvim.source = ./nvim;
 
   programs.neovim = {
     defaultEditor = true;
@@ -8,7 +9,7 @@
     viAlias = true;
     vimAlias = true;
 
-    extraPackages = with pkgs; [ lua-lua-language-server stylua ripgrep ];
+    extraPackages = with pkgs; [ lua-language-server stylua ripgrep ];
 
   };
 
