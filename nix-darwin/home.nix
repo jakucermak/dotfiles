@@ -9,6 +9,7 @@
       zjstatus = inputs.zjstatus.packages.${pkgs.system}.default;
     })
     ./editors/nvim.nix
+    ./aerospace.nix
   ];
 
   home.username = "jakubcermak";
@@ -34,11 +35,11 @@
     dotfiles =
       config.lib.file.mkOutOfStoreSymlink "/Users/jakubcermak/dotfiles";
   in {
-    ".config/aerospace".source = "${dotfiles}/aerospace";
+    # ".config/aerospace".source = "${dotfiles}/aerospace";
     ".config/zed/themes".source = "${dotfiles}/zed/themes";
     ".config/zed/settings.json".source = "${dotfiles}/zed/settings.json";
     ".config/zed/keymap.json".source = "${dotfiles}/zed/keymap.json";
-    ".config/sketchybar".source = "${dotfiles}/sketchybar";
+    # ".config/sketchybar".source = "${dotfiles}/sketchybar";
 
   };
 

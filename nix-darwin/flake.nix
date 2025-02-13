@@ -63,21 +63,21 @@
             "lua"
             "switchaudio-osx"
             "nowplaying-cli"
-            {
-              name = "FelixKratz/formulae/borders";
-              start_service = true;
-            }
-            {
-              name = "FelixKratz/formulae/sketchybar";
-              start_service = true;
-            }
+            # {
+            #   name = "FelixKratz/formulae/borders";
+            #   start_service = true;
+            # }
+            # {
+            #   name = "FelixKratz/formulae/sketchybar";
+            #   start_service = true;
+            # }
             { name = "surrealdb/tap/surreal"; }
             { name = "jesseduffield/lazygit/lazygit"; }
 
           ];
           casks = [
             "zen-browser"
-            "nikitabobko/tap/aerospace"
+            # "nikitabobko/tap/aerospace"
             "zed@preview"
             "chatgpt"
             "openvpn-connect"

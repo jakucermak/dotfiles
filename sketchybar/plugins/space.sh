@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-# The $SELECTED variable is available for space components and indicates if
-# the space invoking this script (with name: $NAME) is currently selected:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
+#echo space.sh $'FOCUSED_WORKSPACE': $FOCUSED_WORKSPACE, $'SELECTED': $SELECTED, NAME: $NAME, SENDER: $SENDER  >> ~/aaaa
 
-sketchybar --set "$NAME" background.drawing="$SELECTED"
+# source "$CONFIG_DIR/colors.sh"
+#
+# COLOR=$BACKGROUND_2
+# if [ "$SELECTED" = "true" ]; then
+#   COLOR=$GREY
+# fi
+#
+# sketchybar --set "space.$SID" "background.border_color=$COLOR"

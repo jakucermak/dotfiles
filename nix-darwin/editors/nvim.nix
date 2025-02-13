@@ -1,7 +1,6 @@
 { pkgs, ... }: {
 
   home.sessionVariables = { EDITOR = "nvim"; };
-  xdg.configFile.nvim.source = ./nvim;
 
   programs.neovim = {
     defaultEditor = true;
