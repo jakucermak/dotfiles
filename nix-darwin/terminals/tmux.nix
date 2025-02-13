@@ -25,7 +25,6 @@ in {
     extraConfig = ''
       # Status bar settings
       set-option -g status on
-      set-option -g status-justify centre
       set-option -g status-position top
 
       set-option -g status-left-length 100
@@ -62,10 +61,10 @@ in {
 
       # Status line formatting
       set-option -g status-right "#[fg=${colors.visual_grey},bg=default]#[fg=${colors.visual_grey},bg=${colors.visual_grey}]#[fg=white,bg=${colors.visual_grey}] #[fg=green,bg=${colors.visual_grey},nobold,nounderscore,noitalics]#[fg=black,bg=green,bold] #h #[fg=green,bg=default]"
-      set-option -g status-left "#[fg=green,bg=default]#[fg=black,bg=green,bold]   #S #{prefix_highlight}  #[fg=green,bg=default,nobold,nounderscore,noitalics]"
+      set-option -g status-left "#[fg=green,bg=default]#[fg=black,bg=green,bold]   #S #{prefix_highlight}  #[fg=green,bg=default,nobold,nounderscore,noitalics]"
 
-      set-window-option -g window-status-format "#[fg=default,bg=default,nobold]#[fg=${colors.white},bg=default] #I  #W "
-      set-window-option -g window-status-current-format "#[fg=yellow,bg=default,nobold,nounderscore,noitalics]#[fg=black,bg=yellow,nobold] #I  #W #[fg=yellow,bg=default,nobold,nounderscore,noitalics]"
+      set-window-option -g window-status-format "#[fg=black,bg=black,nobold]#[fg=${colors.white},bg=black] #I  #W "
+      set-window-option -g window-status-current-format "#[fg=black,bg=yellow,nobold] #I  #W #[fg=yellow,bg=default,nobold,nounderscore,noitalics]"
 
       # Original key bindings
       bind -n  C-k select-pane -U

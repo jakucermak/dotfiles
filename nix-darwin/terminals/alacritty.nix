@@ -11,10 +11,10 @@
         dynamic_padding = false;
         opacity = 0.9;
         blur = true;
-        option_as_alt = "Both";
+        option_as_alt = "OnlyRight";
         padding = {
           x = 15;
-          y = 5;
+          y = 25;
         };
       };
 
@@ -41,12 +41,37 @@
       terminal = {
         shell = {
           program = "${pkgs.zellij}/bin/zellij";
-          args = [];
+          args = [ "attach" "-c" ];
         };
       };
       # For the theme, you'll need to ensure the theme file is available
       # You might want to add this to your home.file entries or use import_yaml
       general = { import = [ pkgs.alacritty-theme.ayu_dark ]; };
+
+      keyboard.bindings = [
+        {
+          key = "Right";
+          mods = "Alt";
+          chars = "\\u001BF";
+        }
+
+        {
+          key = "Left";
+          mods = "Alt";
+          chars = "\\u001BB";
+        }
+        {
+          key = "Right";
+          mods = "Command";
+          chars = "\\u001b[F";
+        }
+
+        {
+          key = "Left";
+          mods = "Command";
+          chars = "\\u001b[H";
+        }
+      ];
     };
   };
 }

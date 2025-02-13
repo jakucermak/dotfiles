@@ -1,9 +1,13 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   imports = [
     ./shells/zshell.nix
     ./terminals/tmux.nix
     ./terminals/alacritty.nix
-    # ./terminals/zellij.nix
+    (import ./terminals/zellij.nix {
+      inherit pkgs;
+      config = config;
+      zjstatus = inputs.zjstatus.packages.${pkgs.system}.default;
+    })
   ];
 
   home.username = "jakubcermak";
@@ -22,7 +26,6 @@
     pkgs.nixfmt-classic
     pkgs.nil
     pkgs.zellij
-
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

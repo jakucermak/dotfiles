@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    zjstatus = { url = "github:dj95/zjstatus"; };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +36,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager
     , homebrew-bundle, homebrew-core, homebrew-cask, homebrew-services
-    , homebrew-FelixKratz-formulae, alacritty-theme }:
+    , homebrew-FelixKratz-formulae, alacritty-theme, zjstatus, ... }:
     let
       inherit (self) outputs;
       mkHome = modules: pkgs:
@@ -158,6 +159,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.jakubcermak = { ... }: {
               imports = [ ./home.nix ];
+              _module.args.inputs = inputs;
             };
           }
         ];

@@ -50,7 +50,6 @@
         "ghost_element.background": "#00000000",
         "ghost_element.disabled": "#1f2127ff",
         "ghost_element.hover": "#E6B45033",
-        // "ghost_element.hover": "#E6B450ff",
         "ghost_element.selected": "#E6B45012",
         "hidden": "#696a6aff",
         "hidden.background": "#313337ff",

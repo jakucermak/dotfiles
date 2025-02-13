@@ -23,13 +23,13 @@ local wg_vpn = sbar.add("alias", "WireGuard,Item-0", {
         color = colors.green,
     },
     background = {
-        color = colors.with_alpha(colors.green, 0.0),
+        color = colors.transparent,
         border_color = colors.transparent,
-        border_width = 1,
+        border_width = 0,
         height = 26,
     },
-    padding_left = 0,
-    padding_right = 1,
+    padding_left = -10,
+    padding_right = -10,
     click_script = "osascript -e '" .. wg_vpn_osa_script .. "'",
 })
 
@@ -41,10 +41,10 @@ local ovpn = sbar.add("alias", "OpenVPN Connect,Item-1", {
     background = {
         color = colors.with_alpha(colors.green, 0.0),
         border_color = colors.transparent,
-        border_width = 1,
+        border_width = 0,
         height = 26,
     },
-    padding_left = 1,
+    padding_left = -10,
     padding_right = 0,
     click_script = "osascript -e '" .. ovpn_osa_script .. "'",
 })

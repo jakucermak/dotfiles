@@ -35,8 +35,6 @@ local cal = sbar.add("item", {
     padding_right = 1,
     background = {
         color = colors.transparent,
-        border_color = colors.yellow,
-        border_width = 2,
         height = 30,
         corner_radius = 15
     }
@@ -48,7 +46,7 @@ sbar.add("item", {
     width = settings.group_paddings
 })
 
-cal:subscribe({"forced", "routine", "system_woke"}, function(env)
+cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
     cal:set({
         icon = os.date("%a. %d."),
         label = os.date("􀐫 %H:%M")

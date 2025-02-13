@@ -41,7 +41,7 @@ local cpu = sbar.add("graph", "widgets.cpu", 42, {
 cpu:subscribe("cpu_update", function(env)
     -- Also available: env.user_load, env.sys_load
     local load = tonumber(env.total_load)
-    cpu:push({load / 100.})
+    cpu:push({ load / 100. })
 
     local color = colors.green
     if load > 30 then
@@ -56,7 +56,7 @@ cpu:subscribe("cpu_update", function(env)
 
     cpu:set({
         graph = {
-            color = colors.grey
+            color = color
         },
         label = "cpu " .. env.total_load .. "%"
     })
@@ -67,7 +67,7 @@ cpu:subscribe("mouse.clicked", function(env)
 end)
 
 -- Background around the cpu item
-sbar.add("bracket", "widgets.cpu.bracket", {cpu.name}, {
+sbar.add("bracket", "widgets.cpu.bracket", { cpu.name }, {
     background = {
         color = colors.transparent,
         border_width = 0
