@@ -67,10 +67,10 @@
             #   name = "FelixKratz/formulae/borders";
             #   start_service = true;
             # }
-            # {
-            #   name = "FelixKratz/formulae/sketchybar";
-            #   start_service = true;
-            # }
+            {
+              name = "FelixKratz/formulae/sketchybar";
+              start_service = false;
+            }
             { name = "surrealdb/tap/surreal"; }
             { name = "jesseduffield/lazygit/lazygit"; }
 

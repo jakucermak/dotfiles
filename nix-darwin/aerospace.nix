@@ -14,14 +14,15 @@
     # 'after-startup-command' is run after 'after-login-command'
     # Available commands : https://nikitabobko.github.io/AeroSpace/commands
     after-startup-command = [
-          'exec-and-forget ${pkgs.zsh}/bin/zsh -c ${pkgs.sketchybar}/bin/sketchybar --config $HOME/.config/sketchybar/sketchybarrc',
-          'exec-and-forget ${pkgs.jankyborders}/bin/borders',
+            'exec-and-forget /opt/homebrew/bin/sketchybar',
+            'exec-and-forget ${pkgs.zsh}/bin/zsh -c ${pkgs.jankyborders}/bin/borders',
         ]
 
     exec-on-workspace-change = [
             '/bin/bash',
             '-c',
-            '${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+            '/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+
     ]
 
     # Start AeroSpace at login
@@ -232,16 +233,22 @@
   '';
 
   # Sketchybar configuration
-  xdg.configFile."sketchybar/sketchybarrc".executable = true;
-  xdg.configFile."sketchybar/sketchybarrc".source = ./sketchybar/sketchybarrc;
-  xdg.configFile."sketchybar/init.lua".source = ./sketchybar/init.lua;
-  xdg.configFile."sketchybar/items".source = ./sketchybar/items;
-  xdg.configFile."sketchybar/helpers".source = ./sketchybar/helpers;
-  xdg.configFile."sketchybar/bar.lua".source = ./sketchybar/bar.lua;
-  xdg.configFile."sketchybar/default.lua".source = ./sketchybar/default.lua;
-  xdg.configFile."sketchybar/settings.lua".source = ./sketchybar/settings.lua;
-  xdg.configFile."sketchybar/icons.lua".source = ./sketchybar/icons.lua;
-  xdg.configFile."sketchybar/colors.lua".source = ./sketchybar/colors.lua;
+  # xdg.configFile."sketchybar/sketchybarrc".executable = true;
+  # xdg.configFile."sketchybar/sketchybarrc".text = ''
+  #   #!${pkgs.lua}/bin/lua
+
+  #   -- Load the sketchybar-package and prepare the helper binaries
+  #   require("init")
+
+  # '';
+  # xdg.configFile."sketchybar/init.lua".source = ./sketchybar/init.lua;
+  # xdg.configFile."sketchybar/items".source = ./sketchybar/items;
+  # xdg.configFile."sketchybar/helpers".source = ./sketchybar/helpers;
+  # xdg.configFile."sketchybar/bar.lua".source = ./sketchybar/bar.lua;
+  # xdg.configFile."sketchybar/default.lua".source = ./sketchybar/default.lua;
+  # xdg.configFile."sketchybar/settings.lua".source = ./sketchybar/settings.lua;
+  # xdg.configFile."sketchybar/icons.lua".source = ./sketchybar/icons.lua;
+  # xdg.configFile."sketchybar/colors.lua".source = ./sketchybar/colors.lua;
 
   # Borders configuration
 

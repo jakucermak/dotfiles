@@ -5,17 +5,22 @@ local app_icons = require("helpers.app_icons")
 local icons = require("icons")
 
 local max_workspaces = 9
-local query_workspaces = "aerospace list-workspaces --all --format '%{workspace}%{monitor-id}' --json"
-local query_monitor = "aerospace list-monitors --count"
+local query_workspaces =
+"/etc/profiles/per-user/jakubcermak/bin/aerospace list-workspaces --all --format '%{workspace}%{monitor-id}' --json"
+local query_monitor = "/etc/profiles/per-user/jakubcermak/bin/aerospace list-monitors --count"
 local workspace_monitor = {}
 
 local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰" }
+
+sbar.add("item", { position = "left", width = settings.group_paddings, })
 
 local workspaces = {}
 
 local function updateWindows(workspace_index, is_focused)
     local get_windows =
-        string.format("aerospace list-windows --workspace %s --format '%%{app-name}' --json", workspace_index)
+        string.format(
+            "/etc/profiles/per-user/jakubcermak/bin/aerospace list-windows --workspace %s --format '%%{app-name}' --json",
+            workspace_index)
     sbar.exec(get_windows, function(open_windows)
         local icon_line = ""
         local no_app = true
@@ -29,6 +34,7 @@ local function updateWindows(workspace_index, is_focused)
 
         local workspace = workspaces[workspace_index]
 
+
         if no_app and not is_focused then
             workspace:set({ drawing = false })
         else
@@ -40,10 +46,10 @@ local function updateWindows(workspace_index, is_focused)
 
         sbar.animate("tanh", 10, function()
             workspaces[workspace_index]:set({
-                icon = { string = icon_line, font = "sketchybar-app-font:Regular:17.0", highlight_color = colors.green, color = colors.grey_bg },
+                icon = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.green, color = colors.grey_bg, y_offset = -2 },
                 label = { string = superscript[workspace_index] },
-                padding_right = 1,
-                padding_left = 1,
+                padding_right = 0,
+                padding_left = 0,
             })
         end)
     end)
@@ -123,3 +129,21 @@ for workspace_index = 1, max_workspaces do
         })
     end)
 end
+
+sbar.add("bracket", "items.spaces.bracket", {
+    workspaces[1].name,
+    workspaces[2].name,
+    workspaces[3].name,
+    workspaces[4].name,
+    workspaces[5].name,
+    workspaces[6].name,
+    workspaces[7].name,
+    workspaces[8].name,
+    workspaces[9].name,
+}, {
+    background = {
+        color = colors.green_bg,
+        border_width = 0
+
+    }
+})
