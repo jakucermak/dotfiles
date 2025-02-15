@@ -77,7 +77,7 @@
           ];
           casks = [
             "zen-browser"
-            # "nikitabobko/tap/aerospace"
+            "ghostty"
             "zed@preview"
             "chatgpt"
             "openvpn-connect"

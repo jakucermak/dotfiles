@@ -36,6 +36,7 @@
     dotfiles =
       config.lib.file.mkOutOfStoreSymlink "/Users/jakubcermak/dotfiles";
   in {
+    ".config/sketchybar".source = "${dotfiles}/sketchybar";
     ".config/zed/themes".source = "${dotfiles}/zed/themes";
     ".config/zed/settings.json".source = "${dotfiles}/zed/settings.json";
     ".config/zed/keymap.json".source = "${dotfiles}/zed/keymap.json";

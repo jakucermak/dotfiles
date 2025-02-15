@@ -7,3 +7,5 @@ nvim/plugin/*
 nvim/lazy-lock.json
 *.log
 .vim/
+.nvimlog
+config.kdl

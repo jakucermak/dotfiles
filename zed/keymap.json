@@ -27,5 +27,12 @@
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-j": "workspace::ActivatePaneDown"
     }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "h r": "tab_switcher::Toggle",
+      "h n": "panel::NextPanelTab"
+    }
   }
 ]

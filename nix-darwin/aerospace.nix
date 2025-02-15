@@ -14,14 +14,14 @@
     # 'after-startup-command' is run after 'after-login-command'
     # Available commands : https://nikitabobko.github.io/AeroSpace/commands
     after-startup-command = [
-          'exec-and-forget ${pkgs.zsh}/bin/zsh -c ${pkgs.sketchybar}/bin/sketchybar',
+          'exec-and-forget ${pkgs.sketchybar}/bin/sketchybar',
           'exec-and-forget ${pkgs.jankyborders}/bin/borders active_color=0xffd79921 inactive_color=0x000D1017 width=3.0',
         ]
 
     exec-on-workspace-change = [
             '/bin/bash',
             '-c',
-            '${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
+            '${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
     ]
 
     # Start AeroSpace at login
@@ -196,6 +196,10 @@
     run = 'move-node-to-workspace 3'
 
     [[on-window-detected]]
+    if.app-id = 'com.mitchellh.ghostty'
+    run = 'move-node-to-workspace 3'
+
+    [[on-window-detected]]
     if.app-id = 'com.apple.MobileSMS'
     run = 'move-node-to-workspace 4'
 
@@ -211,6 +215,10 @@
     if.app-id = 'com.readdle.SparkDesktop.appstore'
     run = 'move-node-to-workspace 5'
 
+    [[on-window-detected]]
+    if.app-id = 'com.apple.Music'
+    run = 'move-node-to-workspace 6'
+
     [workspace-to-monitor-force-assignment]
     1 = 'main'        # Monitor sequence number from left to right. 1-based indexing
     2 = 'main'        # Main monitor
@@ -224,11 +232,10 @@
   '';
 
   xdg.configFile."sketchybar/sketchybarrc".executable = true;
-  xdg.configFile."sketchybar/sketchybarrc".source = ../sketchybar/sketchybarrc;
-  xdg.configFile."sketchybar/items".source = ../sketchybar/items;
-  xdg.configFile."sketchybar/plugins".source = ../sketchybar/plugins;
-  xdg.configFile."sketchybar/colors.sh".source = ../sketchybar/colors.sh;
-  xdg.configFile."sketchybar/colors.sh".executable = true;
-  xdg.configFile."sketchybar/icons.sh".source = ../sketchybar/icons.sh;
-  xdg.configFile."sketchybar/icons.sh".executable = true;
+  xdg.configFile."sketchybar/sketchybarrc".source = ./sketchybar/sketchybarrc;
+  # xdg.configFile."sketchybar/items".source = ./sketchybar/items;
+  # xdg.configFile."sketchybar/helpers".source = ../sketchybar/helpers;
+  # xdg.configFile."sketchybar/bar.lua".source = ../sketchybar/bar.lua;
+  # xdg.configFile."sketchybar/colors.lua".source = ../sketchybar/colors.lua;
+
 }

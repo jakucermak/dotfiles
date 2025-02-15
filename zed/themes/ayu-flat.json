@@ -6,7 +6,7 @@
       "name": "Ayu Dark Flat",
       "appearance": "dark",
       "style": {
-        "background": "#0B0E14e6",
+        "background": "#0B0E14FF",
         "border": "#bfbdb633",
         "border.disabled": "#383a3eff",
         "border.focused": "#1b4a6eff",

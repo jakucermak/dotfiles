@@ -116,6 +116,5 @@
     python312
     python312Packages.ansible-core
     ansible-lint
-    bottom
   ];
 }

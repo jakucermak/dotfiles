@@ -29,6 +29,9 @@
   },
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "JetBrainsMono Nerd Font",
+  "tab_bar": {
+    "show": false
+  },
 
   "show_whitespaces": "all",
   "assistant": {
