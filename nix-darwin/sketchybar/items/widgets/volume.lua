@@ -8,7 +8,7 @@ local volume_percent = sbar.add("item", "widgets.volume1", {
     icon = { drawing = false },
     label = {
         string = " V ⋮ ??%",
-        width = 70,
+        width = 80,
         padding_left = -1,
         font = { family = settings.font.numbers },
         color = colors.red
@@ -51,11 +51,18 @@ local volume_slider = sbar.add("slider", popup_width, {
 
 volume_percent:subscribe("volume_change", function(env)
     local volume = tonumber(env.INFO)
+
     local vol_str = volume .. "% "
 
+    if volume < 99 then
+        vol_str = "0" .. volume .. "%"
+    end
+
     if volume < 10 then
-        vol_str = "0" .. volume .. "% "
-    elseif volume == 0 then
+        vol_str = "00" .. volume .. "% "
+    end
+
+    if volume == 0 then
         vol_str = "MUTED"
     end
 

@@ -24,6 +24,7 @@
       gs = "git status";
       ga = "git add";
       gcm = "git commit -m";
+      lg = "lazygit";
 
       # General aliases
       pip = "pip3";
