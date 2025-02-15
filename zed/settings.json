@@ -9,9 +9,9 @@
     "dock": "right"
   },
   "features": {
-    "edit_prediction_provider": "copilot"
+    "edit_prediction_provider": "zed"
   },
-  "theme": "Ayu Dark Flat (Blur)",
+  "theme": "Ayu Dark Flat",
   "language_models": {
     "openai": {
       "version": "1",

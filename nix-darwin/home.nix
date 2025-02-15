@@ -3,12 +3,13 @@
     ./shells/zshell.nix
     ./terminals/tmux.nix
     ./terminals/alacritty.nix
+    ./terminals/ghostty.nix
     (import ./terminals/zellij.nix {
       inherit pkgs;
       config = config;
       zjstatus = inputs.zjstatus.packages.${pkgs.system}.default;
     })
-    ./editors/nvim.nix
+    # ./editors/nvim.nix
     ./aerospace.nix
   ];
 
@@ -35,16 +36,9 @@
     dotfiles =
       config.lib.file.mkOutOfStoreSymlink "/Users/jakubcermak/dotfiles";
   in {
-    # ".config/aerospace".source = "${dotfiles}/aerospace";
     ".config/zed/themes".source = "${dotfiles}/zed/themes";
     ".config/zed/settings.json".source = "${dotfiles}/zed/settings.json";
     ".config/zed/keymap.json".source = "${dotfiles}/zed/keymap.json";
-    # ".config/sketchybar".source = "${dotfiles}/sketchybar";
-
-  };
-
-  home.sessionVariables = {
-    # EDITOR = "emacs";
   };
 
   # Let Home Manager install and manage itself.

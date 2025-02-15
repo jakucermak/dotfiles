@@ -9,7 +9,7 @@
       window = {
         decorations = "Transparent";
         dynamic_padding = false;
-        opacity = 0.9;
+        opacity = 1;
         blur = true;
         option_as_alt = "OnlyRight";
         padding = {

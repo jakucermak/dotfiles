@@ -94,7 +94,7 @@
 
         fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
 
-        services.nix-daemon.enable = true;
+        # services.nix-daemon.enable = true;
         nix.settings.experimental-features = "nix-command flakes";
         programs.zsh.enable = true; # default shell on catalina
         system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -103,8 +103,6 @@
 
         security.pam.enableSudoTouchIdAuth = true;
         users.users.jakubcermak.home = "/Users/jakubcermak";
-        nix.configureBuildUsers = true;
-        nix.useDaemon = true;
 
         system.defaults = {
           dock = {
@@ -139,7 +137,6 @@
       };
     in {
       # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#book-pro
       darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
