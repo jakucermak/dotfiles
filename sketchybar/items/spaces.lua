@@ -46,7 +46,7 @@ local function updateWindows(workspace_index, is_focused)
 
         sbar.animate("tanh", 10, function()
             workspaces[workspace_index]:set({
-                icon = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.green, color = colors.grey_bg, y_offset = -2 },
+                icon = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = -2 },
                 label = { string = superscript[workspace_index] },
                 padding_right = 0,
                 padding_left = 0,
@@ -81,7 +81,7 @@ for workspace_index = 1, max_workspaces do
         label = {
             padding_right = 10,
             color = colors.grey,
-            highlight_color = colors.green,
+            highlight_color = colors.blue,
             y_offset = 1,
         },
         padding_right = 1,
@@ -90,7 +90,7 @@ for workspace_index = 1, max_workspaces do
             color = colors.transparent,
             border_color = colors.transparent,
         },
-        click_script = "aerospace workspace " .. workspace_index,
+        click_script = "/etc/profiles/per-user/jakubcermak/bin/aerospace workspace " .. workspace_index,
         updates = true,
     })
 
@@ -122,13 +122,34 @@ for workspace_index = 1, max_workspaces do
     -- initial setup
     updateWindows(workspace_index)
     updateWorkspaceMonitor(workspace_index)
-    sbar.exec("aerospace list-workspaces --focused", function(focused_workspace)
+    sbar.exec("/etc/profiles/per-user/jakubcermak/bin/aerospace list-workspaces --focused", function(focused_workspace)
         workspaces[tonumber(focused_workspace)]:set({
             icon = { highlight = true },
             label = { highlight = true },
         })
     end)
 end
+
+
+local front_app = sbar.add("item", "front_app", {
+    display = "active",
+    icon = { drawing = false },
+    label = {
+        font = {
+            style = settings.font.style_map["Thin"],
+            size = 12.0,
+        },
+        color = colors.blue
+    },
+    updates = true,
+})
+
+front_app:subscribe("front_app_switched", function(env)
+    front_app:set({ label = { string = env.INFO } })
+end)
+
+front_app:subscribe("mouse.clicked", function(env)
+end)
 
 sbar.add("bracket", "items.spaces.bracket", {
     workspaces[1].name,
@@ -140,9 +161,10 @@ sbar.add("bracket", "items.spaces.bracket", {
     workspaces[7].name,
     workspaces[8].name,
     workspaces[9].name,
+    front_app.name,
 }, {
     background = {
-        color = colors.green_bg,
+        color = colors.blue_bg,
         border_width = 0
 
     }

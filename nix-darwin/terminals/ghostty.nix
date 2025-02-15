@@ -13,7 +13,7 @@
 
     # Theme
     theme = ayu
-    background-opacity = 1
+    background-opacity = 0.85
     background-blur-radius = 90
 
     # Shell

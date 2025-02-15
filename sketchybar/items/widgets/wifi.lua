@@ -7,7 +7,22 @@ local settings = require("settings")
 sbar.exec(
     "killall network_load >/dev/null; $CONFIG_DIR/helpers/event_providers/network_load/bin/network_load en0 network_update 2.0")
 
-local popup_width = 250
+local ovpn_osa_script = [[tell application "System Events"
+    tell process "OpenVPN Connect"
+        tell menu bar item 1 of menu bar 2
+            click
+        end tell
+    end tell
+end tell]]
+
+local wg_vpn_osa_script = [[tell application "System Events"
+    tell process "WireGuard"
+            tell menu bar item 1 of menu bar 2
+                click
+            end tell
+    end tell
+end tell]]
+
 
 local wifi_up = sbar.add("item", "widgets.wifi1", {
     position = "right",
@@ -71,7 +86,57 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
         color = colors.magenta_bg,
         border_width = 0,
     },
-    popup = { align = "center", height = 30 }
+    popup = {
+        align = "center",
+        height = 40,
+        background = {
+            color = colors.with_alpha(colors.magenta_bg, 0.19),
+            border_color = colors.transparent,
+            border_width = 0,
+            height = 40,
+        }
+    },
+})
+
+sbar.add("alias", "WireGuard,Item-0", {
+    position = "popup." .. wifi_bracket.name,
+    alias = {
+        color = colors.magenta,
+    },
+    label = {
+        string = "WireGuard"
+    },
+    background = {
+        color = colors.transparent,
+        border_color = colors.transparent,
+        border_width = 0,
+        height = 26,
+
+    },
+    padding_left = -10,
+    padding_right = 0,
+    click_script = "osascript -e '" .. wg_vpn_osa_script .. "'",
+    width = 200,
+})
+
+sbar.add("alias", "OpenVPN Connect,Item-0", {
+    position = "popup." .. wifi_bracket.name,
+    alias = {
+        color = colors.magenta,
+    },
+    label = {
+        string = "OpenVPN"
+    },
+    background = {
+        color = colors.transparent,
+        border_color = colors.transparent,
+        border_width = 0,
+        height = 26,
+    },
+    padding_left = 0,
+    padding_right = 0,
+    click_script = "osascript -e '" .. ovpn_osa_script .. "'",
+    width = 180,
 })
 
 sbar.add("item", { position = "right", width = settings.group_paddings })
@@ -105,7 +170,11 @@ local function hide_details()
     wifi_bracket:set({ popup = { drawing = false } })
 end
 
-local function toggle_details()
+local function toggle_details(env)
+    if env.BUTTON == "right" then
+        sbar.exec("open /System/Library/PreferencePanes/Network.prefPane")
+        return
+    end
     local should_draw = wifi_bracket:query().popup.drawing == "off"
     if should_draw then
         wifi_bracket:set({ popup = { drawing = true } })

@@ -9,12 +9,12 @@
       window = {
         decorations = "Transparent";
         dynamic_padding = false;
-        opacity = 1;
+        opacity = 0.9;
         blur = true;
         option_as_alt = "OnlyRight";
         padding = {
-          x = 15;
-          y = 25;
+          x = 5;
+          y = 30;
         };
       };
 
@@ -38,12 +38,6 @@
         };
       };
 
-      terminal = {
-        shell = {
-          program = "${pkgs.zellij}/bin/zellij";
-          args = [ "attach" "-c" ];
-        };
-      };
       # For the theme, you'll need to ensure the theme file is available
       # You might want to add this to your home.file entries or use import_yaml
       general = { import = [ pkgs.alacritty-theme.ayu_dark ]; };

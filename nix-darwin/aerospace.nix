@@ -83,6 +83,7 @@
     # Fallback value (if you omit the key): mode.main.binding = {}
     [mode.main.binding]
 
+
     # All possible keys:
     # - Letters.        a, b, c, ..., z
     # - Numbers.        0, 1, 2, ..., 9
@@ -100,7 +101,7 @@
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
     # You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
-    alt-enter = 'exec-and-forget   open -n  Applications/Home\ Manager\ Apps/Alacritty.app'
+    alt-enter = 'exec-and-forget   open -n  /Users/jakubcermak/Applications/Home\ Manager\ Apps/Alacritty.app'
 
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
@@ -146,9 +147,9 @@
     alt-shift-9 = 'move-node-to-workspace 9'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-    alt-tab = 'workspace-back-and-forth'
+    # alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+    # alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     alt-shift-semicolon = 'mode service'
@@ -171,6 +172,7 @@
     alt-shift-j = ['join-with down', 'mode main']
     alt-shift-k = ['join-with up', 'mode main']
     alt-shift-l = ['join-with right', 'mode main']
+
 
     down = 'volume down'
     up = 'volume up'

@@ -11,7 +11,7 @@
   "features": {
     "edit_prediction_provider": "zed"
   },
-  "theme": "Ayu Dark Flat",
+  "theme": "Ayu Dark Flat (Blur)",
   "language_models": {
     "openai": {
       "version": "1",
