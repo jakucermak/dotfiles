@@ -1,6 +1,7 @@
 { config, pkgs, lib, inputs, ... }: {
   imports = [
     ./shells/zshell.nix
+    ./shells/starship.nix
     ./terminals/tmux.nix
     ./terminals/alacritty.nix
     ./terminals/ghostty.nix
@@ -21,14 +22,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   nixpkgs.config.allowUnfree = true;
-  home.packages = [
-    pkgs.git
-    pkgs.starship
-    pkgs.nixd
-    pkgs.nixfmt-classic
-    pkgs.nil
-    pkgs.zellij
-  ];
+  home.packages =
+    [ pkgs.git pkgs.nixd pkgs.nixfmt-classic pkgs.nil pkgs.ntfs3g ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

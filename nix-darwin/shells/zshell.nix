@@ -5,7 +5,7 @@
     enable = true;
 
     oh-my-zsh = {
-      enable = true;
+      enable = false;
       plugins = [ "git" "npm" ];
     };
 
@@ -78,10 +78,8 @@
       complete -F _ssh ssh
 
       # Initialize tools
-      eval "$(starship init zsh)"
       eval "$(zoxide init zsh)"
       eval "$(fzf --zsh)"
-
     '';
 
     envExtra = ''

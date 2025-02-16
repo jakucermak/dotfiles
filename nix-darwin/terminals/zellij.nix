@@ -10,7 +10,6 @@ let
     blue = "#39BAE6";
     d_blue = "#062b37";
     magenta = "#D2A6FF";
-
   };
 in {
   home.packages = with pkgs; [ zellij ];
@@ -287,8 +286,6 @@ in {
                         datetime        "#[fg=#6C7086,bold] {format} "
                         datetime_format "%A, %d %b %Y %H:%M"
                         datetime_timezone "Europe/London"
-
-
                       }
                   }
                   children

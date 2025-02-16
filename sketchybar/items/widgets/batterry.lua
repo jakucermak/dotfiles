@@ -71,6 +71,15 @@ battery:subscribe({ "routine", "power_source_change", "system_woke" }, function(
         })
     end)
 end)
+local function battery_click(env)
+    if env.BUTTON == "right" then
+        sbar.exec("open '/System/Applications/Utilities/Activity Monitor.app'")
+        return
+    end
+    sbar.exec("open /System/Library/PreferencePanes/Battery.prefPane")
+end
+
+battery:subscribe("mouse.clicked", battery_click)
 
 
 sbar.add("item", "widgets.battery.padding", {

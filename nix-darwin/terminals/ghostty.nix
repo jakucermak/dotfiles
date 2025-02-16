@@ -17,7 +17,6 @@
     background-blur-radius = 90
 
     # Shell
-    command = ${pkgs.zsh}/bin/zsh
 
     # Cursor
     cursor-style = block
