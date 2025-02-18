@@ -21,7 +21,7 @@ in {
     settings = {
       add_newline = false;
       format =
-        "[╭─](${colors.blue}) $username$directory$git_branch$git_status$golang$python$php$nodejs$rust $fill $cmd_duration $line_break[╰──](${colors.blue}) $character";
+        "[╭─](${colors.blue}) $username$directory$git_branch$git_status$golang$python$php$nodejs$rust $fill $cmd_duration $line_break[╰──](${colors.blue})$character";
       directory = {
         format =
           "[───](${colors.blue}) [$path]($style)[$read_only]($read_only_style) ";
@@ -81,7 +81,7 @@ in {
         format = "[$user]($style) ";
         style_user = "bold ${colors.fg}";
       };
-      character = { format = "[❭](${colors.blue}) "; };
+      character = { format = "[─❭](${colors.blue}) "; };
     };
   };
 }

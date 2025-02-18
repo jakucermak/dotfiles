@@ -15,7 +15,6 @@ sbar.add("item", "spacer", {
 local cal = sbar.add("item", "widgets.calendar", {
     icon = {
         color = colors.orange,
-        padding_left = 8,
         font = {
             style = settings.font.style_map["Black"],
             size = 12.0,
@@ -23,20 +22,17 @@ local cal = sbar.add("item", "widgets.calendar", {
     },
     label = {
         color = colors.orange,
-        padding_right = 8,
-        width = 49,
-        align = "right",
+        align = "left",
         font = { family = settings.font.numbers },
+        width = 73,
     },
     position = "right",
-    update_freq = 30,
-    padding_left = 1,
-    padding_right = 1,
+    update_freq = 1,
+    padding_left = 13,
     background = {
-        -- color = colors.orange_bg,
         border_color = colors.transparent,
     },
-    click_script = "open -a 'Calendar'"
+    click_script = "open -a 'Calendar'",
 })
 
 sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
@@ -47,5 +43,5 @@ sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
 sbar.add("item", "widgets.calendar.padding", { position = "right", width = settings.group_paddings })
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
-    cal:set({ icon = os.date("%A, %d %B"), label = os.date("%H⋮%M ") })
+    cal:set({ icon = os.date("%A, %d %B"), label = os.date("%H⋮%M⋮%S") })
 end)

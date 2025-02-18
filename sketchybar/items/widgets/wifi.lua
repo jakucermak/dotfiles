@@ -44,6 +44,7 @@ local wifi_up = sbar.add("item", "widgets.wifi1", {
         },
         color = colors.red,
         string = "??? Bps",
+        width = 50,
     },
     y_offset = 4,
 })
@@ -51,6 +52,7 @@ local wifi_up = sbar.add("item", "widgets.wifi1", {
 local wifi_down = sbar.add("item", "widgets.wifi2", {
     position = "right",
     padding_left = -5,
+    -- padding_right = 13,
     icon = {
         padding_right = 0,
         font = {
@@ -67,6 +69,7 @@ local wifi_down = sbar.add("item", "widgets.wifi2", {
         },
         color = colors.blue,
         string = "??? Bps",
+        width = 50
     },
     y_offset = -4,
 })

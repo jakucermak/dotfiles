@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, libs, ... }:
 
 {
   programs.zsh = {
     enable = true;
 
     oh-my-zsh = {
-      enable = false;
+      enable = true;
       plugins = [ "git" "npm" ];
     };
 
@@ -24,18 +24,15 @@
       gs = "git status";
       ga = "git add";
       gcm = "git commit -m";
-      lg = "lazygit";
+      lg = "${pkgs.lazygit}/bin/lazygit";
 
       # General aliases
       pip = "pip3";
-      rr = ". ranger";
-      ls = "lsd";
-      py = "python3";
-      ssh = "TERM=xterm-256color ssh";
-      cat = "bat";
+      rr = ". ${pkgs.ranger}/bin/ranger";
+      ls = "${pkgs.lsd}/bin/lsd";
+      py = "${pkgs.python3}/bin/python3";
+      cat = "${pkgs.bat}/bin/bat";
       sw = "telnet towel.blinkenlights.nl";
-
-      # Conditional aliases are handled in initExtra
     };
 
     initExtra = ''
@@ -99,21 +96,4 @@
     '';
   };
 
-  # Required packages
-  home.packages = with pkgs; [
-    bat
-    lsd
-    fzf
-    zoxide
-    ranger
-    python3
-    tree
-    ripgrep-all
-    bottom
-    curl
-    rustup
-    python312
-    python312Packages.ansible-core
-    ansible-lint
-  ];
 }

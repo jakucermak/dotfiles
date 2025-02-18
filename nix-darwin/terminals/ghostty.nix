@@ -17,6 +17,7 @@
     background-blur-radius = 90
 
     # Shell
+    command = ${pkgs.fish}/bin/fish
 
     # Cursor
     cursor-style = block

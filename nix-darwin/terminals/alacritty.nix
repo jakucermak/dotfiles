@@ -8,13 +8,13 @@
 
       window = {
         decorations = "Transparent";
-        dynamic_padding = false;
+        dynamic_padding = true;
         opacity = 0.9;
         blur = true;
         option_as_alt = "OnlyRight";
         padding = {
           x = 5;
-          y = 5;
+          y = 20;
         };
       };
 
@@ -36,6 +36,17 @@
           family = "JetBrainsMono Nerd Font";
           style = "Medium";
         };
+      };
+
+      terminal = {
+        shell = {
+          program = "${pkgs.zsh}/bin/zsh";
+          args = [
+            "-c"
+            "zellij --session main action new-tab; zellij attach --create main"
+          ];
+        };
+
       };
 
       # For the theme, you'll need to ensure the theme file is available

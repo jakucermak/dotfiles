@@ -17,6 +17,7 @@ local battery = sbar.add("item", "widgets.battery", {
     background = {
         color = colors.transparent,
         border_width = 0,
+        padding_right = 13
     }
 })
 
@@ -41,7 +42,7 @@ battery:subscribe({ "routine", "power_source_change", "system_woke" }, function(
         local charging, _, _ = batt_info:find("AC Power")
 
         if charging then
-            label = label .. "⚡"
+            label = label .. " ⚡"
         else
             if found and charge < 35 then
                 color = colors.orange
