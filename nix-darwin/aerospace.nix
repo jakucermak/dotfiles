@@ -233,27 +233,8 @@
     8 = ['secondary']
     9 = ['secondary']
   '';
-
-  # Sketchybar configuration
-  # xdg.configFile."sketchybar/sketchybarrc".executable = true;
-  # xdg.configFile."sketchybar/sketchybarrc".text = ''
-  #   #!${pkgs.lua}/bin/lua
-
-  #   -- Load the sketchybar-package and prepare the helper binaries
-  #   require("init")
-
-  # '';
-  # xdg.configFile."sketchybar/init.lua".source = ./sketchybar/init.lua;
-  # xdg.configFile."sketchybar/items".source = ./sketchybar/items;
-  # xdg.configFile."sketchybar/helpers".source = ./sketchybar/helpers;
-  # xdg.configFile."sketchybar/bar.lua".source = ./sketchybar/bar.lua;
-  # xdg.configFile."sketchybar/default.lua".source = ./sketchybar/default.lua;
-  # xdg.configFile."sketchybar/settings.lua".source = ./sketchybar/settings.lua;
-  # xdg.configFile."sketchybar/icons.lua".source = ./sketchybar/icons.lua;
-  # xdg.configFile."sketchybar/colors.lua".source = ./sketchybar/colors.lua;
-
+  #
   # Borders configuration
-
   xdg.configFile."borders/bordersrc".executable = true;
   xdg.configFile."borders/bordersrc".source = ./borders/bordersrc;
 
