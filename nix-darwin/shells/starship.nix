@@ -19,7 +19,7 @@ in {
     enable = true;
     enableNushellIntegration = false;
     settings = {
-      add_newline = false;
+      add_newline = true;
       format =
         "[╭─](${colors.blue}) $username$directory$git_branch$git_status$golang$python$php$nodejs$rust $fill $cmd_duration $line_break[╰──](${colors.blue})$character";
       directory = {

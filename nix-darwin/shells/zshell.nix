@@ -29,9 +29,9 @@
       # General aliases
       pip = "pip3";
       rr = ". ${pkgs.ranger}/bin/ranger";
-      ls = "${pkgs.lsd}/bin/lsd";
+      ls = "lsd";
       py = "${pkgs.python3}/bin/python3";
-      cat = "${pkgs.bat}/bin/bat";
+      cat = "bat";
       sw = "telnet towel.blinkenlights.nl";
     };
 

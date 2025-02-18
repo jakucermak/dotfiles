@@ -41,10 +41,7 @@
       terminal = {
         shell = {
           program = "${pkgs.zsh}/bin/zsh";
-          args = [
-            "-c"
-            "zellij --session main action new-tab; zellij attach --create main"
-          ];
+          # args = [ "-c" "zellij attach --create main" ];
         };
 
       };

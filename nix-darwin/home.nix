@@ -17,7 +17,6 @@
 
   home.username = "jakubcermak";
   home.homeDirectory = "/Users/jakubcermak";
-
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
@@ -39,6 +38,8 @@
     rustup
     tree
     zoxide
+    bat
+    lsd
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

@@ -22,7 +22,6 @@
             '/bin/bash',
             '-c',
             '/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
-
     ]
 
     # Start AeroSpace at login
