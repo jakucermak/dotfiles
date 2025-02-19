@@ -49,7 +49,7 @@ local function updateWindows(workspace_index, is_focused)
                 -- icon = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = -2 },
                 -- label = { string = superscript[workspace_index] },
                 label = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = -2 },
-                icon = { string = "⎜" .. superscript[workspace_index], highlight_color = colors.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
+                icon = { string = superscript[workspace_index], highlight_color = colors.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
                 padding_right = 2,
                 padding_left = 0,
             })

@@ -101,13 +101,13 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
     },
 })
 
-sbar.add("alias", "WireGuard,Item-0", {
+sbar.add("alias", "WireGuard", {
     position = "popup." .. wifi_bracket.name,
     alias = {
         color = colors.magenta,
     },
     label = {
-        string = "WireGuard"
+        string = "wg0 - 10.9.x.x"
     },
     background = {
         color = colors.transparent,
@@ -122,13 +122,13 @@ sbar.add("alias", "WireGuard,Item-0", {
     width = 200,
 })
 
-sbar.add("alias", "OpenVPN Connect,Item-0", {
+sbar.add("alias", "OpenVPN Connect", {
     position = "popup." .. wifi_bracket.name,
     alias = {
         color = colors.magenta,
     },
     label = {
-        string = "OpenVPN"
+        string = "ovpn - 10.8.x.x"
     },
     background = {
         color = colors.transparent,

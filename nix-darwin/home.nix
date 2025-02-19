@@ -11,7 +11,6 @@
       config = config;
       zjstatus = inputs.zjstatus.packages.${pkgs.system}.default;
     })
-    # ./editors/nvim.nix
     ./aerospace.nix
   ];
 
@@ -23,6 +22,7 @@
   # environment.
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
+    qemu
     ansible-lint
     bottom
     curl

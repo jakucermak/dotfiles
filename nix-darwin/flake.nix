@@ -85,6 +85,7 @@
             "sf-symbols"
             "font-sf-mono"
             "font-sf-pro"
+            "twingate"
           ];
           masApps = {
             "Spark" = 6445813049;
