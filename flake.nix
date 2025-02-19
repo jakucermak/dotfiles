@@ -5,11 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    zjstatus = { url = "github:dj95/zjstatus"; };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zjstatus.url = "github:dj95/zjstatus";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
@@ -27,71 +27,47 @@
       url = "github:homebrew/homebrew-services";
       flake = false;
     };
-    homebrew-FelixKratz-formulae = {
-      url = "github:FelixKratz/homebrew-formulae";
-      flake = false;
-    };
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
+
   };
 
-  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, alacritty-theme, ... }:
-      let
-        sharedConfiguration = { pkgs, ... }: {
-          nixpkgs.config.allowUnfree = true;
-          environment.systemPackages = [ pkgs.home-manager pkgs.slack ];
-          fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
-          nix.settings.experimental-features = "nix-command flakes";
-          programs.zsh.enable = true;
-          system.configurationRevision = self.rev or self.dirtyRev or null;
-          system.stateVersion = 5;
-        };
-      in {
-        darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          specialArgs = { inherit inputs; };
-          modules = [
-            sharedConfiguration
-            ./modules/darwin
-            nix-homebrew.darwinModules.nix-homebrew
-            {
-              nixpkgs.overlays = [ alacritty-theme.overlays.default ];
-              nix-homebrew = {
-                enable = true;
-                enableRosetta = true;
-                user = "jakubcermak";
-                autoMigrate = true;
-              };
-            }
-            home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
-                users.jakubcermak = { ... }: {
-                  imports = [ ./modules/shared ];
-                  home.stateVersion = "24.11";
-                };
-              };
-            }
-          ];
-        };
-      nixosConfigurations."linux-vm" = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; }; # Add this line
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager
+    , homebrew-bundle, homebrew-core, homebrew-cask, homebrew-services
+    , alacritty-theme, zjstatus, ... }: {
+      darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
         modules = [
-          sharedConfiguration
-          ./modules/linux
-          home-manager.nixosModules.home-manager
+          ./modules/darwin
+          {
+            nixpkgs.config.allowUnfree = true;
+            nix.settings.experimental-features = "nix-command flakes";
+            system.stateVersion = 5;
+          }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nixpkgs.overlays = [
+              alacritty-theme.overlays.default
+              (final: prev: {
+                zjstatus = zjstatus.packages.${prev.system}.default;
+              })
+            ];
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "jakubcermak";
+              autoMigrate = true;
+            };
+          }
+          home-manager.darwinModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; }; # Add this line
-              users.jakubcermak = { ... }: {
-                imports = [ ./modules/shared ];
-                home.stateVersion = "24.11";
-              };
+              sharedModules = [{
+                home.username = "jakubcermak";
+                home.homeDirectory = "/Users/jakubcermak";
+              }];
+              users.jakubcermak = import ./modules/darwin/home.nix;
             };
           }
         ];

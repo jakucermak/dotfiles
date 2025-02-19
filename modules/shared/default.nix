@@ -1,15 +1,14 @@
-{ config, pkgs, lib, inputs, system, ... }: {
-  imports = [ ./editors ./shells ./terminals ];
+{ lib, pkgs,... }: {
 
   programs.home-manager.enable = true;
 
-  home = {
-    username = "jakubcermak";
-    homeDirectory = if pkgs.stdenv.isDarwin then
-      "/Users/jakubcermak"
-    else
-      "/home/jakubcermak";
+  imports = [
+    ./terminals
+    ./shells
+    ./editors
+  ];
 
+  home = {
     packages = with pkgs; [
       qemu
       ansible-lint
@@ -39,6 +38,5 @@
 
     sessionVariables = { EDITOR = "nvim"; };
 
-    stateVersion = "24.11";
   };
 }

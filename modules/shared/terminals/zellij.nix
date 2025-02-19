@@ -1,4 +1,4 @@
-{ pkgs, zjstatus, ... }:
+{ pkgs, ... }:
 let
   colors = {
     green = "#AAD94C";
@@ -231,7 +231,7 @@ in {
     layout {
               default_tab_template {
                   pane size=1 borderless=true {
-                    plugin location="file://${zjstatus}/bin/zjstatus.wasm" {
+                    plugin location="file://${pkgs.zjstatus}/bin/zjstatus.wasm" {
                         format_left   "{mode}#[bg=${colors.bg}] {tabs}"
                         format_center ""
                         format_right  "#[bg=${colors.bg},fg=${colors.blue}]█#[bg=${colors.blue},fg=${colors.bg},bold] #[bg=${colors.d_blue},fg=${colors.blue},bold] {session} #[bg=${colors.bg},fg=${colors.d_blue},bold]"
@@ -300,7 +300,6 @@ in {
       pane_frames = false;
       ui.pane_frames.rounded_corners = true;
       default_mode = "normal";
-
     };
   };
 }

@@ -124,22 +124,6 @@
         "type": "github"
       }
     },
-    "homebrew-FelixKratz-formulae": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1738172733,
-        "narHash": "sha256-jggo/EU1IGQsB4q8FQ/6NXP3DEPi8hx/Y02cpnbh2FI=",
-        "owner": "FelixKratz",
-        "repo": "homebrew-formulae",
-        "rev": "aa79c1d02c7923c38a63114d41500109245b5d7f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "FelixKratz",
-        "repo": "homebrew-formulae",
-        "type": "github"
-      }
-    },
     "homebrew-bundle": {
       "flake": false,
       "locked": {
@@ -159,11 +143,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1739975370,
-        "narHash": "sha256-9l2E3Uk5L/twhj7+V9rzzzi0KMyG25ylIQ68soylrgw=",
+        "lastModified": 1739991902,
+        "narHash": "sha256-scjSBOfPnVabvm5+eQ2p4TsINU21sr6XGycnRJsN3ac=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "58edaaa43e9ebe9c2848fc89021c512692719802",
+        "rev": "4b23b4ff09a5d2b638ca97b0463563aba133c451",
         "type": "github"
       },
       "original": {
@@ -175,11 +159,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1739982855,
-        "narHash": "sha256-rvycQqVDNyF6NrFIBGrm8j0cvh4tFBCvVk2pqfl6fQo=",
+        "lastModified": 1739991033,
+        "narHash": "sha256-Xtnvzc0y5afZ2bNgWLylqL7JISsYQHshYaSAa+KSzqo=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "637cd6daf239fe70a882779b245f163eb773e09b",
+        "rev": "433b089f0ab3d2f9b7e6df95cc168f74a6a46182",
         "type": "github"
       },
       "original": {
@@ -361,7 +345,6 @@
       "inputs": {
         "alacritty-theme": "alacritty-theme",
         "home-manager": "home-manager",
-        "homebrew-FelixKratz-formulae": "homebrew-FelixKratz-formulae",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
@@ -416,11 +399,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1739559468,
-        "narHash": "sha256-AHvXptQMDghoIlR9xui6Zh3jT/SWtfHa1QPo/GYUd24=",
+        "lastModified": 1739984347,
+        "narHash": "sha256-uVCct8KcApApcl2dV6UQ/T5AjUAzk0DtyWjsVNZmvxo=",
         "owner": "dj95",
         "repo": "zjstatus",
-        "rev": "34c430b6bab107a4eaddb1a434641c2b48ab6020",
+        "rev": "378ea2602f374fa23f09b8a41648b0f2338cbe9b",
         "type": "github"
       },
       "original": {
