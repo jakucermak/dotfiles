@@ -34,17 +34,24 @@
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager
+  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs
     , alacritty-theme, ... }:
     let
-      configuration = { pkgs, ... }: {
-
+      sharedConfiguration = { pkgs, ... }: {
         nixpkgs.config.allowUnfree = true;
+        environment.systemPackages = [ pkgs.home-manager pkgs.slack ];
+        fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+        nix.settings.experimental-features = "nix-command flakes";
+        programs.zsh.enable = true;
+        system.configurationRevision = self.rev or self.dirtyRev or null;
+        system.stateVersion = 5;
+        users.users.jakubcermak.home = "/Users/jakubcermak";
+      };
 
-        # List packages installed in system profile. To search by name, run:
-        # $ nix-env -qaP | grep wget
-        environment.systemPackages =
-          [ pkgs.home-manager pkgs.raycast pkgs.slack ];
+      darwinConfiguration = { pkgs, ... }: {
+        imports = [ sharedConfiguration ];
+        environment.systemPackages = [ pkgs.raycast ];
+
         homebrew = {
           enable = true;
           onActivation.cleanup = "uninstall";
@@ -55,17 +62,12 @@
             "lua"
             "switchaudio-osx"
             "nowplaying-cli"
-            # {
-            #   name = "FelixKratz/formulae/borders";
-            #   start_service = true;
-            # }
             {
               name = "FelixKratz/formulae/sketchybar";
               start_service = false;
             }
             { name = "surrealdb/tap/surreal"; }
             { name = "jesseduffield/lazygit/lazygit"; }
-
           ];
           casks = [
             "zen-browser"
@@ -81,21 +83,11 @@
           ];
           masApps = {
             "Spark" = 6445813049;
-            "WireGurad" = 1451685025;
+            "WireGuard" = 1451685025;
           };
         };
 
-        fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
-
-        # services.nix-daemon.enable = true;
-        nix.settings.experimental-features = "nix-command flakes";
-        programs.zsh.enable = true; # default shell on catalina
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-        system.stateVersion = 5;
-        nixpkgs.hostPlatform = "aarch64-darwin";
-
         security.pam.enableSudoTouchIdAuth = true;
-        users.users.jakubcermak.home = "/Users/jakubcermak";
 
         system.defaults = {
           dock = {
@@ -126,14 +118,20 @@
           NSGlobalDomain.ApplePressAndHoldEnabled = false;
           spaces.spans-displays = true;
         };
-
+        nixpkgs.hostPlatform = "aarch64-darwin";
       };
+
+      linuxConfiguration = { ... }: {
+        imports = [ sharedConfiguration ];
+        nixpkgs.hostPlatform = "aarch64-linux";
+      };
+
     in {
       # Build darwin flake using:
       darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          configuration
+          darwinConfiguration
           nix-homebrew.darwinModules.nix-homebrew
           {
             nixpkgs.overlays = [ alacritty-theme.overlays.default ];
@@ -156,5 +154,20 @@
         ];
       };
 
+      nixosConfigurations."linux-vm" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          linuxConfiguration
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.jakubcermak = { ... }: {
+              imports = [ ./home.nix ];
+              _module.args.inputs = inputs;
+            };
+          }
+        ];
+      };
     };
 }
