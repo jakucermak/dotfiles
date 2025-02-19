@@ -1,5 +1,5 @@
 {
-  description = "Jakub Darwin system flake";
+  description = "Jakub Dev system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -34,137 +34,64 @@
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs
-    , alacritty-theme, ... }:
-    let
-      sharedConfiguration = { pkgs, ... }: {
-        nixpkgs.config.allowUnfree = true;
-        environment.systemPackages = [ pkgs.home-manager pkgs.slack ];
-        fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
-        nix.settings.experimental-features = "nix-command flakes";
-        programs.zsh.enable = true;
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-        system.stateVersion = 5;
-        users.users.jakubcermak.home = "/Users/jakubcermak";
-      };
-
-      darwinConfiguration = { pkgs, ... }: {
-        imports = [ sharedConfiguration ];
-        environment.systemPackages = [ pkgs.raycast ];
-
-        homebrew = {
-          enable = true;
-          onActivation.cleanup = "uninstall";
-          brews = [
-            "mas"
-            "telnet"
-            "nmap"
-            "lua"
-            "switchaudio-osx"
-            "nowplaying-cli"
+  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, alacritty-theme, ... }:
+      let
+        sharedConfiguration = { pkgs, ... }: {
+          nixpkgs.config.allowUnfree = true;
+          environment.systemPackages = [ pkgs.home-manager pkgs.slack ];
+          fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+          nix.settings.experimental-features = "nix-command flakes";
+          programs.zsh.enable = true;
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+          system.stateVersion = 5;
+        };
+      in {
+        darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = { inherit inputs; };
+          modules = [
+            sharedConfiguration
+            ./modules/darwin
+            nix-homebrew.darwinModules.nix-homebrew
             {
-              name = "FelixKratz/formulae/sketchybar";
-              start_service = false;
+              nixpkgs.overlays = [ alacritty-theme.overlays.default ];
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = true;
+                user = "jakubcermak";
+                autoMigrate = true;
+              };
             }
-            { name = "surrealdb/tap/surreal"; }
-            { name = "jesseduffield/lazygit/lazygit"; }
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs; };
+                users.jakubcermak = { ... }: {
+                  imports = [ ./modules/shared ];
+                  home.stateVersion = "24.11";
+                };
+              };
+            }
           ];
-          casks = [
-            "zen-browser"
-            "ghostty"
-            "zed@preview"
-            "chatgpt"
-            "openvpn-connect"
-            "vnc-viewer"
-            "sf-symbols"
-            "font-sf-mono"
-            "font-sf-pro"
-            "twingate"
-          ];
-          masApps = {
-            "Spark" = 6445813049;
-            "WireGuard" = 1451685025;
-          };
         };
-
-        security.pam.enableSudoTouchIdAuth = true;
-
-        system.defaults = {
-          dock = {
-            autohide = true;
-            show-recents = false;
-            minimize-to-application = true;
-            expose-group-apps = true;
-            persistent-apps = [
-              "/Applications/SigmaOS.app"
-              "/Applications/Safari.app"
-              "${pkgs.slack}/Applications/Slack.app"
-              "/System/Applications/Messages.app"
-              "${pkgs.alacritty}/Applications/Alacritty.app"
-              "/Applications/Zed Preview.app"
-            ];
-            persistent-others =
-              [ "/Users/jakubcermak/Downloads" "/Applications" ];
-            mru-spaces = false;
-          };
-          finder = {
-            AppleShowAllExtensions = true;
-            FXPreferredViewStyle = "clmv";
-          };
-          loginwindow.LoginwindowText = "jakucermak-toolbox";
-          screencapture.location = "~/Pictures/screenshots";
-          screensaver.askForPasswordDelay = 10;
-          NSGlobalDomain._HIHideMenuBar = true;
-          NSGlobalDomain.ApplePressAndHoldEnabled = false;
-          spaces.spans-displays = true;
-        };
-        nixpkgs.hostPlatform = "aarch64-darwin";
-      };
-
-      linuxConfiguration = { ... }: {
-        imports = [ sharedConfiguration ];
-        nixpkgs.hostPlatform = "aarch64-linux";
-      };
-
-    in {
-      # Build darwin flake using:
-      darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          darwinConfiguration
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nixpkgs.overlays = [ alacritty-theme.overlays.default ];
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = "jakubcermak";
-              autoMigrate = true;
-            };
-          }
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.jakubcermak = { ... }: {
-              imports = [ ./home.nix ];
-              _module.args.inputs = inputs;
-            };
-          }
-        ];
-      };
-
       nixosConfigurations."linux-vm" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
+        specialArgs = { inherit inputs; }; # Add this line
         modules = [
-          linuxConfiguration
+          sharedConfiguration
+          ./modules/linux
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.jakubcermak = { ... }: {
-              imports = [ ./home.nix ];
-              _module.args.inputs = inputs;
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; }; # Add this line
+              users.jakubcermak = { ... }: {
+                imports = [ ./modules/shared ];
+                home.stateVersion = "24.11";
+              };
             };
           }
         ];

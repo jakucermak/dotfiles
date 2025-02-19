@@ -12,7 +12,6 @@ let
     magenta = "#D2A6FF";
   };
 in {
-  home.packages = with pkgs; [ zellij ];
 
   xdg.configFile."zellij/config.kdl".text = ''
 
