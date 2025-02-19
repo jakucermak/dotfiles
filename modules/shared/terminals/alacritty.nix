@@ -41,7 +41,7 @@
       terminal = {
         shell = {
           program = "${pkgs.zsh}/bin/zsh";
-          args = [ "-c" "zellij attach --create main" ];
+          args = [ "-c" "${pkgs.zellij}/bin/zellij attach --create main" ];
         };
 
       };
