@@ -1,4 +1,4 @@
-{ config, pkgs, libs, ... }:
+{ pkgs, ... }:
 
 {
   programs.zsh = {
@@ -25,6 +25,7 @@
       ga = "git add";
       gcm = "git commit -m";
       lg = "${pkgs.lazygit}/bin/lazygit";
+      zj = "${pkgs.zellij}/bin/zellij";
 
       # General aliases
       pip = "pip3";

@@ -68,8 +68,10 @@ local function updateWorkspaceMonitor(workspace_index)
             end
             for _, entry in ipairs(workspaces_and_monitors) do
                 local space_index = tonumber(entry.workspace)
-                local monitor_id = math.floor(entry["monitor-id"])
-                workspace_monitor[space_index] = monitor_id_map[monitor_id]
+                if space_index then
+                    local monitor_id = math.floor(entry["monitor-id"])
+                    workspace_monitor[space_index] = monitor_id_map[monitor_id]
+                end
             end
             workspaces[workspace_index]:set({
                 display = workspace_monitor[workspace_index],

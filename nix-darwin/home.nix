@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }: {
+{ config, pkgs, inputs, ... }: {
   imports = [
     ./shells/zshell.nix
     ./shells/fish.nix

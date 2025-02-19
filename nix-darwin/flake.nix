@@ -34,17 +34,9 @@
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager
-    , homebrew-bundle, homebrew-core, homebrew-cask, homebrew-services
-    , homebrew-FelixKratz-formulae, alacritty-theme, zjstatus, ... }:
+  outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager
+    , alacritty-theme, ... }:
     let
-      inherit (self) outputs;
-      mkHome = modules: pkgs:
-        home-manager.lib.homeManagerConfiguration {
-          inherit modules pkgs;
-          extraSpecialArgs = { inherit inputs outputs; };
-        };
-
       configuration = { pkgs, ... }: {
 
         nixpkgs.config.allowUnfree = true;

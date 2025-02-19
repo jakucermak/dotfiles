@@ -1,4 +1,4 @@
-{ config, pkgs, libs, ... }: {
+{ pkgs, ... }: {
   home.packages = with pkgs; [ aerospace jankyborders sketchybar ];
 
   xdg.configFile."aerospace/aerospace.toml".text = ''
