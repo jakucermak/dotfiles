@@ -31,9 +31,8 @@
 
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager
-    , homebrew-bundle, homebrew-core, homebrew-cask, homebrew-services
-    , alacritty-theme, zjstatus, ... }: {
+  outputs = { nix-darwin, home-manager, nix-homebrew, alacritty-theme, zjstatus
+    , ... }: {
       darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [

@@ -25,7 +25,7 @@
     ]
 
     # Start AeroSpace at login
-    start-at-login = true
+    start-at-login = false
 
     # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
     enable-normalization-flatten-containers = true
@@ -232,9 +232,4 @@
     8 = ['secondary']
     9 = ['secondary']
   '';
-  #
-  # Borders configuration
-  xdg.configFile."borders/bordersrc".executable = true;
-  xdg.configFile."borders/bordersrc".source = ./borders/bordersrc;
-
 }

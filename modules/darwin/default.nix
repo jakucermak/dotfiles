@@ -1,9 +1,9 @@
 { pkgs, ... }: {
 
   nixpkgs.config.allowUnfree = true;
+  imports = [ ./yabai.nix ./skhd.nix ];
 
   # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
   homebrew = {
     enable = true;
@@ -21,7 +21,6 @@
       }
       { name = "surrealdb/tap/surreal"; }
       { name = "jesseduffield/lazygit/lazygit"; }
-
     ];
     casks = [
       "sublime-merge"
@@ -79,6 +78,8 @@
     screensaver.askForPasswordDelay = 10;
     NSGlobalDomain._HIHideMenuBar = true;
     NSGlobalDomain.ApplePressAndHoldEnabled = false;
-    spaces.spans-displays = true;
+    # If WM is changed to Aerospace = true, Yabai = false
+    spaces.spans-displays = false;
+
   };
 }

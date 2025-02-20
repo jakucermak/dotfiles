@@ -14,8 +14,10 @@
         "/Users/jakubcermak/dotfiles/modules/darwin";
     in {
       ".config/sketchybar".source = "${dotfiles}/sketchybar";
-      # ".config/borders".source = "${dotfiles}/borders";
+      ".config/borders/bordersrc" = {
+        executable = true;
+        source = ./borders/bordersrc;
+      };
     };
-
   };
 }

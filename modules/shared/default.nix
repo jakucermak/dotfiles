@@ -1,12 +1,8 @@
-{ lib, pkgs,... }: {
+{ lib, pkgs, ... }: {
 
   programs.home-manager.enable = true;
 
-  imports = [
-    ./terminals
-    ./shells
-    ./editors
-  ];
+  imports = [ ./terminals ./shells ./editors ];
 
   home = {
     packages = with pkgs; [
@@ -27,6 +23,7 @@
       zoxide
       bat
       lsd
+      btop
     ];
 
     # Fix the file paths to use absolute paths
