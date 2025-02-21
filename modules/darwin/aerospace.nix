@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ aerospace jankyborders sketchybar ];
+  home.packages = with pkgs; [ aerospace jankyborders ];
 
   xdg.configFile."aerospace/aerospace.toml".text = ''
     # Place a copy of this config to ~/.aerospace.toml

@@ -1,23 +1,19 @@
 { config, pkgs, lib, ... }: {
 
-  imports = [ ../shared ./aerospace.nix ];
+  imports = [
+    # home pkgs
+    ../shared
+    ./aerospace.nix
+    ./sketchybar
+    ./yabai.nix
+    ./skhd.nix
+  ];
 
   home = {
 
     stateVersion = "24.11";
     homeDirectory = lib.mkForce "/Users/jakubcermak";
 
-    packages = with pkgs; [ ntfs3g aerospace jankyborders sketchybar ];
-
-    file = let
-      dotfiles = config.lib.file.mkOutOfStoreSymlink
-        "/Users/jakubcermak/dotfiles/modules/darwin";
-    in {
-      ".config/sketchybar".source = "${dotfiles}/sketchybar";
-      ".config/borders/bordersrc" = {
-        executable = true;
-        source = ./borders/bordersrc;
-      };
-    };
+    packages = with pkgs; [ ntfs3g aerospace ];
   };
 }

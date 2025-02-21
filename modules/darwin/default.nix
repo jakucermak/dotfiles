@@ -1,7 +1,11 @@
 { pkgs, ... }: {
 
   nixpkgs.config.allowUnfree = true;
-  imports = [ ./yabai.nix ./skhd.nix ];
+  imports = [
+    # system pkgs
+    # ./yabai.nix
+    # ./skhd.nix
+    ./borders ];
 
   # List packages installed in system profile. To search by name, run:
   environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
@@ -17,7 +21,7 @@
       "nowplaying-cli"
       {
         name = "FelixKratz/formulae/sketchybar";
-        start_service = false;
+        start_service = true;
       }
       { name = "surrealdb/tap/surreal"; }
       { name = "jesseduffield/lazygit/lazygit"; }
