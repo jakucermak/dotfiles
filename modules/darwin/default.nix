@@ -1,11 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, wm, ... }:
+
+{
 
   nixpkgs.config.allowUnfree = true;
-  imports = [
-    # system pkgs
-    # ./yabai.nix
-    # ./skhd.nix
-    ./borders ];
+  imports = [ ./borders ];
 
   # List packages installed in system profile. To search by name, run:
   environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
@@ -83,7 +81,9 @@
     NSGlobalDomain._HIHideMenuBar = true;
     NSGlobalDomain.ApplePressAndHoldEnabled = false;
     # If WM is changed to Aerospace = true, Yabai = false
-    spaces.spans-displays = false;
+    #
+
+    spaces.spans-displays = if wm == "yabai" then false else true;
 
   };
 }

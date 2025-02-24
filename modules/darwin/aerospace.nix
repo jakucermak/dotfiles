@@ -25,7 +25,7 @@
     ]
 
     # Start AeroSpace at login
-    start-at-login = false
+    start-at-login = true
 
     # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
     enable-normalization-flatten-containers = true

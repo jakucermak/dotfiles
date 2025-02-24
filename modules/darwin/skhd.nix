@@ -12,20 +12,17 @@
         shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus stack.prev
         shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus stack.next
 
+        shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus prev
+        shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus next
+
       # swap managed window
       # shift + alt - h : yabai -m window --swap north
 
       # move managed window
-      # shift + cmd - h : yabai -m window --warp east
-
-      # balance size of windows
-      # shift + alt - 0 : yabai -m space --balance
-
-      # make floating window fill screen
-      # shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
-
-      # make floating window fill left-half of screen
-      # shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+       shift + alt - h : yabai -m window --warp west
+       shift + alt - j : yabai -m window --warp north
+       shift + alt - k : yabai -m window --warp south
+       shift + alt - l : yabai -m window --warp east
 
       # fast focus desktop
       # cmd + alt - x : yabai -m space --focus recent
@@ -55,6 +52,7 @@
       # ctrl + alt - z  : yabai -m display --focus prev
       # ctrl + alt - 3  : yabai -m display --focus 3
 
+
       # send window to monitor and follow focus
       # ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
       # ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
@@ -65,22 +63,21 @@
 
       # increase window size
       alt - 0x18 : ${pkgs.yabai}/bin/yabai -m window --resize left:-20:0
-      # shift + alt - + : ${pkgs.yabai}/bin/yabai -m window --resize top:0:-20
+      shift + alt - 0x18 : ${pkgs.yabai}/bin/yabai -m window --resize top:0:-20
 
       # decrease window size
-      alt - 0x1B : ${pkgs.yabai}/bin/yabai -m window --resize bottom:0:-20
-      # shift + alt - - : ${pkgs.yabai}/bin/yabai -m window --resize top:0:20
+      alt - 0x1B : ${pkgs.yabai}/bin/yabai -m window --resize left:20:0
+      shift + alt - 0x1B : ${pkgs.yabai}/bin/yabai -m window --resize top:0:20
 
       # set insertion point in focused container
       # ctrl + alt - h : yabai -m window --insert west
 
       # toggle window zoom
       alt - d : yabai -m window --toggle zoom-parent
-      # alt - f : yabai -m window --toggle zoom-fullscreen
+      shift + alt - f : yabai -m window --toggle zoom-fullscreen
 
       # toggle window split type
-      # alt - e : yabai -m window --toggle split
-      #
+      alt - e : yabai -m window --toggle split
 
       # Stack / BSP switch
       alt - 0x2B : ${pkgs.yabai}/bin/yabai -m space --layout stack

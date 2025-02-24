@@ -31,10 +31,12 @@
 
   };
 
-  outputs = { nix-darwin, home-manager, nix-homebrew, alacritty-theme, zjstatus
-    , ... }: {
-      darwinConfigurations."book-pro" = nix-darwin.lib.darwinSystem {
+  outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, alacritty-theme
+    , zjstatus, ... }: {
+
+      darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = { wm = "yabai"; };
         modules = [
           ./modules/darwin
           {
@@ -62,11 +64,80 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = { wm = "yabai"; };
+              sharedModules = [{
+                home.username = "jakubcermak";
+                home.homeDirectory = "/Users/jakubcermak";
+              }];
+              users.jakubcermak = { ... }: {
+
+                imports = [ ./modules/darwin/home.nix ];
+              };
+            };
+          }
+        ];
+      };
+
+      darwinConfigurations."mbp-work" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { wm = "aerospace"; };
+        modules = [
+          ./modules/darwin
+          {
+            nixpkgs.config.allowUnfree = true;
+            nix.settings.experimental-features = "nix-command flakes";
+            system.stateVersion = 5;
+          }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nixpkgs.overlays = [
+              alacritty-theme.overlays.default
+              (final: prev: {
+                zjstatus = zjstatus.packages.${prev.system}.default;
+              })
+            ];
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "jakubcermak";
+              autoMigrate = true;
+            };
+          }
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { wm = "aerospace"; };
               sharedModules = [{
                 home.username = "jakubcermak";
                 home.homeDirectory = "/Users/jakubcermak";
               }];
               users.jakubcermak = import ./modules/darwin/home.nix;
+            };
+          }
+        ];
+      };
+
+      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./modules/nixos
+          {
+            nixpkgs.config.allowUnfree = true;
+            nix.settings.experimental-features = "nix-command flakes";
+            system.stateVersion = "23.11";
+          }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              sharedModules = [{
+                home.username = "jakubcermak";
+                home.homeDirectory = "/home/jakubcermak";
+              }];
+              users.jakubcermak = import ./modules/nixos/home.nix;
             };
           }
         ];
