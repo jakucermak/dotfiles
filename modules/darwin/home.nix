@@ -18,8 +18,6 @@
 
     packages = with pkgs; [ ntfs3g ];
 
-    sessionVariables = { WM = wm; };
-
     activation.printWM = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       echo "Home Manager: WM is set to ${wm}"
     '';

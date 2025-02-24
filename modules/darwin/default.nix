@@ -80,9 +80,8 @@
     screensaver.askForPasswordDelay = 10;
     NSGlobalDomain._HIHideMenuBar = true;
     NSGlobalDomain.ApplePressAndHoldEnabled = false;
-    # If WM is changed to Aerospace = true, Yabai = false
-    #
 
+    # If WM is changed to Aerospace = true, Yabai = false
     spaces.spans-displays = if wm == "yabai" then false else true;
 
   };

@@ -154,7 +154,7 @@ in {
             bind "Alt o" { MoveTab "right"; }
         }
         shared_except "locked" "move" {
-            bind "Ctrl m" { SwitchToMode "move"; }
+            bind "Alt m" { SwitchToMode "move"; }
         }
         shared_except "locked" "session" {
             bind "Alt s" { SwitchToMode "session"; }
