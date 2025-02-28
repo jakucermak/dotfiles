@@ -1,4 +1,4 @@
-{ config, pkgs, libs, ... }: {
+{ pkgs, ... }: {
 
   xdg.configFile."ghostty/config".text = ''
     # Fonts

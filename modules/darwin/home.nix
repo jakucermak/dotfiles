@@ -12,7 +12,6 @@
 
   home = {
 
-    # inherit wm;
     stateVersion = "24.11";
     homeDirectory = lib.mkForce "/Users/jakubcermak";
 

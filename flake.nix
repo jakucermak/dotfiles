@@ -34,7 +34,7 @@
   outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, alacritty-theme
     , zjstatus, ... }: {
 
-      darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { wm = "yabai"; };
         modules = [
@@ -78,7 +78,7 @@
         ];
       };
 
-      darwinConfigurations."mbp-work" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."mcbp-work" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { wm = "aerospace"; };
         modules = [
