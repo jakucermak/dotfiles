@@ -21,25 +21,21 @@ in {
     settings = {
       add_newline = true;
       format =
-        "[╭─](${colors.blue}) $username$directory$git_branch$git_status$golang$python$php$nodejs$rust $fill $cmd_duration $line_break[╰──](${colors.blue})$character";
+        "$username$directory$git_branch$git_status$golang$python$php$nodejs$rust(${colors.blue})$character";
       directory = {
-        format =
-          "[───](${colors.blue}) [$path]($style)[$read_only]($read_only_style) ";
+        format = "[$path]($style)[$read_only]($read_only_style) ";
         style = "bold ${colors.green}";
-        truncation_length = 8;
+        truncation_length = 2;
       };
       cmd_duration = {
         disabled = false;
         format = "[took $duration]($style) ";
         style = "${colors.orange}";
       };
-      fill = {
-        symbol = "─";
-        style = "${colors.d_blue}";
-      };
+
       git_branch = {
         format =
-          "[───](${colors.blue}) [$symbol $branch(:$remote_branch)]($style) ";
+          "[─](${colors.blue}) [$symbol $branch(:$remote_branch)]($style) ";
         style = "bold ${colors.magenta}";
         symbol = "";
       };
@@ -77,11 +73,11 @@ in {
         format = "[$symbol$context( ($namespace))]($style) ";
       };
       username = {
-        show_always = true;
-        format = "[$user]($style) ";
+        show_always = false;
+        format = "[$user]($style) [─](${colors.blue}) ";
         style_user = "bold ${colors.fg}";
       };
-      character = { format = "[─❭](${colors.blue}) "; };
+      character = { format = "[❭](${colors.blue}) "; };
     };
   };
 }

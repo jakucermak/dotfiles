@@ -7,6 +7,7 @@
   home = {
     packages = with pkgs; [
       qemu
+      mosh
       ansible-lint
       bottom
       curl

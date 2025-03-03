@@ -89,7 +89,7 @@
       # toggle sticky(+float), picture-in-picture
       # alt - p : yabai -m window --toggle sticky --toggle pip
 
-      alt - return : open -n /Users/jakubcermak/Applications/Home\ Manager\ Apps/Alacritty.app
+      alt - return : open -n /Applications/Ghostty.app
     '';
     executable = true;
     target = ".skhdrc";

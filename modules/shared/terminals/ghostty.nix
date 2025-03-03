@@ -17,7 +17,7 @@
     background-blur-radius = 90
 
     # Shell
-    command = ${pkgs.fish}/bin/fish
+    command = ${pkgs.zellij}/bin/zellij attach --create main
 
     # Cursor
     cursor-style = block
@@ -30,8 +30,16 @@
     # macOS
     macos-titlebar-style = tabs
     macos-titlebar-proxy-icon = hidden
-    macos-option-as-alt = true
     confirm-close-surface = false
+
+    term = xterm-256color
+
+    # Keybindings
+    macos-option-as-alt = true
+    keybind = cmd+right=text:\x05
+    keybind = cmd+left=text:\x01
+    keybind = alt+left=esc:b
+    keybind = alt+right=esc:f
 
   '';
 

@@ -16,14 +16,11 @@ in {
   xdg.configFile."zellij/config.kdl".text = ''
 
     keybinds clear-defaults=true {
+        unbind "alt f"
         locked {
             bind "alt g" { SwitchToMode "normal"; }
         }
         pane {
-            bind "left" { MoveFocus "left"; }
-            bind "down" { MoveFocus "down"; }
-            bind "up" { MoveFocus "up"; }
-            bind "right" { MoveFocus "right"; }
             bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
             bind "v" { NewPane "down"; SwitchToMode "normal"; }
             bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "normal"; }
@@ -39,10 +36,6 @@ in {
             bind "z" { TogglePaneFrames; SwitchToMode "normal"; }
         }
         tab {
-            bind "left" { GoToPreviousTab; }
-            bind "down" { GoToNextTab; }
-            bind "up" { GoToPreviousTab; }
-            bind "right" { GoToNextTab; }
             bind "1" { GoToTab 1; SwitchToMode "normal"; }
             bind "2" { GoToTab 2; SwitchToMode "normal"; }
             bind "3" { GoToTab 3; SwitchToMode "normal"; }
@@ -67,10 +60,6 @@ in {
             bind "tab" { ToggleTab; }
         }
         resize {
-            bind "left" { Resize "Increase left"; }
-            bind "down" { Resize "Increase down"; }
-            bind "up" { Resize "Increase up"; }
-            bind "right" { Resize "Increase right"; }
             bind "+" { Resize "Increase"; }
             bind "-" { Resize "Decrease"; }
             bind "=" { Resize "Increase"; }
@@ -99,10 +88,6 @@ in {
             bind "tab" { MovePane; }
         }
         scroll {
-            bind "Alt left" { MoveFocusOrTab "left"; SwitchToMode "normal"; }
-            bind "Alt down" { MoveFocus "down"; SwitchToMode "normal"; }
-            bind "Alt up" { MoveFocus "up"; SwitchToMode "normal"; }
-            bind "Alt right" { MoveFocusOrTab "right"; SwitchToMode "normal"; }
             bind "e" { EditScrollback; SwitchToMode "normal"; }
             bind "Alt h" { MoveFocusOrTab "left"; SwitchToMode "normal"; }
             bind "Alt j" { MoveFocus "down"; SwitchToMode "normal"; }
@@ -147,7 +132,7 @@ in {
             bind "Alt =" { Resize "Increase"; }
             bind "Alt [" { PreviousSwapLayout; }
             bind "Alt ]" { NextSwapLayout; }
-            bind "Alt f" { ToggleFloatingPanes; }
+            bind "Alt d" { ToggleFloatingPanes; }
             bind "Ctrl g" { SwitchToMode "locked"; }
             bind "Alt i" { MoveTab "left"; }
             bind "Alt n" { NewPane; }
@@ -230,11 +215,12 @@ in {
   xdg.configFile."zellij/layouts/default.kdl".text = ''
     layout {
               default_tab_template {
+              children
                   pane size=1 borderless=true {
                     plugin location="file://${pkgs.zjstatus}/bin/zjstatus.wasm" {
-                        format_left   "{mode}#[bg=${colors.bg}] {tabs}"
-                        format_center ""
-                        format_right  "#[bg=${colors.bg},fg=${colors.blue}]█#[bg=${colors.blue},fg=${colors.bg},bold] #[bg=${colors.d_blue},fg=${colors.blue},bold] {session} #[bg=${colors.bg},fg=${colors.d_blue},bold]"
+                        format_left   " {mode}#[bg=${colors.bg}] "
+                        format_center "{tabs}"
+                        format_right  "#[bg=${colors.bg},fg=${colors.blue}]█#[bg=${colors.blue},fg=${colors.bg},bold] #[bg=${colors.d_blue},fg=${colors.blue},bold] {session} #[bg=${colors.bg},fg=${colors.d_blue},bold] "
                         format_space  ""
                         format_hide_on_overlength "true"
                         format_precedence "crl"
@@ -244,7 +230,7 @@ in {
                         border_format   "#[fg=#6C7086]{char}"
                         border_position "top"
 
-                        mode_normal        "#[bg=${colors.green},fg=${colors.bg},bold] NORMAL#[bg=${colors.bg},fg=${colors.green}]█"
+                        mode_normal        "#[bg=${colors.bg},fg=${colors.green},bold] #[bg=${colors.green},fg=${colors.bg},bold] NORMAL#[bg=${colors.bg},fg=${colors.green}]█"
                         mode_locked        "#[bg=#6e738d,fg=${colors.bg},bold] LOCKED #[bg=${colors.bg},fg=#6e738d]█"
                         mode_resize        "#[bg=${colors.green},fg=${colors.bg},bold] RESIZE#[bg=${colors.bg},fg=${colors.green}]█"
                         mode_pane          "#[bg=${colors.blue},fg=${colors.bg},bold] PANE#[bg=${colors.bg},fg=${colors.blue}]█"
@@ -287,9 +273,110 @@ in {
                         datetime_timezone "Europe/London"
                       }
                   }
-                  children
               }
-          }
+              }
+  '';
+
+  xdg.configFile."zellij/layouts/default.swap.kdl".text = ''
+    tab_template name="ui" {
+    children
+    pane size=1 borderless=true {
+        plugin location="tab-bar" {
+            hide_swap_layout_indication true
+        }
+    }
+    }
+
+    swap_tiled_layout name="vertical" {
+        ui max_panes=5 {
+            pane split_direction="vertical" {
+                pane
+                pane { children; }
+            }
+        }
+        ui max_panes=8 {
+            pane split_direction="vertical" {
+                pane { children; }
+                pane { pane; pane; pane; pane; }
+            }
+        }
+        ui max_panes=12 {
+            pane split_direction="vertical" {
+                pane { children; }
+                pane { pane; pane; pane; pane; }
+                pane { pane; pane; pane; pane; }
+            }
+        }
+    }
+
+    swap_tiled_layout name="horizontal" {
+        ui max_panes=5 {
+            pane
+            pane
+        }
+        ui max_panes=8 {
+            pane {
+                pane split_direction="vertical" { children; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+            }
+        }
+        ui max_panes=12 {
+            pane {
+                pane split_direction="vertical" { children; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+                pane split_direction="vertical" { pane; pane; pane; pane; }
+            }
+        }
+    }
+
+    swap_tiled_layout name="stacked" {
+        ui min_panes=5 {
+            pane split_direction="vertical" {
+                pane
+                pane stacked=true { children; }
+            }
+        }
+    }
+
+    swap_floating_layout name="staggered" {
+        floating_panes
+    }
+
+    swap_floating_layout name="enlarged" {
+        floating_panes max_panes=10 {
+            pane { x "5%"; y 1; width "90%"; height "90%"; }
+            pane { x "5%"; y 2; width "90%"; height "90%"; }
+            pane { x "5%"; y 3; width "90%"; height "90%"; }
+            pane { x "5%"; y 4; width "90%"; height "90%"; }
+            pane { x "5%"; y 5; width "90%"; height "90%"; }
+            pane { x "5%"; y 6; width "90%"; height "90%"; }
+            pane { x "5%"; y 7; width "90%"; height "90%"; }
+            pane { x "5%"; y 8; width "90%"; height "90%"; }
+            pane { x "5%"; y 9; width "90%"; height "90%"; }
+            pane { x 10; y 10; width "90%"; height "90%"; }
+        }
+    }
+
+    swap_floating_layout name="spread" {
+        floating_panes max_panes=1 {
+            pane {y "50%"; x "50%"; }
+        }
+        floating_panes max_panes=2 {
+            pane { x "1%"; y "25%"; width "45%"; }
+            pane { x "50%"; y "25%"; width "45%"; }
+        }
+        floating_panes max_panes=3 {
+            pane { y "55%"; width "45%"; height "45%"; }
+            pane { x "1%"; y "1%"; width "45%"; }
+            pane { x "50%"; y "1%"; width "45%"; }
+        }
+        floating_panes max_panes=4 {
+            pane { x "1%"; y "55%"; width "45%"; height "45%"; }
+            pane { x "50%"; y "55%"; width "45%"; height "45%"; }
+            pane { x "1%"; y "1%"; width "45%"; height "45%"; }
+            pane { x "50%"; y "1%"; width "45%"; height "45%"; }
+        }
+    }
   '';
 
   programs.zellij = {

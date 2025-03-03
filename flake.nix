@@ -28,11 +28,14 @@
       flake = false;
     };
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
+superfile = {
+    url = "github:yorukot/superfile";
+  };
 
   };
 
   outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, alacritty-theme
-    , zjstatus, ... }: {
+    , zjstatus, superfile, ... }: {
 
       darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";

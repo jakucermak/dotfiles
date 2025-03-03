@@ -14,7 +14,7 @@
         option_as_alt = "OnlyRight";
         padding = {
           x = 5;
-          y = 20;
+          y = 10;
         };
       };
 
