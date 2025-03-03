@@ -26,9 +26,10 @@
     # Padding
     window-padding-balance = true
     window-padding-color = extend
+    window-padding-x = 10,10
 
     # macOS
-    macos-titlebar-style = tabs
+    macos-titlebar-style = hidden
     macos-titlebar-proxy-icon = hidden
     confirm-close-surface = false
 

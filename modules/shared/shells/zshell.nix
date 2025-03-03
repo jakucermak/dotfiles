@@ -37,7 +37,7 @@
     };
 
     initExtra = ''
-      TMOUT=300
+      TMOUT=600
       TRAPALRM() {
           clear
           ghostty_animation
@@ -73,6 +73,9 @@
 
       function set_tab_to_command_line() {
           local cmdline=$1
+          if [[ $cmdline == ssh* ]]; then
+              cmdline=''${cmdline#ssh }
+          fi
           change_tab_title $cmdline
       }
 

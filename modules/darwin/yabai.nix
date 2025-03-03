@@ -14,11 +14,11 @@
       yabai -m config window_animation_duration 0.1
       yabai -m config window_animation_easing "ease_out_circ"
       # Padding and gaps
-      yabai -m config top_padding    20
-      yabai -m config bottom_padding 20
-      yabai -m config left_padding   20
-      yabai -m config right_padding  20
-      yabai -m config window_gap     20
+      yabai -m config top_padding    10
+      yabai -m config bottom_padding 10
+      yabai -m config left_padding   10
+      yabai -m config right_padding  10
+      yabai -m config window_gap     15
 
       # Mouse support
       yabai -m config mouse_modifier ctrl
@@ -26,7 +26,6 @@
       yabai -m config mouse_action2 resize
 
       yabai -m config mouse_follows_focus on
-      yabai -m config focus_follows_mouse autofocus
 
       yabai -m rule --add app="^SigmaOS|Safari|Chromium$" space=1
       yabai -m rule --add app="^Finder" space=1

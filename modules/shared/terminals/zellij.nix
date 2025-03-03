@@ -132,7 +132,7 @@ in {
             bind "Alt =" { Resize "Increase"; }
             bind "Alt [" { PreviousSwapLayout; }
             bind "Alt ]" { NextSwapLayout; }
-            bind "Alt d" { ToggleFloatingPanes; }
+            bind "Ctrl f" { ToggleFloatingPanes; }
             bind "Ctrl g" { SwitchToMode "locked"; }
             bind "Alt i" { MoveTab "left"; }
             bind "Alt n" { NewPane; }
@@ -149,6 +149,16 @@ in {
             bind "Ctrl j" { MoveFocus "down"; }
             bind "Ctrl k" { MoveFocus "up"; }
             bind "Ctrl l" { MoveFocusOrTab "right"; }
+            bind "Ctrl 1" { GoToTab 1; }
+            bind "Ctrl 2" { GoToTab 2; }
+            bind "Ctrl 3" { GoToTab 3; }
+            bind "Ctrl 4" { GoToTab 4; }
+            bind "Ctrl 5" { GoToTab 5; }
+            bind "Ctrl 6" { GoToTab 6; }
+            bind "Ctrl 7" { GoToTab 7; }
+            bind "Ctrl 8" { GoToTab 8; }
+            bind "Ctrl 9" { GoToTab 9; }
+            bind "Ctrl 0" { GoToTab 10; }
         }
         shared_except "locked" "scroll" "search" "tmux" {
             bind "Ctrl b" { SwitchToMode "tmux"; }
@@ -210,6 +220,15 @@ in {
             bind "d" { Detach; }
         }
     }
+    theme "ayu_dark"
+    default_layout "default"
+    pane_frames false
+    ui {
+        pane_frames {
+            rounded_corners true
+        }
+    }
+    default_mode "normal"
 
   '';
   xdg.configFile."zellij/layouts/default.kdl".text = ''
@@ -220,7 +239,7 @@ in {
                     plugin location="file://${pkgs.zjstatus}/bin/zjstatus.wasm" {
                         format_left   " {mode}#[bg=${colors.bg}] "
                         format_center "{tabs}"
-                        format_right  "#[bg=${colors.bg},fg=${colors.blue}]█#[bg=${colors.blue},fg=${colors.bg},bold] #[bg=${colors.d_blue},fg=${colors.blue},bold] {session} #[bg=${colors.bg},fg=${colors.d_blue},bold] "
+                        format_right  "#[bg=${colors.d_blue},fg=${colors.blue},bold] {session} #[bg=${colors.bg},fg=${colors.d_blue},bold]#[bg=${colors.bg},fg=${colors.blue},bold]  "
                         format_space  ""
                         format_hide_on_overlength "true"
                         format_precedence "crl"
@@ -379,14 +398,4 @@ in {
     }
   '';
 
-  programs.zellij = {
-    enable = true;
-    settings = {
-      theme = "ayu_dark";
-      default_layout = "default";
-      pane_frames = false;
-      ui.pane_frames.rounded_corners = true;
-      default_mode = "normal";
-    };
-  };
 }
