@@ -21,5 +21,7 @@
       echo "Home Manager: WM is set to ${wm}"
     '';
 
+    sessionVariables = { SKHD_SCRIPTS_DIR = "~/.config/skhd_skripts"; };
+
   };
 }

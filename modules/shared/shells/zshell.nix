@@ -57,7 +57,7 @@
 
       function change_tab_title() {
           local title=$1
-          command nohup zellij action rename-tab $title >/dev/null 2>&1
+          command nohup ${pkgs.zellij}/bin/zellij action rename-tab $title >/dev/null 2>&1
       }
 
       function set_tab_to_working_dir() {

@@ -4,25 +4,27 @@
   home.file.skhdrc = {
     text = ''
       # focus window
-        alt - h : ${pkgs.yabai}/bin/yabai -m window --focus west
-        alt - j : ${pkgs.yabai}/bin/yabai -m window --focus south
-        alt - k : ${pkgs.yabai}/bin/yabai -m window --focus north
-        alt - l : ${pkgs.yabai}/bin/yabai -m window --focus east
+      alt - h : ${pkgs.yabai}/bin/yabai -m window --focus west
+      alt - j : ${pkgs.yabai}/bin/yabai -m window --focus south
+      alt - k : ${pkgs.yabai}/bin/yabai -m window --focus north
+      alt - l : ${pkgs.yabai}/bin/yabai -m window --focus east
 
-        shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus stack.prev
-        shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus stack.next
+      shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus stack.prev
+      shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus stack.next
 
-        shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus prev
-        shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus next
+      shift + alt - p : ${pkgs.yabai}/bin/yabai -m window --focus prev
+      shift + alt - n : ${pkgs.yabai}/bin/yabai -m window --focus next
+      shift + alt - c : yabai -m window --sub-layer below; yabai -m query --spaces | jq -re '.[] | select(."is-visible"== true).index' | xargs -I{} yabai -m query --windows --space {} | jq -sre 'add | sort_by(.display, .frame.x, .frame.y, .id) | nth(index(map(select(."has-focus" == true))) - 1).id' | xargs -I{} yabai -m window --focus {}
+
 
       # swap managed window
       # shift + alt - h : yabai -m window --swap north
 
       # move managed window
-       shift + alt - h : yabai -m window --warp west
-       shift + alt - j : yabai -m window --warp north
-       shift + alt - k : yabai -m window --warp south
-       shift + alt - l : yabai -m window --warp east
+      shift + alt - h : yabai -m window --warp west
+      shift + alt - j : yabai -m window --warp north
+      shift + alt - k : yabai -m window --warp south
+      shift + alt - l : yabai -m window --warp east
 
       # fast focus desktop
       # cmd + alt - x : yabai -m space --focus recent
@@ -89,7 +91,8 @@
       # toggle sticky(+float), picture-in-picture
       # alt - p : yabai -m window --toggle sticky --toggle pip
 
-      alt - return : open -n /Applications/Ghostty.app
+      alt - return : open -na Ghostty.app --args --window-width=148 --window-height=49 --title="mini" --command=/bin/zsh --quit-after-last-window-closed=true; sleep 0.2; yabai -m window $(yabai -m query --windows | jq -r '.[] | select(.app=="Ghostty" and .title=="mini") | .id' | tail -n1) --toggle float --grid 1291:2056:340:178:1410:1060
+
     '';
     executable = true;
     target = ".skhdrc";

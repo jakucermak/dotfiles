@@ -7,12 +7,13 @@
 
   # List packages installed in system profile. To search by name, run:
   environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
-    
+
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
     brews = [
-    	"superfile"
+      "node"
+      "superfile"
       "mas"
       "telnet"
       "nmap"
