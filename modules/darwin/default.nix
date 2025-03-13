@@ -50,11 +50,11 @@
 
   # services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
-  programs.zsh.enable = true; # default shell on catalina
+  programs.zsh.enable = true;
   system.stateVersion = 5;
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
   users.users.jakubcermak.home = "/Users/jakubcermak";
 
   system.defaults = {
