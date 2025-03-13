@@ -232,7 +232,7 @@ in {
     plugins {
      autolock location="https://github.com/fresh2dev/zellij-autolock/releases/download/0.2.2/zellij-autolock.wasm"
      triggers  "nvim|vim|vi"
-    // watch_triggers  "atuin|zoxide|atac"
+     watch_triggers  "atuin|zoxide|atac"
      watch_interval  1.0
     }
     load_plugins {
