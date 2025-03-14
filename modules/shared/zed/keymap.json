@@ -1,5 +1,11 @@
 [
   {
+    "bindings": {
+      "k": "menu::SelectPrevious",
+      "j": "menu::SelectNext"
+    }
+  },
+  {
     "context": "Dock",
     "bindings": {
       "ctrl-w h": "workspace::ActivatePaneLeft",
@@ -31,7 +37,7 @@
   {
     "context": "Editor && vim_mode == normal",
     "bindings": {
-      "space h r": "tab_switcher::Toggle",
+      "space h g": "tab_switcher::Toggle",
       "space n t": "workspace::ToggleLeftDock",
       "space h n": "panel::NextPanelTab"
     }
