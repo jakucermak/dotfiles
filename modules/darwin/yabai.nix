@@ -36,11 +36,11 @@
       yabai -m rule --add app="Alacritty" space=3
       yabai -m rule --add app="Ghostty" space=3
 
-      yabai -m rule --add app="^Slack|Messages|ChatGPT$" space=4
+      yabai -m rule --add app="^Slack|Messages|ChatGPT|WhatsApp$" space=4
 
       yabai -m rule --add app="^Spark Desktop" space=5
 
-      yabai -m rule --add app="Music" space=6
+      yabai -m rule --add app="Music|Everhour" space=6
 
       yabai -m rule --add app="^System Settings$" manage=off
 
