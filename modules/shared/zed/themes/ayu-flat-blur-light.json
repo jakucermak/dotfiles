@@ -30,7 +30,9 @@
         "editor.active_line.background": "#F8F9FACC",
         "editor.active_line_number": "#FFAA33",
         "editor.active_wrap_guide": "#5C61661a",
-        "editor.background": "#10141c00",
+        // Bug - Color of editor changing "Git Stage / Restore" hovering item.
+        "editor.background": "#F8F9FAFF",
+
         "editor.document_highlight.read_background": "#5ac1fe29",
         "editor.document_highlight.write_background": "#66676729",
         "editor.foreground": "#5C6166ff",
@@ -42,7 +44,7 @@
         "editor.wrap_guide": "#5C61660d",
         "element.active": "#3e404300",
         "element.background": "#F8F9FA08",
-        "element.disabled": "#1f2127ff",
+        "element.disabled": "#1f21271D",
         "element.hover": "#56728F1F",
         "element.selected": "#56728F1F",
         "elevated_surface.background": "#F8F9FAff",
@@ -65,12 +67,9 @@
         "icon.disabled": "#696a6aff",
         "icon.muted": "#8a8986ff",
         "icon.placeholder": "#8a8986ff",
-
-        // "ignored": "#696a6a00",
         "ignored": "#8A919966",
         "ignored.background": "#313337ff",
         "ignored.border": "#3f4043ff",
-
         "info": "#5ac1feff",
         "info.background": "#0d2f4e66",
         "info.border": "#1b4a6eff",
@@ -131,7 +130,7 @@
         "text": "#5C6166ff",
         "text.accent": "#FFAA33",
         "text.disabled": "#8A9199CC",
-        "text.muted": "#8A9199CC",
+        "text.muted": "#8A9199FF",
         "text.hover": "#FFFFFF00",
         "text.placeholder": "#696a6aff",
         "title_bar.background": "#F8F9FAe6",
