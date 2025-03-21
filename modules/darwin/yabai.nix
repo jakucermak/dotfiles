@@ -20,6 +20,8 @@
       yabai -m config right_padding  10
       yabai -m config window_gap     15
 
+      yabai -m config  window_shadow off
+
       # Mouse support
       yabai -m config mouse_modifier ctrl
       yabai -m config mouse_action1 move

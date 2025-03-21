@@ -12,16 +12,13 @@
   "features": {
     "edit_prediction_provider": "zed"
   },
-  "theme": "Ayu Dark Flat (Blur)",
-  "language_models": {
-    "openai": {
-      "version": "1",
-      "available_models": []
-    }
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Light Flat (Blur)",
+    "dark": "Ayu Dark Flat (Blur)"
   },
-  "vim_mode": true,
-  "ui_font_size": 18,
-  "buffer_font_size": 16,
+  "ui_font_size": 17,
+  "buffer_font_size": 15,
   "inlay_hints": {
     "enabled": true,
     "show_type_hints": true,
@@ -33,8 +30,14 @@
   "tab_bar": {
     "show": true
   },
-
   "show_whitespaces": "all",
+
+  "language_models": {
+    "openai": {
+      "version": "1",
+      "available_models": []
+    }
+  },
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
@@ -43,9 +46,10 @@
     "version": "2"
   },
   "terminal": {
-    "dock": "bottom",
+    "dock": "left",
     "font_family": "JetBrainsMono Nerd Font"
   },
+  "vim_mode": true,
   "vim": {
     "use_system_clipboard": "never"
   },
