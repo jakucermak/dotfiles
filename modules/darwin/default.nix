@@ -20,14 +20,13 @@
       "lua"
       "switchaudio-osx"
       "nowplaying-cli"
-      {
-        name = "FelixKratz/formulae/sketchybar";
-        start_service = true;
-      }
+
+      { name = "FelixKratz/formulae/sketchybar"; }
       { name = "surrealdb/tap/surreal"; }
       { name = "jesseduffield/lazygit/lazygit"; }
     ];
     casks = [
+      "warp"
       "sublime-merge"
       "zen-browser"
       "ghostty"
@@ -39,6 +38,7 @@
       "font-sf-mono"
       "font-sf-pro"
       "twingate"
+      "chromium"
     ];
     masApps = {
       "Spark" = 6445813049;

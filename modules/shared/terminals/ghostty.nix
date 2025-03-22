@@ -12,7 +12,7 @@
     window-colorspace = srgb
 
     # Theme
-    theme = ayu
+    theme = light:ayu_light,dark:ayu
     background-opacity = 0.85
     background-blur-radius = 90
 
