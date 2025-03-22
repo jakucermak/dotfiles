@@ -1,8 +1,8 @@
 [
   {
     "bindings": {
-      "k": "menu::SelectPrevious",
-      "j": "menu::SelectNext"
+      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-j": "menu::SelectNext"
     }
   },
   {
