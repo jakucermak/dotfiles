@@ -1,8 +1,9 @@
-{ ... }: {
+{ config, ... }: {
 
-  home.file.".config/sketchybar".source = ./config;
-
-  home.file.".config/sketchybar/sketchybarrc".executable = true;
-  home.file.".config/sketchybar/sketchybarrc".source = ./config/sketchybarrc;
+  home.file.".config/sketchybar" = {
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/modules/darwin/sketchybar/config";
+    recursive = true;
+  };
 
 }

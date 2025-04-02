@@ -3,7 +3,7 @@ local colors = require("colors")
 
 -- Padding item required because of bracket
 
-sbar.add("item", "spacer", {
+sbar.add("item", "spacer.calendar", {
     position = "right",
     width = 5,
     background = {

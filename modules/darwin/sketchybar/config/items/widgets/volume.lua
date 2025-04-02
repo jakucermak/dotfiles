@@ -20,7 +20,8 @@ local volume_bracket = sbar.add("bracket", "widgets.volume.bracket", {
 }, {
     background = {
         color = colors.red_bg,
-
+        padding_left = 0,
+        padding_right = 0,
         border_width = 0
     },
     popup = { align = "center" },

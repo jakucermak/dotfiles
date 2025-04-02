@@ -91,11 +91,13 @@
       # toggle sticky(+float), picture-in-picture
       # alt - p : yabai -m window --toggle sticky --toggle pip
 
-      alt - return :
+      alt - return : ~/.config/skhd_scripts/ghostty_float
     '';
     executable = true;
     target = ".skhdrc";
   };
   home.file.".config/skhd_scripts".source = ./skhd_scripts;
   home.file.".config/skhd_scripts/ghostty_float".executable = true;
+  home.file.".config/skhd_scripts/ghostty_float".source =
+    ./skhd_scripts/ghostty_float;
 }

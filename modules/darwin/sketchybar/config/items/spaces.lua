@@ -18,8 +18,18 @@ local yabai_path = "/etc/profiles/per-user/jakubcermak/bin/yabai"
 --         end
 --     end
 -- end
+-- local spacer2 = sbar.add("item", {
+--     background =
+--     {
+--         color = colors.transparent,
+--         border_width = 0
 
-sbar.add("item", { position = "left", width = settings.group_paddings, })
+--     },
+--     drawing = true,
+--     updates = true,
+--     width = 15,
+-- })
+-- sbar.add("item", { position = "left", width = settings.group_paddings, })
 local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰" }
 
 local spaces = {}
@@ -27,7 +37,7 @@ local spaces = {}
 for i = 1, 10, 1 do
     local space = sbar.add("space", "space." .. i, {
         space = i,
-        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = -2 },
+        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = 0 },
         icon = { string = superscript[i], highlight_color = colors.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
         background = {
             color = colors.transparent,
@@ -71,7 +81,8 @@ local front_app = sbar.add("item", "front_app", {
         color = colors.blue
     },
     updates = true,
-    padding_left = 0
+    padding_left = 0,
+    width = 150
 })
 
 local space_window_observer = sbar.add("item", {
@@ -107,9 +118,43 @@ for i = 1, 9 do
 end
 table.insert(space_names, front_app.name)
 
-sbar.add("bracket", "items.spaces.bracket", space_names, {
+local bracket = sbar.add("bracket", "items.spaces.bracket", space_names, {
     background = {
         color = colors.blue_bg,
-        border_width = 0
+        border_width = 0,
     }
+})
+
+local spacer = sbar.add("item", "spacer.left.panel.inner", {
+    icon = {
+        drawing = false
+    },
+    label = {
+        drawing = false
+    },
+    background =
+    {
+        color = colors.transparent,
+        border_width = 0,
+        padding_left = 0,
+        padding_right = 0,
+    },
+    drawing = true,
+    updates = true,
+    width = 12,
+})
+
+
+sbar.add("bracket", "items.left.panel", {
+    bracket.name,
+    spacer.name
+}, {
+    background = {
+        color = colors.bar.bg,
+        border_width = 0,
+        height = 28,
+        padding_left = 0,
+        padding_right = 0,
+        corner_radius = 5,
+    },
 })

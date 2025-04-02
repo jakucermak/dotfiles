@@ -21,6 +21,7 @@ else
     # Position the window using yabai if it was found
     if [ -n "$new_window_id" ]; then
         yabai -m window $new_window_id --toggle float --grid 1291:2056:340:178:1410:1060
+        yabai -m window --focus $new_window_id
     else
         echo "Failed to detect new Ghostty window after $max_attempts attempts"
     fi
