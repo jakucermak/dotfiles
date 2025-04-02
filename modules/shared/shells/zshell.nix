@@ -126,6 +126,13 @@
       # Initialize tools
       eval "$(zoxide init zsh)"
       eval "$(fzf --zsh)"
+
+      # The next line updates PATH for the Google Cloud SDK.
+      if [ -f '/Users/jakubcermak/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jakubcermak/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+      # The next line enables shell command completion for gcloud.
+      if [ -f '/Users/jakubcermak/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jakubcermak/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
     '';
 
     envExtra = ''
@@ -139,9 +146,14 @@
         *) export PATH="$PNPM_HOME:$PATH" ;;
       esac
 
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init - zsh)"
+
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
       export PATH="${pkgs.zellij}/bin:$PATH"
+
 
     '';
   };

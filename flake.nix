@@ -10,7 +10,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zjstatus.url = "github:dj95/zjstatus";
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew = {
+      url =
+        "git+https://github.com/zhaofengli/nix-homebrew?ref=refs/pull/71/merge";
+    };
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
@@ -28,9 +31,7 @@
       flake = false;
     };
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-superfile = {
-    url = "github:yorukot/superfile";
-  };
+    superfile = { url = "github:yorukot/superfile"; };
 
   };
 

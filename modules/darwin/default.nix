@@ -20,6 +20,7 @@
       "lua"
       "switchaudio-osx"
       "nowplaying-cli"
+      "pyenv"
 
       { name = "FelixKratz/formulae/sketchybar"; }
       { name = "surrealdb/tap/surreal"; }

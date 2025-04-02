@@ -86,15 +86,16 @@
       alt - 0x2C : ${pkgs.yabai}/bin/yabai -m space --layout bsp
 
       # float / unfloat window and center on screen
-      # alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+      alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
       # toggle sticky(+float), picture-in-picture
       # alt - p : yabai -m window --toggle sticky --toggle pip
 
-      alt - return : open -na Ghostty.app --args --window-width=148 --window-height=49 --title="mini" --command=/bin/zsh --quit-after-last-window-closed=true; sleep 0.2; yabai -m window $(yabai -m query --windows | jq -r '.[] | select(.app=="Ghostty" and .title=="mini") | .id' | tail -n1) --toggle float --grid 1291:2056:340:178:1410:1060
-
+      alt - return :
     '';
     executable = true;
     target = ".skhdrc";
   };
+  home.file.".config/skhd_scripts".source = ./skhd_scripts;
+  home.file.".config/skhd_scripts/ghostty_float".executable = true;
 }

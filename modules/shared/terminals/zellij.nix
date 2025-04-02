@@ -29,7 +29,7 @@ in {
             bind "j" { MoveFocus "down"; }
             bind "k" { MoveFocus "up"; }
             bind "l" { MoveFocus "right"; }
-            bind "n" { NewPane; SwitchToMode "normal"; }
+            bind "n" { NewPane "right"; SwitchToMode "normal"; }
             bind "p" { SwitchFocus; }
             bind "Alt p" { SwitchToMode "normal"; }
             bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
