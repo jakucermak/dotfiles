@@ -37,8 +37,8 @@ local spaces = {}
 for i = 1, 10, 1 do
     local space = sbar.add("space", "space." .. i, {
         space = i,
-        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = 0 },
-        icon = { string = superscript[i], highlight_color = colors.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
+        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.with_alpha(colors.blue, 0.4), y_offset = 0 },
+        icon = { string = superscript[i], highlight_color = colors.blue, color = colors.with_alpha(colors.blue, 0.4), font = "JetBrainsMono Nerd Font:Regular:15.0" },
         background = {
             color = colors.transparent,
             border_color = colors.transparent,
@@ -141,7 +141,7 @@ local spacer = sbar.add("item", "spacer.left.panel.inner", {
     },
     drawing = true,
     updates = true,
-    width = 12,
+    width = 15,
 })
 
 

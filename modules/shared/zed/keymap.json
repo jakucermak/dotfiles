@@ -6,12 +6,14 @@
     }
   },
   {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space n t": "project_panel::ToggleFocus"
+    }
+  },
+  {
     "context": "Dock",
     "bindings": {
-      "ctrl-w h": "workspace::ActivatePaneLeft",
-      "ctrl-w l": "workspace::ActivatePaneRight",
-      "ctrl-w k": "workspace::ActivatePaneUp",
-      "ctrl-w j": "workspace::ActivatePaneDown",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",
@@ -38,14 +40,12 @@
     "context": "Editor && vim_mode == normal",
     "bindings": {
       "space h g": "tab_switcher::Toggle",
-      "space n t": "workspace::ToggleLeftDock",
       "space h n": "panel::NextPanelTab"
     }
   },
   {
     "context": "Editor && edit_prediction",
     "bindings": {
-      "alt-tab": "editor::AcceptEditPrediction",
       "ctrl-y": "editor::AcceptEditPrediction"
     }
   },
@@ -53,7 +53,7 @@
     "context": "Editor && showing_completions",
     "use_key_equivalents": true,
     "bindings": {
-      "enter": "editor::ConfirmCompletion",
+      "ctrl-enter": "editor::ConfirmCompletion",
       "tab": "editor::ComposeCompletion"
     }
   }

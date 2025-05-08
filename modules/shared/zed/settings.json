@@ -5,6 +5,28 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "ssh_connections": [
+    {
+      "host": "hug5",
+      "projects": [
+        {
+          "paths": ["/root"]
+        },
+        {
+          "paths": ["~/bk_scripts"]
+        }
+      ]
+    },
+    {
+      "host": "hug5",
+      "projects": [
+        {
+          "paths": ["~/bk-clone-db.sh"]
+        }
+      ]
+    }
+  ],
+  "bottom_dock_layout": "contained",
   "edit_predictions": {
     "mode": "subtle",
     "copilot": {
@@ -18,8 +40,13 @@
     "dock": "right"
   },
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "none"
   },
+  "cursor_blink": false,
+  "scrollbar": {
+    "show": "never"
+  },
+  "vertical_scroll_margin": 0,
   "theme": {
     "mode": "system",
     "light": "Ayu Light Flat (Blur)",
@@ -36,7 +63,11 @@
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "tab_bar": {
-    "show": true
+    "show": false
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false
   },
   "show_whitespaces": "all",
 
@@ -47,6 +78,7 @@
     }
   },
   "assistant": {
+    "default_profile": "write",
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-3-7-sonnet-latest"

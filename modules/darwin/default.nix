@@ -21,7 +21,7 @@
       "switchaudio-osx"
       "nowplaying-cli"
       "pyenv"
-
+      "dpkg"
       { name = "FelixKratz/formulae/sketchybar"; }
       { name = "surrealdb/tap/surreal"; }
       { name = "jesseduffield/lazygit/lazygit"; }
@@ -69,7 +69,7 @@
         "/Applications/Safari.app"
         "${pkgs.slack}/Applications/Slack.app"
         "/System/Applications/Messages.app"
-        "${pkgs.alacritty}/Applications/Alacritty.app"
+        "${pkgs.alacritty}/Applications/Ghostty.app"
         "/Applications/Zed Preview.app"
       ];
       persistent-others = [ "/Users/jakubcermak/Downloads" "/Applications" ];

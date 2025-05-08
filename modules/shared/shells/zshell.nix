@@ -4,20 +4,7 @@
   programs.zsh = {
     enable = true;
 
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "npm" ];
-    };
-
-    zplug = {
-      enable = true;
-      plugins = [
-        { name = "zsh-users/zsh-autosuggestions"; }
-        {
-          name = "zsh-users/zsh-syntax-highlighting";
-        } # Simple plugin installation
-      ];
-    };
+    # Define zinit instead of oh-my-zsh and zplug
 
     shellAliases = {
       # Git aliases
@@ -25,7 +12,6 @@
       ga = "git add";
       gcm = "git commit -m";
       lg = "${pkgs.lazygit}/bin/lazygit";
-      zj = "${pkgs.zellij}/bin/zellij";
 
       # General aliases
       pip = "pip3";
@@ -34,58 +20,118 @@
       py = "${pkgs.python3}/bin/python3";
       cat = "bat";
       sw = "telnet towel.blinkenlights.nl";
+      vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
+      zj = "${pkgs.zellij}/bin/zellij";
     };
 
-    initExtra = ''
+    initContent = ''
+      # Install zinit if not present
+      ZINIT_HOME="$HOME/.zinit"
+      if [ ! -d "$ZINIT_HOME" ]; then
+        mkdir -p "$ZINIT_HOME"
+        git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME/bin"
+      fi
+
+      # Load zinit
+      source "$ZINIT_HOME/bin/zinit.zsh"
+
+      # Load essential plugins instantly
+      zinit light zsh-users/zsh-autosuggestions
+
+      # Load less critical plugins in turbo mode (asynchronously)
+      zinit wait lucid for \
+        atinit"zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting \
+        atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-completions
+
+      # Load git and npm functionality in turbo mode
+      zinit wait lucid for \
+        OMZL::git.zsh \
+        OMZP::git/git.plugin.zsh
+
+      zinit wait lucid for \
+        OMZP::npm/npm.plugin.zsh
+
+      # Lazy load tools
+      function zoxide-loader() {
+        eval "$(zoxide init zsh)"
+        unfunction zoxide-loader
+      }
+      alias z="zoxide-loader; z"
+      alias cd="zoxide-loader; cd"
+
+      function fzf-loader() {
+        eval "$(fzf --zsh)"
+        unfunction fzf-loader
+      }
+      zle -N fzf-loader
+      bindkey '^R' fzf-loader
+
+      function pyenv-loader() {
+        eval "$(pyenv init - zsh)"
+        unfunction pyenv-loader
+        pyenv "$@"
+      }
+      alias pyenv="pyenv-loader"
+
+      # Lazy load gcloud
+      function gcloud() {
+        local gcloud_sdk_path='/Users/jakubcermak/Downloads/google-cloud-sdk'
+        if [ -f "$gcloud_sdk_path/path.zsh.inc" ]; then
+          source "$gcloud_sdk_path/path.zsh.inc"
+        fi
+        if [ -f "$gcloud_sdk_path/completion.zsh.inc" ]; then
+          source "$gcloud_sdk_path/completion.zsh.inc"
+        fi
+        unfunction gcloud
+        command gcloud "$@"
+      }
+
+      # Set timeout for screen clearing
       TMOUT=600
       TRAPALRM() {
-          clear
           ghostty_animation
           zle reset-prompt
       }
 
-      function current_dir() {
-          local current_dir=$PWD
-          if [[ $current_dir == $HOME ]]; then
-              current_dir="~"
-          else
-              current_dir=''${current_dir##*/}
-          fi
-
-          echo $current_dir
-      }
-
-      function change_tab_title() {
-          local title=$1
-          command nohup ${pkgs.zellij}/bin/zellij action rename-tab $title >/dev/null 2>&1
-      }
-
-      function set_tab_to_working_dir() {
-          local result=$?
-          local title=$(current_dir)
-          # uncomment the following to show the exit code after a failed command
-          # if [[ $result -gt 0 ]]; then
-          #     title="$title [$result]"
-          # fi
-
-          change_tab_title $title
-      }
-
-      function set_tab_to_command_line() {
-          local cmdline=$1
-          if [[ $cmdline == ssh* ]]; then
-              cmdline=''${cmdline#ssh }
-          fi
-          change_tab_title $cmdline
-      }
-
+      # Zellij tab title management - moved to a more efficient implementation
       if [[ -n $ZELLIJ ]]; then
-          add-zsh-hook precmd set_tab_to_working_dir
-          add-zsh-hook preexec set_tab_to_command_line
+        autoload -Uz add-zsh-hook
+
+        function set_tab_title() {
+          local cmd="$1"
+          local title
+
+          if [[ -z "$cmd" || "$cmd" == "" ]]; then
+            # Use directory name for empty command (precmd)
+            title="$PWD"
+            title="''${title/#$HOME/~}"
+            title="''${title##*/}"
+          else
+            # Use first word of command
+            title="''${cmd%% *}"
+            # Extract hostname for ssh commands
+            if [[ "$title" == "ssh" ]]; then
+              title="''${cmd#ssh }"
+              title="''${title%% *}"
+            fi
+          fi
+
+          command nohup ${pkgs.zellij}/bin/zellij action rename-tab "$title" >/dev/null 2>&1
+        }
+
+        function update_tab_title_precmd() {
+          set_tab_title ""
+        }
+
+        function update_tab_title_preexec() {
+          set_tab_title "$1"
+        }
+
+        add-zsh-hook precmd update_tab_title_precmd
+        add-zsh-hook preexec update_tab_title_preexec
       fi
-
-
-      alias vncviewer="/Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer";
 
       # VNC viewer setup
       vncparams=(
@@ -96,6 +142,7 @@
       )
 
       function hugvnc() {
+        vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
         echo ''${vncparams[@]}
         vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
       }
@@ -122,17 +169,6 @@
         return 0
       }
       complete -F _ssh ssh
-
-      # Initialize tools
-      eval "$(zoxide init zsh)"
-      eval "$(fzf --zsh)"
-
-      # The next line updates PATH for the Google Cloud SDK.
-      if [ -f '/Users/jakubcermak/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jakubcermak/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-      # The next line enables shell command completion for gcloud.
-      if [ -f '/Users/jakubcermak/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jakubcermak/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
     '';
 
     envExtra = ''
@@ -149,14 +185,10 @@
       export PATH="$HOME/.pyenv/bin:$PATH"
       export PYENV_ROOT="$HOME/.pyenv"
       [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-      eval "$(pyenv init - zsh)"
 
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
       export PATH="${pkgs.zellij}/bin:$PATH"
-
-
     '';
   };
-
 }

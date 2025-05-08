@@ -20,16 +20,17 @@ local spacer = sbar.add("item", "spacer.right", {
         padding_left = 0
     },
     drawing = true,
-    width = 1,
+    width = 10,
 })
 
 
-sbar.add("bracket", "items.right.panel", {
+
+local panel = sbar.add("bracket", "items.right.panel", {
     "widgets.calendar.bracket",
     "widgets.wifi.bracket",
     "widgets.battery.bracket",
     "widgets.volume.bracket",
-    spacer.name
+    spacer.name,
 }, {
     background = {
         color = colors.bar.bg,

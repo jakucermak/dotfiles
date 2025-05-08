@@ -29,7 +29,7 @@
     window-padding-x = 10,10
 
     # macOS
-    macos-titlebar-style = hidden
+    macos-titlebar-style = transparent
     macos-titlebar-proxy-icon = hidden
     confirm-close-surface = false
 
@@ -61,7 +61,7 @@
     palette = 13=#f2a4db
     palette = 14=#5abfb5
     palette = 15=#b5bfe2
-    background = 0B0E14
+    background = #0D1017
 
   '';
 

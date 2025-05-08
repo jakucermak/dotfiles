@@ -86,7 +86,7 @@
       alt - 0x2C : ${pkgs.yabai}/bin/yabai -m space --layout bsp
 
       # float / unfloat window and center on screen
-      alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+      alt - t : yabai -m window --toggle float --grid 20:20:2:2:16:16
 
       # toggle sticky(+float), picture-in-picture
       # alt - p : yabai -m window --toggle sticky --toggle pip

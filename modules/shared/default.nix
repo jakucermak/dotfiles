@@ -8,8 +8,6 @@
   in {
     packages = with pkgs; [
       qemu
-      mosh
-      ansible-lint
       bottom
       curl
       fzf
@@ -17,8 +15,9 @@
       nil
       nixd
       nixfmt-classic
-      python312
-      python312Packages.ansible-core
+      python313
+      # python313Packages.ansible-core
+      # ansible-lint
       ripgrep-all
       rustup
       tree
