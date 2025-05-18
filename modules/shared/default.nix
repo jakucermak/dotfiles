@@ -16,8 +16,6 @@
       nixd
       nixfmt-classic
       python313
-      # python313Packages.ansible-core
-      # ansible-lint
       ripgrep-all
       rustup
       tree

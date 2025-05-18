@@ -54,12 +54,9 @@
         OMZP::npm/npm.plugin.zsh
 
       # Lazy load tools
-      function zoxide-loader() {
-        eval "$(zoxide init zsh)"
-        unfunction zoxide-loader
-      }
-      alias z="zoxide-loader; z"
-      alias cd="zoxide-loader; cd"
+      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
+
+      alias cd=z
 
       function fzf-loader() {
         eval "$(fzf --zsh)"
@@ -92,7 +89,6 @@
       TMOUT=600
       TRAPALRM() {
           ghostty_animation
-          zle reset-prompt
       }
 
       # Zellij tab title management - moved to a more efficient implementation
@@ -141,12 +137,6 @@
         "-Scaling=AspectFit"
       )
 
-      function hugvnc() {
-        vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
-        echo ''${vncparams[@]}
-        vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
-      }
-
       # Functions
       function catdiff() {
         git diff --name-only --relative --diff-filter=d | xargs bat --diff
@@ -169,6 +159,12 @@
         return 0
       }
       complete -F _ssh ssh
+
+
+      function hugvnc() {
+        vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
+        vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
+      }
     '';
 
     envExtra = ''

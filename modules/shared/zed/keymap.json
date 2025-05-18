@@ -28,7 +28,7 @@
     }
   },
   {
-    "context": "Editor && vim_mode == normal && !(showing_code_actions || showing_completions)",
+    "context": "Editor && vim_mode == normal && !(showing_code_actions || showing_completions) || MarkdownPreview",
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
@@ -53,8 +53,18 @@
     "context": "Editor && showing_completions",
     "use_key_equivalents": true,
     "bindings": {
-      "ctrl-enter": "editor::ConfirmCompletion",
+      "ctrl-y": "editor::ConfirmCompletion",
       "tab": "editor::ComposeCompletion"
+    }
+  },
+  {
+    "context": "MessageEditor > Editor",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-enter": "agent::Chat",
+      "enter": "editor::Newline",
+      "cmd-i": "agent::ToggleProfileSelector",
+      "shift-ctrl-r": "agent::OpenAgentDiff"
     }
   }
 ]

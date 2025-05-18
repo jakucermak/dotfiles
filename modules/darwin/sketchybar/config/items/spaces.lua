@@ -2,7 +2,7 @@ local colors = require("colors")
 local settings = require("settings")
 local app_icons = require("helpers.app_icons")
 
-local yabai_path = "/etc/profiles/per-user/jakubcermak/bin/yabai"
+local yabai_path = "/opt/homebrew/bin/yabai"
 
 -- local function dump_table(t, indent)
 --     indent = indent or 0

@@ -10,7 +10,7 @@
 
   homebrew = {
     enable = true;
-    onActivation.cleanup = "uninstall";
+    # onActivation.cleanup = "uninstall";
     brews = [
       "node"
       "superfile"
@@ -22,18 +22,16 @@
       "nowplaying-cli"
       "pyenv"
       "dpkg"
+      "ansible@9"
       { name = "FelixKratz/formulae/sketchybar"; }
-      { name = "surrealdb/tap/surreal"; }
       { name = "jesseduffield/lazygit/lazygit"; }
     ];
     casks = [
       "warp"
       "sublime-merge"
-      "zen-browser"
       "ghostty"
       "zed@preview"
       "chatgpt"
-      "openvpn-connect"
       "vnc-viewer"
       "sf-symbols"
       "font-sf-mono"
@@ -42,8 +40,8 @@
       "chromium"
     ];
     masApps = {
-      "Spark" = 6445813049;
-      "WireGurad" = 1451685025;
+      # "Spark" = 6445813049;
+      # "WireGurad" = 1451685025;
     };
   };
 
@@ -57,6 +55,7 @@
 
   security.pam.services.sudo_local.touchIdAuth = true;
   users.users.jakubcermak.home = "/Users/jakubcermak";
+  system.primaryUser = "jakubcermak";
 
   system.defaults = {
     dock = {
@@ -69,7 +68,7 @@
         "/Applications/Safari.app"
         "${pkgs.slack}/Applications/Slack.app"
         "/System/Applications/Messages.app"
-        "${pkgs.alacritty}/Applications/Ghostty.app"
+        "/Applications/Ghostty.app"
         "/Applications/Zed Preview.app"
       ];
       persistent-others = [ "/Users/jakubcermak/Downloads" "/Applications" ];

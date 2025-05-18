@@ -1,6 +1,4 @@
-{ pkgs, ... }: {
-
-  home.packages = [ pkgs.yabai ];
+{ ... }: {
 
   home.file.yabairc = {
     text = ''
@@ -45,6 +43,7 @@
       yabai -m rule --add app="Music|Everhour" space=6
 
       yabai -m rule --add app="^System Settings$" manage=off
+      yabai -m rule --add app="^Keymapp$" sticky=on
 
     '';
     executable = true;
