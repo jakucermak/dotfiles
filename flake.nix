@@ -10,33 +10,37 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zjstatus.url = "github:dj95/zjstatus";
-    nix-homebrew = {
-      url =
-        "git+https://github.com/zhaofengli/nix-homebrew?ref=refs/pull/71/merge";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
     };
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-services = {
-      url = "github:homebrew/homebrew-services";
-      flake = false;
-    };
+
+    # homebrew-FelixKratz-formulae = {
+    #   url = "github:FelixKratz/homebrew-formulae";
+    #   flake = false;
+    # };
+    # homebrew-jesseduffield-formulae = {
+    #   url = "github:jesseduffield/homebrew-formulae";
+    #   flake = false;
+    # };
+
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-    superfile = { url = "github:yorukot/superfile"; };
 
   };
 
-  outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, alacritty-theme
-    , zjstatus, superfile, ... }: {
+  outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core
+    , homebrew-cask, homebrew-bundle, alacritty-theme, zjstatus, ... }: {
 
       darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -46,7 +50,7 @@
           {
             nixpkgs.config.allowUnfree = true;
             nix.settings.experimental-features = "nix-command flakes";
-            system.stateVersion = 5;
+            system.stateVersion = 6;
           }
           nix-homebrew.darwinModules.nix-homebrew
           {
@@ -57,8 +61,13 @@
               })
             ];
             nix-homebrew = {
+              # Install Homebrew under the default prefix
               enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
               enableRosetta = true;
+
+              # User owning the Homebrew prefix
               user = "jakubcermak";
               autoMigrate = true;
             };
@@ -74,7 +83,6 @@
                 home.homeDirectory = "/Users/jakubcermak";
               }];
               users.jakubcermak = { ... }: {
-
                 imports = [ ./modules/darwin/home.nix ];
               };
             };
@@ -92,21 +100,21 @@
             nix.settings.experimental-features = "nix-command flakes";
             system.stateVersion = 5;
           }
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nixpkgs.overlays = [
-              alacritty-theme.overlays.default
-              (final: prev: {
-                zjstatus = zjstatus.packages.${prev.system}.default;
-              })
-            ];
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = "jakubcermak";
-              autoMigrate = true;
-            };
-          }
+          # nix-homebrew.darwinModules.nix-homebrew
+          # {
+          #   nixpkgs.overlays = [
+          #     alacritty-theme.overlays.default
+          #     (final: prev: {
+          #       zjstatus = zjstatus.packages.${prev.system}.default;
+          #     })
+          #   ];
+          #   nix-homebrew = {
+          #     enable = true;
+          #     enableRosetta = true;
+          #     user = "jakubcermak";
+          #     autoMigrate = true;
+          #   };
+          # }
           home-manager.darwinModules.home-manager
           {
             home-manager = {

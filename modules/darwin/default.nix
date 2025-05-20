@@ -1,11 +1,9 @@
 { pkgs, wm, ... }:
 
 {
-
   nixpkgs.config.allowUnfree = true;
   imports = [ ./borders ];
 
-  # List packages installed in system profile. To search by name, run:
   environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
 
   homebrew = {
@@ -13,7 +11,6 @@
     # onActivation.cleanup = "uninstall";
     brews = [
       "node"
-      "superfile"
       "mas"
       "telnet"
       "nmap"
@@ -50,7 +47,7 @@
   # services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
   programs.zsh.enable = true;
-  system.stateVersion = 5;
+  system.stateVersion = 6;
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   security.pam.services.sudo_local.touchIdAuth = true;

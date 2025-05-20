@@ -65,4 +65,5 @@
 
   '';
 
+  xdg.configFile."ghostty/themes/ayu_light".text = "\n";
 }

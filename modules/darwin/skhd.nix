@@ -28,15 +28,15 @@
 
       # fast focus desktop
       # cmd + alt - x : /opt/homebrew/bin/yabai -m space --focus recent
-      alt - 1 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 1 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 1
-      alt - 2 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 2 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 2
-      alt - 3 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 3 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 3
-      alt - 4 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 4 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 4
-      alt - 5 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 5 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 5
-      alt - 6 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 6 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 6
-      alt - 7 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 7 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 7
-      alt - 8 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 8 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 8
-      alt - 9 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 9 | jq '.[1].id') || /opt/homebrew/bin/yabai -m space --focus 9
+      alt - 1 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 1 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 1
+      alt - 2 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 2 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 2
+      alt - 3 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 3 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 3
+      alt - 4 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 4 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 4
+      alt - 5 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 5 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 5
+      alt - 6 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 6 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 6
+      alt - 7 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 7 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 7
+      alt - 8 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 8 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 8
+      alt - 9 : /opt/homebrew/bin/yabai -m window --focus $(/opt/homebrew/bin/yabai -m query --windows --space 9 | jq 'if .[0]."is-sticky" == "false" then .[0] else .[1] end') || /opt/homebrew/bin/yabai -m space --focus 9
 
       # send window to desktop and follow focus
       # shift + cmd - z : /opt/homebrew/bin/yabai -m window --space next; /opt/homebrew/bin/yabai -m space --focus next
