@@ -42,7 +42,7 @@ local wifi_up = sbar.add("item", "widgets.wifi1", {
             style = settings.font.style_map["Bold"],
             size = 9.0,
         },
-        color = colors.red,
+        color = colors.dark.red,
         string = "??? Bps",
         width = 50,
     },
@@ -67,7 +67,7 @@ local wifi_down = sbar.add("item", "widgets.wifi2", {
             style = settings.font.style_map["Bold"],
             size = 9.0,
         },
-        color = colors.blue,
+        color = colors.dark.blue,
         string = "??? Bps",
         width = 50
     },
@@ -86,14 +86,14 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
     wifi_down.name
 }, {
     background = {
-        color = colors.magenta_bg,
+        color = colors.with_alpha(colors.dark.magenta_bg, 0.4),
         border_width = 0,
     },
     popup = {
         align = "center",
         height = 40,
         background = {
-            color = colors.with_alpha(colors.magenta_bg, 0.19),
+            color = colors.with_alpha(colors.dark.magenta_bg, 0.19),
             border_color = colors.transparent,
             border_width = 0,
             height = 40,
@@ -101,10 +101,39 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
     },
 })
 
+wifi_bracket:subscribe("apperace_change", function(env)
+    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
+        local dark, _, _ = theme:find("Dark")
+        if dark then
+            wifi_bracket:set({
+                background = {
+                    color = colors.with_alpha(colors.dark.magenta_bg, 0.4)
+                }
+            })
+            wifi:set({
+                label = {
+                    color = colors.dark.magenta
+                }
+            })
+        else
+            wifi_bracket:set({
+                background = {
+                    color = colors.with_alpha(colors.light.magenta_bg, 0.4)
+                }
+            })
+            wifi:set({
+                label = {
+                    color = colors.light.magenta
+                }
+            })
+        end
+    end)
+end)
+
 sbar.add("alias", "WireGuard", {
     position = "popup." .. wifi_bracket.name,
     alias = {
-        color = colors.magenta,
+        color = colors.dark.magenta,
     },
     label = {
         string = "wg0 - 10.9.x.x"
@@ -125,7 +154,7 @@ sbar.add("alias", "WireGuard", {
 sbar.add("alias", "OpenVPN Connect", {
     position = "popup." .. wifi_bracket.name,
     alias = {
-        color = colors.magenta,
+        color = colors.dark.magenta,
     },
     label = {
         string = "ovpn - 10.8.x.x"
@@ -145,8 +174,8 @@ sbar.add("alias", "OpenVPN Connect", {
 sbar.add("item", { position = "right", width = settings.group_paddings })
 
 wifi_up:subscribe("network_update", function(env)
-    local up_color = (env.upload == "000 Bps") and colors.grey or colors.red
-    local down_color = (env.download == "000 Bps") and colors.grey or colors.blue
+    local up_color = (env.upload == "000 Bps") and colors.dark.grey or colors.dark.red
+    local down_color = (env.download == "000 Bps") and colors.dark.grey or colors.dark.blue
     wifi_up:set({
         icon = { color = up_color },
         label = {
@@ -165,7 +194,7 @@ end)
 
 wifi:subscribe({ "wifi_change", "system_woke" }, function(env)
     sbar.exec("ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}'", function(result)
-        wifi:set({ label = { string = "W ⋮ " .. result, color = colors.magenta } })
+        wifi:set({ label = { string = "W ⋮ " .. result, color = colors.dark.magenta } })
     end)
 end)
 

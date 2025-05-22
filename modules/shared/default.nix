@@ -23,6 +23,7 @@
       bat
       lsd
       btop
+      age
     ];
 
     # file.".config/zed" = {

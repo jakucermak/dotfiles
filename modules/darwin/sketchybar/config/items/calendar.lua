@@ -14,14 +14,14 @@ sbar.add("item", "spacer.calendar", {
 
 local cal = sbar.add("item", "widgets.calendar", {
     icon = {
-        color = colors.orange,
+        color = colors.dark.orange,
         font = {
             style = settings.font.style_map["Black"],
             size = 12.0,
         },
     },
     label = {
-        color = colors.orange,
+        color = colors.dark.orange,
         align = "left",
         font = { family = settings.font.numbers },
         width = 73,
@@ -35,9 +35,36 @@ local cal = sbar.add("item", "widgets.calendar", {
     click_script = "open -a 'Calendar'",
 })
 
-sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
-    background = { color = colors.orange_bg, border_width = 0 }
+local bracket = sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
+    background = { color = colors.with_alpha(colors.dark.orange_bg, 0.4), border_width = 0 }
 })
+
+bracket:subscribe("apperace_change", function(env)
+    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
+        local dark, _, _ = theme:find("Dark")
+        if dark then
+            bracket:set({
+                background = {
+                    color = colors.with_alpha(colors.dark.orange_bg, 0.4)
+                }
+            })
+            cal:set({
+                icon = { color = colors.dark.orange },
+                label = { color = colors.dark.orange }
+            })
+        else
+            bracket:set({
+                background = {
+                    color = colors.with_alpha(colors.light.orange_bg, 0.4)
+                }
+            })
+            cal:set({
+                icon = { color = colors.light.orange },
+                label = { color = colors.light.orange }
+            })
+        end
+    end)
+end)
 
 -- Padding item required because of bracket
 sbar.add("item", "widgets.calendar.padding", { position = "right", width = settings.group_paddings })

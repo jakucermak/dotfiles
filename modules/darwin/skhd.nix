@@ -14,7 +14,8 @@
 
       shift + alt - p : /opt/homebrew/bin/yabai -m window --focus prev
       shift + alt - n : /opt/homebrew/bin/yabai -m window --focus next
-      shift + alt - c : /opt/homebrew/bin/yabai -m window --sub-layer below; /opt/homebrew/bin/yabai -m query --spaces | jq -re '.[] | select(."is-visible"== true).index' | xargs -I{} /opt/homebrew/bin/yabai -m query --windows --space {} | jq -sre 'add | sort_by(.display, .frame.x, .frame.y, .id) | nth(index(map(select(."has-focus" == true))) - 1).id' | xargs -I{} /opt/homebrew/bin/yabai -m window --focus {}
+      shift + alt - c : /opt/homebrew/bin/yabai -m window --lower; /opt/homebrew/bin/yabai -m query --spaces | jq -re '.[] | select(."is-visible"== true).index' | xargs -I{} /opt/homebrew/bin/yabai -m query --windows --space {} | jq -sre 'add | sort_by(.display, .frame.x, .frame.y, .id) | nth(index(map(select(."has-focus" == true))) - 1).id' | xargs -I{} /opt/homebrew/bin/yabai -m window --focus {}
+      alt - c : /opt/homebrew/bin/yabai -m window --raise; /opt/homebrew/bin/yabai -m query --spaces | jq -re '.[] | select(."is-visible"== true).index' | xargs -I{} /opt/homebrew/bin/yabai -m query --windows --space {} | jq -sre 'add | sort_by(.display, .frame.x, .frame.y, .id) | nth(index(map(select(."has-focus" == true))) - 1).id' | xargs -I{} /opt/homebrew/bin/yabai -m window --focus {}
 
 
       # swap managed window

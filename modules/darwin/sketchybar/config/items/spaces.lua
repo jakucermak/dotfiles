@@ -4,41 +4,18 @@ local app_icons = require("helpers.app_icons")
 
 local yabai_path = "/opt/homebrew/bin/yabai"
 
--- local function dump_table(t, indent)
---     indent = indent or 0
---     local padding = string.rep("  ", indent)
 
---     for k, v in pairs(t) do
---         if type(v) == "table" then
---             print(padding .. tostring(k) .. " = {")
---             dump_table(v, indent + 1)
---             print(padding .. "}")
---         else
---             print(padding .. tostring(k) .. " = " .. tostring(v))
---         end
---     end
--- end
--- local spacer2 = sbar.add("item", {
---     background =
---     {
---         color = colors.transparent,
---         border_width = 0
-
---     },
---     drawing = true,
---     updates = true,
---     width = 15,
--- })
 -- sbar.add("item", { position = "left", width = settings.group_paddings, })
 local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰" }
 
 local spaces = {}
 
+
 for i = 1, 10, 1 do
     local space = sbar.add("space", "space." .. i, {
         space = i,
-        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.with_alpha(colors.blue, 0.4), y_offset = 0 },
-        icon = { string = superscript[i], highlight_color = colors.blue, color = colors.with_alpha(colors.blue, 0.4), font = "JetBrainsMono Nerd Font:Regular:15.0" },
+        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.dark.blue, color = colors.with_alpha(colors.dark.blue, 0.4), y_offset = 0 },
+        icon = { string = superscript[i], highlight_color = colors.dark.blue, color = colors.with_alpha(colors.dark.blue, 0.4), },
         background = {
             color = colors.transparent,
             border_color = colors.transparent,
@@ -58,6 +35,7 @@ for i = 1, 10, 1 do
         sbar.exec(yabai_path .. " -m query --windows --space " .. env.SID, function(windows)
             local window_cnt = #windows
 
+
             sbar.animate("tanh", 15, function()
                 space:set({
                     icon = { highlight = selected, },
@@ -76,14 +54,15 @@ local front_app = sbar.add("item", "front_app", {
     label = {
         font = {
             style = settings.font.style_map["Thin"],
-            size = 12.0,
+            -- size = 15.0,
         },
-        color = colors.blue
+        color = colors.dark.blue
     },
     updates = true,
     padding_left = 0,
     width = 150
 })
+
 
 local space_window_observer = sbar.add("item", {
     drawing = false,
@@ -111,7 +90,6 @@ front_app:subscribe("front_app_switched", function(env)
     front_app:set({ label = { string = env.INFO } })
 end)
 
-
 local space_names = {}
 for i = 1, 9 do
     table.insert(space_names, spaces[i].name)
@@ -120,10 +98,68 @@ table.insert(space_names, front_app.name)
 
 local bracket = sbar.add("bracket", "items.spaces.bracket", space_names, {
     background = {
-        color = colors.blue_bg,
+        color = colors.dark.blue_bg,
         border_width = 0,
     }
 })
+
+bracket:subscribe("apperace_change", function(env)
+    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
+        local dark, _, _ = theme:find("Dark")
+        if dark then
+            front_app:set({
+                label = {
+                    color = colors.dark.blue,
+                },
+
+            })
+            bracket:set({
+                background = {
+                    color = colors.dark.blue_bg
+                    -- color = colors.with_alpha(colors.dark.blue_bg, 0.4)
+                }
+            })
+
+            for index, space in ipairs(spaces) do
+                space:set({
+                    label = {
+                        highlight_color = colors.dark.blue,
+                        color = colors.with_alpha(colors.dark.blue, 0.4)
+
+                    },
+                    icon = {
+                        highlight_color = colors.dark.blue,
+                        color = colors.with_alpha(colors.dark.blue, 0.4),
+                    },
+                })
+            end
+        else
+            front_app:set({
+                label = {
+                    color = colors.light.white,
+                },
+            })
+            bracket:set({
+                background = {
+                    color = colors.light.grey_bg
+                    -- color = colors.with_alpha(colors.light.blue_bg, 0.4)
+                }
+            })
+            for index, space in ipairs(spaces) do
+                space:set({
+                    label = {
+                        highlight_color = colors.light.white,
+                        color = colors.with_alpha(colors.light.white, 0.6)
+                    },
+                    icon = {
+                        highlight_color = colors.light.white,
+                        color = colors.with_alpha(colors.light.white, 0.6),
+                    },
+                })
+            end
+        end
+    end)
+end)
 
 local spacer = sbar.add("item", "spacer.left.panel.inner", {
     icon = {
@@ -150,7 +186,7 @@ sbar.add("bracket", "items.left.panel", {
     spacer.name
 }, {
     background = {
-        color = colors.bar.bg,
+        color = colors.dark.bar.transparent,
         border_width = 0,
         height = 28,
         padding_left = 0,

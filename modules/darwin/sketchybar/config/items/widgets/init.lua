@@ -4,6 +4,32 @@ require("items.widgets.volume")
 
 local colors = require("colors")
 
+local function dump_table(t, indent)
+    indent = indent or 0
+    local padding = string.rep("  ", indent)
+
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            print(padding .. tostring(k) .. " = {")
+            dump_table(v, indent + 1)
+            print(padding .. "}")
+        else
+            print(padding .. tostring(k) .. " = " .. tostring(v))
+        end
+    end
+end
+local spacer2 = sbar.add("item", {
+    background =
+    {
+        color = colors.transparent,
+        border_width = 0
+
+    },
+    drawing = true,
+    updates = true,
+    width = 15,
+})
+
 local spacer = sbar.add("item", "spacer.right", {
     position = "right",
     icon = {
@@ -24,6 +50,16 @@ local spacer = sbar.add("item", "spacer.right", {
 })
 
 
+-- apperance:subscribe("apperace_change", function(env)
+--     sbar.exec("defaults read -g defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light"", function(theme)
+--         local dark, _, _ = theme:find("Dark")
+--         if dark then
+--             print("dark")
+--         else
+--             print("light")
+--         end
+--     end)
+-- end)
 
 local panel = sbar.add("bracket", "items.right.panel", {
     "widgets.calendar.bracket",
@@ -33,7 +69,7 @@ local panel = sbar.add("bracket", "items.right.panel", {
     spacer.name,
 }, {
     background = {
-        color = colors.bar.bg,
+        color = colors.dark.bar.transparent,
         border_width = 0,
         height = 28,
         padding_left = 0,

@@ -46,8 +46,8 @@ local function updateWindows(workspace_index, is_focused)
 
         sbar.animate("tanh", 10, function()
             workspaces[workspace_index]:set({
-                label = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.blue, color = colors.grey_bg, y_offset = -2 },
-                icon = { string = superscript[workspace_index], highlight_color = colors.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
+                label = { string = icon_line, font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.dark.blue, color = colors.dark.grey_bg, y_offset = -2 },
+                icon = { string = superscript[workspace_index], highlight_color = colors.dark.blue, font = "JetBrainsMono Nerd Font:Regular:15.0" },
                 padding_right = 2,
                 padding_left = 0,
             })
@@ -82,8 +82,8 @@ for workspace_index = 1, max_workspaces do
     local workspace = sbar.add("item", {
         label = {
             padding_right = 10,
-            color = colors.grey,
-            highlight_color = colors.blue,
+            color = colors.dark.grey,
+            highlight_color = colors.dark.blue,
             y_offset = 1,
         },
         padding_right = 1,
@@ -141,7 +141,7 @@ local front_app = sbar.add("item", "front_app", {
             style = settings.font.style_map["Thin"],
             size = 12.0,
         },
-        color = colors.blue
+        color = colors.dark.blue
     },
     updates = true,
 })
@@ -166,7 +166,7 @@ sbar.add("bracket", "items.spaces.bracket", {
     front_app.name,
 }, {
     background = {
-        color = colors.blue_bg,
+        color = colors.dark.blue_bg,
         border_width = 0
 
     }
