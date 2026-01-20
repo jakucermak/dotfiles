@@ -6,7 +6,7 @@ if [ -n "$WINDOW_ID" ]; then
     /opt/homebrew/bin/yabai -m window --focus "$WINDOW_ID"
 else
     # Window doesn't exist, create it
-    open -na Ghostty.app --args --window-width=148 --window-height=49 --title="mini" --command=/bin/zsh --quit-after-last-window-closed=true
+    open -na Ghostty.app --args --window-width=148 --window-height=49 --title="mini" --command=/bin/zsh --quit-after-last-window-closed=true --macos-titlebar-style=hidden
 
     # Wait for the window to be created with a timeout
     max_attempts=20

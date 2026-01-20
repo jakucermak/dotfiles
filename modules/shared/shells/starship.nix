@@ -39,20 +39,6 @@ in {
         style = "bold ${colors.magenta}";
         symbol = "";
       };
-      git_status = {
-        format = "([$all_status$ahead_behind]($style))";
-        conflicted = "🤮 ";
-        ahead = "👆 ";
-        behind = "👇 ";
-        diverged = "🚧 ";
-        up_to_date = "👍 ";
-        untracked = "🔍[($count)](${colors.blue}) ";
-        stashed = "📦 ";
-        modified = "💩[($count)](${colors.yellow}) ";
-        staged = "🚥[($count)](${colors.blue}) ";
-        renamed = "👅 ";
-        deleted = "🗑 [($count)](${colors.red}) ";
-      };
       golang = { format = "[─](${colors.blue}) [$symbol($version)]($style) "; };
       php = {
         format = "[─](${colors.blue}) [$symbol($version)]($style) ";

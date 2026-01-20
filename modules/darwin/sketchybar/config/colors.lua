@@ -4,12 +4,12 @@ return {
         white = 0xffFCFCFC,
         red = 0xffE65050,
         red_bg = 0xFFF07171,
-        green = 0xff6CBF43,
+        green = 0xff86B300,
         green_bg = 0xFF86B300,
         blue = 0xFF55B4D4,
         blue_bg = 0x26035BD6,
         yellow = 0xffF2AE49,
-        magenta = 0xffA37ACC,
+        magenta = 0xff9F40FF,
         magenta_bg = 0xFFA37ACC,
         grey = 0xff5C6166,
         grey_bg = 0xFF8A9199,
@@ -17,6 +17,11 @@ return {
         orange_bg = 0xFFE6BA7E,
         fg = 0xFF5C6166,
         fg_bg = 0x305C6166,
+
+        spaces = {
+            bg = 0xFF8A9199,
+            fg = 0xffFCFCFC,
+        },
 
         bar = {
             bg = 0xcc1F2531,
@@ -48,6 +53,11 @@ return {
         orange_bg = 0xFFE6B673,
         fg = 0xFFBFBDB6,
         fg_bg = 0x30BFBDB6,
+
+        spaces = {
+            bg = 0xFF131721,
+            fg = 0xFF59C2FF,
+        },
 
         bar = {
             bg = 0xcc1F2531,

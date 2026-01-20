@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ ... }: {
 
   xdg.configFile."ghostty/config".text = ''
     # Fonts
@@ -16,9 +16,6 @@
     background-opacity = 0.85
     background-blur-radius = 90
 
-    # Shell
-    command = ${pkgs.zellij}/bin/zellij attach --create main
-
     # Cursor
     cursor-style = block
     mouse-hide-while-typing = true
@@ -27,6 +24,7 @@
     window-padding-balance = true
     window-padding-color = extend
     window-padding-x = 10,10
+    window-padding-y = 0,0
 
     # macOS
     macos-titlebar-style = transparent
@@ -41,7 +39,6 @@
     keybind = cmd+left=text:\x01
     keybind = alt+left=esc:b
     keybind = alt+right=esc:f
-
   '';
 
   xdg.configFile."ghostty/themes/ayu_dark".text = ''

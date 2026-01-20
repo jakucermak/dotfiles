@@ -14,7 +14,7 @@
       git
       nil
       nixd
-      nixfmt-classic
+      nixfmt
       python313
       ripgrep-all
       rustup
@@ -24,12 +24,11 @@
       lsd
       btop
       age
+      socat
+      ansible-lint
+      ansible
     ];
 
-    # file.".config/zed" = {
-    #   source =
-    #     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/modules/shared/zed";
-    # };
     file = {
       ".config/zed/themes" = {
         source = config.lib.file.mkOutOfStoreSymlink

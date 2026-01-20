@@ -5,147 +5,179 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "icon_theme": {
+    "mode": "system",
+    "light": "Colored Zed Icons Theme Dark",
+    "dark": "Colored Zed Icons Theme Dark"
+  },
+  "tabs": {
+    "git_status": true,
+    "file_icons": false,
+    "close_position": "left",
+  },
+  "which_key": {
+    "enabled": true,
+  },
+  "use_system_window_tabs": true,
+  "status_bar": {
+    "active_encoding_button": "enabled",
+  },
+  "project_panel": {
+    "indent_size": 20.0,
+    "git_status": true,
+    "folder_icons": true,
+    "file_icons": true,
+  },
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "scroll_beyond_last_line": "vertical_scroll_margin",
   "ssh_connections": [
     {
-      "host": "hug5",
+      "host": "10.9.1.215",
+      "username": "root",
+      "args": [],
       "projects": [
         {
-          "paths": ["/root"]
+          "paths": ["/home/pi/src"],
         },
         {
-          "paths": ["~/bk_scripts"]
-        }
-      ]
+          "paths": ["/usr/local/lib/python3.13/dist-packages/sa_api"],
+        },
+      ],
     },
-    {
-      "host": "hug5",
-      "projects": [
-        {
-          "paths": ["~/bk-clone-db.sh"]
-        }
-      ]
-    }
   ],
+  "file_finder": {
+    "modal_max_width": "large",
+  },
+  "gutter": {
+    "folds": true,
+    "runnables": true,
+    "breakpoints": true,
+    "min_line_number_digits": 1,
+  },
+  "show_signature_help_after_edits": true,
+  "auto_signature_help": true,
+  "preview_tabs": {
+    "enable_preview_from_file_finder": true,
+  },
+  "title_bar": {
+    "show_menus": true,
+    "show_onboarding_banner": true,
+    "show_branch_icon": true,
+  },
   "bottom_dock_layout": "contained",
   "edit_predictions": {
     "mode": "subtle",
     "copilot": {
       "proxy": null,
-      "proxy_no_verify": null
+      "proxy_no_verify": null,
     },
-    "enabled_in_text_threads": false
+    "enabled_in_text_threads": false,
   },
-  "icon_theme": "Colored Zed Icons Theme Light",
   "outline_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "minimap": {
+    "max_width_columns": 60,
     "show": "always",
-    "thumb": "always"
+    "thumb": "always",
   },
   "features": {
-    "edit_prediction_provider": "none"
+    "edit_prediction_provider": "zed",
   },
   "cursor_blink": false,
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
-  "vertical_scroll_margin": 0,
+  "soft_wrap": "bounded",
+  "wrap_guides": [120],
+  "preferred_line_length": 120,
+  "vertical_scroll_margin": 20.0,
   "theme": {
     "mode": "system",
-    "light": "Ayu Light Flat (Blur)",
-    "dark": "Ayu Dark Flat (Blur)"
+    "light": "Ayu Light Flat",
+    "dark": "Ayu Dark Flat",
   },
-  "ui_font_size": 17,
-  "buffer_font_size": 15,
+  "ui_font_size": 18,
+  "buffer_font_size": 17,
   "inlay_hints": {
     "enabled": true,
     "show_type_hints": true,
     "show_parameter_hints": true,
-    "show_other_hints": true
+    "show_other_hints": true,
   },
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "tab_bar": {
-    "show": false
+    "show_tab_bar_buttons": false,
+    "show_nav_history_buttons": false,
+    "show": true,
   },
   "toolbar": {
-    "breadcrumbs": true,
-    "quick_actions": false
+    "selections_menu": false,
+    "code_actions": false,
+    "agent_review": false,
+    "breadcrumbs": false,
+    "quick_actions": false,
   },
   "show_whitespaces": "all",
 
   "language_models": {
     "openai": {
-      "version": "1",
-      "available_models": []
-    }
+      "available_models": [],
+    },
   },
   "agent": {
+    "always_allow_tool_actions": true,
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-opus-4-1-thinking",
+    },
     "default_profile": "write",
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-7-sonnet-latest"
+      "model": "claude-sonnet-4",
     },
-    "version": "2"
   },
   "terminal": {
     "dock": "left",
-    "font_family": "JetBrainsMono Nerd Font"
+    "font_family": "JetBrainsMono Nerd Font",
   },
   "vim_mode": true,
   "vim": {
-    "use_system_clipboard": "never"
+    "use_system_clipboard": "never",
   },
   "git": {
     "git_gutter": "tracked_files",
     "gutter_debounce": 1000,
     "inline_blame": {
       "enabled": true,
-      "show_hover": true
-    }
+    },
   },
-  "relative_line_numbers": true,
-  "jupyter": {
-    "kernel_selections": {
-      "python": "conda-env",
-      "typescript": "deno",
-      "javascript": "deno"
-    }
-  },
+  "relative_line_numbers": "enabled",
+
   "lsp": {
-    "ansible-language-server": {
-      "settings": {
-        "ansible": {
-          "path": "/etc/profiles/per-user/jakubcermak/bin/ansible"
-        },
-        "executionEnvironment": {
-          "enabled": false
-        },
-        "python": {
-          "interpreterPath": "python3"
-        },
-        "validation": {
-          "enabled": true,
-          "lint": {
-            "enabled": true,
-            "path": "ansible-lint"
-          }
-        }
-      }
+    "omnisharp": {
+      "binary": {
+        "path": "/Users/jakubcermak/Library/Application Support/Zed/extensions/work/csharp/omnisharp-osx-arm64-net6.0/OmniSharp",
+      },
     },
     "nixd": {
       "settings": {
         "diagnostic": {
-          "suppress": ["sema-extra-with"]
-        }
-      }
-    }
+          "suppress": ["sema-extra-with"],
+        },
+      },
+    },
   },
   "languages": {
     "Nix": {
-      "language_servers": ["nixd", "nil"]
-    }
+      "language_servers": ["nixd", "nil"],
+    },
+    "Python": {
+      "language_servers": ["ty"],
+    },
   },
   "file_types": {
     "Ansible": [
@@ -163,7 +195,7 @@
       "**/group_vars/**.yaml",
       "**playbook*.yaml",
       "**playbook*.yml",
-      "/Users/jakubcermak/HUG/ansible_playbooks/*.yml"
-    ]
-  }
+      "/Users/jakubcermak/HUG/ansible_playbooks/*.yml",
+    ],
+  },
 }

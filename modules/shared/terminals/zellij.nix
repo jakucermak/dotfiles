@@ -110,7 +110,7 @@ in {
                 }
                 SwitchToMode "normal"
             }
-            bind "Ctrl s" { SwitchToMode "normal"; }
+            bind "esc" { SwitchToMode "normal"; }
             bind "p" {
                 LaunchOrFocusPlugin "plugin-manager" {
                     floating true
@@ -118,12 +118,19 @@ in {
                 }
                 SwitchToMode "normal"
             }
-            bind "s" {
+            bind "m" {
                 LaunchOrFocusPlugin "session-manager" {
                     floating true
                     move_to_focused_tab true
                 }
                 SwitchToMode "normal"
+            }
+            bind "s" {
+                LaunchOrFocusPlugin "zellij:share" {
+                    floating true
+                    move_to_focused_tab true
+                };
+                SwitchToMode "Normal"
             }
         }
         shared_except "locked" {
@@ -142,7 +149,7 @@ in {
             bind "Ctrl m" { SwitchToMode "move"; }
         }
         shared_except "locked" "session" {
-            bind "Ctrl s" { SwitchToMode "session"; }
+            bind "Ctrl d" { SwitchToMode "session"; }
         }
         shared_except "locked" "scroll" {
             bind "Ctrl h" { MoveFocusOrTab "left"; }
@@ -219,6 +226,11 @@ in {
     }
     theme "ayu_dark"
     default_layout "default"
+    web_server false
+    web_server_ip "0.0.0.0"
+    web_server_port 443
+    web_server_cert "/Users/jakubcermak/.config/zellij/127.0.0.1+1.pem" // certificate
+    web_server_key "/Users/jakubcermak/.config/zellij/127.0.0.1+1-key.pem" // private key
     pane_frames false
     show_startup_tips false
     ui {

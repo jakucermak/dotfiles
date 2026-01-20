@@ -15,7 +15,6 @@
 
       # General aliases
       pip = "pip3";
-      rr = ". ${pkgs.ranger}/bin/ranger";
       ls = "lsd";
       py = "${pkgs.python3}/bin/python3";
       cat = "bat";
@@ -83,12 +82,6 @@
         fi
         unfunction gcloud
         command gcloud "$@"
-      }
-
-      # Set timeout for screen clearing
-      TMOUT=600
-      TRAPALRM() {
-          ghostty_animation
       }
 
       # Zellij tab title management - moved to a more efficient implementation
@@ -162,8 +155,7 @@
 
 
       function hugvnc() {
-        vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
-        vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
+        /Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
       }
     '';
 

@@ -36,15 +36,19 @@
     # };
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-
+    tmux-sessionx.url = "github:omerxx/tmux-sessionx";
   };
 
-  outputs = { nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core
-    , homebrew-cask, homebrew-bundle, alacritty-theme, zjstatus, ... }: {
+  outputs = inputs@{ nixpkgs, nix-darwin, home-manager, nix-homebrew
+    , homebrew-core, homebrew-cask, homebrew-bundle, alacritty-theme, zjstatus
+    , ... }: {
 
       darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = { wm = "yabai"; };
+        specialArgs = {
+          wm = "yabai";
+          inherit inputs;
+        };
         modules = [
           ./modules/darwin
           {
@@ -77,7 +81,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { wm = "yabai"; };
+              extraSpecialArgs = {
+                wm = "yabai";
+                inherit inputs;
+              };
               sharedModules = [{
                 home.username = "jakubcermak";
                 home.homeDirectory = "/Users/jakubcermak";
@@ -92,7 +99,10 @@
 
       darwinConfigurations."mcbp-work" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = { wm = "aerospace"; };
+        specialArgs = {
+          wm = "aerospace";
+          inherit inputs;
+        };
         modules = [
           ./modules/darwin
           {
@@ -120,7 +130,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { wm = "aerospace"; };
+              extraSpecialArgs = {
+                wm = "aerospace";
+                inherit inputs;
+              };
               sharedModules = [{
                 home.username = "jakubcermak";
                 home.homeDirectory = "/Users/jakubcermak";
@@ -145,6 +158,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = { inherit inputs; };
               sharedModules = [{
                 home.username = "jakubcermak";
                 home.homeDirectory = "/home/jakubcermak";

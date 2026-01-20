@@ -11,11 +11,19 @@ local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"
 local spaces = {}
 
 
+
+local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
+local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
+handle:close()
+local appearance = output
+
+
+
 for i = 1, 10, 1 do
     local space = sbar.add("space", "space." .. i, {
         space = i,
-        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors.dark.blue, color = colors.with_alpha(colors.dark.blue, 0.4), y_offset = 0 },
-        icon = { string = superscript[i], highlight_color = colors.dark.blue, color = colors.with_alpha(colors.dark.blue, 0.4), },
+        label = { string = "", font = "sketchybar-app-font:Regular:15.0", highlight_color = colors[appearance].spaces.fg, color = colors.with_alpha(colors[appearance].spaces.fg, 0.4), y_offset = 0 },
+        icon = { string = superscript[i], highlight_color = colors[appearance].spaces.fg, color = colors.with_alpha(colors[appearance].spaces.fg, 0.4), },
         background = {
             color = colors.transparent,
             border_color = colors.transparent,
@@ -56,7 +64,7 @@ local front_app = sbar.add("item", "front_app", {
             style = settings.font.style_map["Thin"],
             -- size = 15.0,
         },
-        color = colors.dark.blue
+        color = colors[appearance].spaces.fg
     },
     updates = true,
     padding_left = 0,
@@ -98,65 +106,38 @@ table.insert(space_names, front_app.name)
 
 local bracket = sbar.add("bracket", "items.spaces.bracket", space_names, {
     background = {
-        color = colors.dark.blue_bg,
+        color = colors[appearance].spaces.bg,
         border_width = 0,
     }
 })
 
 bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
-        local dark, _, _ = theme:find("Dark")
-        if dark then
-            front_app:set({
+        local appearance = theme:match("^%s*(.-)%s*$"):lower()
+
+        front_app:set({
+            label = {
+                color = colors[appearance].spaces.fg,
+            },
+
+        })
+        bracket:set({
+            background = {
+                color = colors[appearance].spaces.bg
+            }
+        })
+        for index, space in ipairs(spaces) do
+            space:set({
                 label = {
-                    color = colors.dark.blue,
+                    highlight_color = colors[appearance].spaces.fg,
+                    color = colors.with_alpha(colors[appearance].spaces.fg, 0.4)
+
                 },
-
-            })
-            bracket:set({
-                background = {
-                    color = colors.dark.blue_bg
-                    -- color = colors.with_alpha(colors.dark.blue_bg, 0.4)
-                }
-            })
-
-            for index, space in ipairs(spaces) do
-                space:set({
-                    label = {
-                        highlight_color = colors.dark.blue,
-                        color = colors.with_alpha(colors.dark.blue, 0.4)
-
-                    },
-                    icon = {
-                        highlight_color = colors.dark.blue,
-                        color = colors.with_alpha(colors.dark.blue, 0.4),
-                    },
-                })
-            end
-        else
-            front_app:set({
-                label = {
-                    color = colors.light.white,
+                icon = {
+                    highlight_color = colors[appearance].spaces.fg,
+                    color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
                 },
             })
-            bracket:set({
-                background = {
-                    color = colors.light.grey_bg
-                    -- color = colors.with_alpha(colors.light.blue_bg, 0.4)
-                }
-            })
-            for index, space in ipairs(spaces) do
-                space:set({
-                    label = {
-                        highlight_color = colors.light.white,
-                        color = colors.with_alpha(colors.light.white, 0.6)
-                    },
-                    icon = {
-                        highlight_color = colors.light.white,
-                        color = colors.with_alpha(colors.light.white, 0.6),
-                    },
-                })
-            end
         end
     end)
 end)

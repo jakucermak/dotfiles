@@ -1,6 +1,28 @@
 local colors = require("colors")
 local settings = require("settings")
 
+local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
+local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
+handle:close()
+local appearance = output
+
+local function colored_label(charging, label, found, charge, apperance, color, color_bg)
+    if charging then
+        label = label .. " ⚡"
+    end
+    if found and charge < 35 then
+        color = colors[apperance].orange
+        color_bg = colors.with_alpha(colors[apperance].orange_bg, 0.4)
+    elseif found and charge < 10 then
+        color = colors[apperance].red
+        color_bg = colors.with_alpha(colors[apperance].red_bg, 0.4)
+    else
+        color = colors[apperance].green
+        color_bg = colors.with_alpha(colors[apperance].green_bg, 0.4)
+    end
+
+    return label, color, color_bg
+end
 
 local battery = sbar.add("item", "widgets.battery", {
     position = "right",
@@ -28,13 +50,13 @@ battery_bracket:subscribe("apperace_change", function(env)
     battery_status()
 end)
 
-function battery_status(dark)
+function battery_status()
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
         sbar.exec("pmset -g batt", function(batt_info)
             local icon = "!"
             local label = "?"
-            local color = colors["dark"].green
-            local color_bg = colors.with_alpha(colors["dark"].green_bg, 0.4)
+            local color = colors[appearance].green
+            local color_bg = colors.with_alpha(colors[appearance].green_bg, 0.4)
 
             local found, _, charge = batt_info:find("(%d+)%%")
             if found then
@@ -43,16 +65,9 @@ function battery_status(dark)
             end
 
             local charging, _, _ = batt_info:find("AC Power")
-            local dark = theme:find("Dark")
-            if dark then
-                print("dark")
-                label, color, color_bg = colored_label(charging, label, found, charge, "dark", color, color_bg)
-            else
-                print("light")
-                label, color, color_bg = colored_label(charging, label, found, charge, "light", color, color_bg)
-            end
+            local appearance = theme:match("^%s*(.-)%s*$"):lower()
+            label, color, color_bg = colored_label(charging, label, found, charge, appearance, color, color_bg)
 
-            print(label, color, color_bg)
 
             local lead = ""
             if found and charge < 10 then
@@ -72,26 +87,8 @@ function battery_status(dark)
     end)
 end
 
-function colored_label(charging, label, found, charge, apperance, color, color_bg)
-    if charging then
-        label = label .. " ⚡"
-    end
-    if found and charge < 35 then
-        color = colors[apperance].orange
-        color_bg = colors.with_alpha(colors[apperance].orange_bg, 0.4)
-    elseif found and charge < 10 then
-        color = colors[apperance].red
-        color_bg = colors.with_alpha(colors[apperance].red_bg, 0.4)
-    else
-        color = colors[apperance].green
-        color_bg = colors.with_alpha(colors[apperance].green_bg, 0.4)
-    end
-
-    return label, color, color_bg
-end
-
 battery:subscribe({ "routine", "power_source_change", "system_woke" }, function()
-    battery_status("dark")
+    battery_status()
 end)
 
 local function battery_click(env)

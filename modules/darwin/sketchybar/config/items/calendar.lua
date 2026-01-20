@@ -1,7 +1,10 @@
 local settings = require("settings")
 local colors = require("colors")
 
--- Padding item required because of bracket
+local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
+local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
+handle:close()
+local appearance = output
 
 sbar.add("item", "spacer.calendar", {
     position = "right",
@@ -14,14 +17,14 @@ sbar.add("item", "spacer.calendar", {
 
 local cal = sbar.add("item", "widgets.calendar", {
     icon = {
-        color = colors.dark.orange,
+        color = colors[appearance].orange,
         font = {
             style = settings.font.style_map["Black"],
             size = 12.0,
         },
     },
     label = {
-        color = colors.dark.orange,
+        color = colors[appearance].orange,
         align = "left",
         font = { family = settings.font.numbers },
         width = 73,
@@ -36,33 +39,21 @@ local cal = sbar.add("item", "widgets.calendar", {
 })
 
 local bracket = sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
-    background = { color = colors.with_alpha(colors.dark.orange_bg, 0.4), border_width = 0 }
+    background = { color = colors.with_alpha(colors[appearance].orange_bg, 0.4), border_width = 0 }
 })
 
 bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
-        local dark, _, _ = theme:find("Dark")
-        if dark then
-            bracket:set({
-                background = {
-                    color = colors.with_alpha(colors.dark.orange_bg, 0.4)
-                }
-            })
-            cal:set({
-                icon = { color = colors.dark.orange },
-                label = { color = colors.dark.orange }
-            })
-        else
-            bracket:set({
-                background = {
-                    color = colors.with_alpha(colors.light.orange_bg, 0.4)
-                }
-            })
-            cal:set({
-                icon = { color = colors.light.orange },
-                label = { color = colors.light.orange }
-            })
-        end
+        local appearance = theme:match("^%s*(.-)%s*$"):lower()
+        bracket:set({
+            background = {
+                color = colors.with_alpha(colors[appearance].orange_bg, 0.4)
+            }
+        })
+        cal:set({
+            icon = { color = colors[appearance].orange },
+            label = { color = colors[appearance].orange }
+        })
     end)
 end)
 

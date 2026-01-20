@@ -2,6 +2,12 @@ local icons = require("icons")
 local colors = require("colors")
 local settings = require("settings")
 
+
+local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
+local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
+handle:close()
+local appearance = output
+
 -- Execute the event provider binary which provides the event "network_update"
 -- for the network interface "en0", which is fired every 2.0 seconds.
 sbar.exec(
@@ -42,7 +48,7 @@ local wifi_up = sbar.add("item", "widgets.wifi1", {
             style = settings.font.style_map["Bold"],
             size = 9.0,
         },
-        color = colors.dark.red,
+        color = colors[appearance].red,
         string = "??? Bps",
         width = 50,
     },
@@ -67,7 +73,7 @@ local wifi_down = sbar.add("item", "widgets.wifi2", {
             style = settings.font.style_map["Bold"],
             size = 9.0,
         },
-        color = colors.dark.blue,
+        color = (appearance == "dark") and colors[appearance].blue or colors[appearance].grey,
         string = "??? Bps",
         width = 50
     },
@@ -86,14 +92,14 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
     wifi_down.name
 }, {
     background = {
-        color = colors.with_alpha(colors.dark.magenta_bg, 0.4),
+        color = colors.with_alpha(colors[appearance].magenta_bg, 0.4),
         border_width = 0,
     },
     popup = {
         align = "center",
         height = 40,
         background = {
-            color = colors.with_alpha(colors.dark.magenta_bg, 0.19),
+            color = colors.with_alpha(colors[appearance].magenta_bg, 0.19),
             border_color = colors.transparent,
             border_width = 0,
             height = 40,
@@ -103,37 +109,34 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
 
 wifi_bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
-        local dark, _, _ = theme:find("Dark")
-        if dark then
-            wifi_bracket:set({
-                background = {
-                    color = colors.with_alpha(colors.dark.magenta_bg, 0.4)
-                }
-            })
-            wifi:set({
-                label = {
-                    color = colors.dark.magenta
-                }
-            })
-        else
-            wifi_bracket:set({
-                background = {
-                    color = colors.with_alpha(colors.light.magenta_bg, 0.4)
-                }
-            })
-            wifi:set({
-                label = {
-                    color = colors.light.magenta
-                }
-            })
-        end
+        appearance = theme:match("^%s*(.-)%s*$"):lower()
+        wifi_bracket:set({
+            background = {
+                color = colors.with_alpha(colors[appearance].magenta_bg, 0.4)
+            }
+        })
+        wifi:set({
+            label = {
+                color = colors[appearance].magenta
+            }
+        })
+        wifi_up:set({
+            label = {
+                color = colors[appearance].red,
+            }
+        })
+        wifi_down:set({
+            label = {
+                color = (appearance == "dark") and colors[appearance].blue or colors[appearance].grey,
+            }
+        })
     end)
 end)
 
 sbar.add("alias", "WireGuard", {
     position = "popup." .. wifi_bracket.name,
     alias = {
-        color = colors.dark.magenta,
+        color = colors[appearance].magenta,
     },
     label = {
         string = "wg0 - 10.9.x.x"
@@ -154,7 +157,7 @@ sbar.add("alias", "WireGuard", {
 sbar.add("alias", "OpenVPN Connect", {
     position = "popup." .. wifi_bracket.name,
     alias = {
-        color = colors.dark.magenta,
+        color = colors[appearance].magenta,
     },
     label = {
         string = "ovpn - 10.8.x.x"
@@ -174,8 +177,8 @@ sbar.add("alias", "OpenVPN Connect", {
 sbar.add("item", { position = "right", width = settings.group_paddings })
 
 wifi_up:subscribe("network_update", function(env)
-    local up_color = (env.upload == "000 Bps") and colors.dark.grey or colors.dark.red
-    local down_color = (env.download == "000 Bps") and colors.dark.grey or colors.dark.blue
+    local up_color = (env.upload == "000 Bps") and colors[appearance].grey or colors[appearance].red
+    local down_color = (env.download == "000 Bps") and colors[appearance].grey or colors[appearance].blue
     wifi_up:set({
         icon = { color = up_color },
         label = {
@@ -194,7 +197,7 @@ end)
 
 wifi:subscribe({ "wifi_change", "system_woke" }, function(env)
     sbar.exec("ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}'", function(result)
-        wifi:set({ label = { string = "W ⋮ " .. result, color = colors.dark.magenta } })
+        wifi:set({ label = { string = "W ⋮ " .. result, color = colors[appearance].magenta } })
     end)
 end)
 
@@ -219,12 +222,3 @@ wifi_up:subscribe("mouse.clicked", toggle_details)
 wifi_down:subscribe("mouse.clicked", toggle_details)
 wifi:subscribe("mouse.clicked", toggle_details)
 wifi:subscribe("mouse.exited.global", hide_details)
-
-local function copy_label_to_clipboard(env)
-    local label = sbar.query(env.NAME).label.value
-    sbar.exec("echo \"" .. label .. "\" | pbcopy")
-    sbar.set(env.NAME, { label = { string = icons.clipboard, align = "center" } })
-    sbar.delay(1, function()
-        sbar.set(env.NAME, { label = { string = label, align = "right" } })
-    end)
-end

@@ -4,7 +4,7 @@
   nixpkgs.config.allowUnfree = true;
   imports = [ ./borders ];
 
-  environment.systemPackages = [ pkgs.home-manager pkgs.raycast pkgs.slack ];
+  environment.systemPackages = [ pkgs.home-manager ];
 
   homebrew = {
     enable = true;
@@ -19,7 +19,6 @@
       "nowplaying-cli"
       "pyenv"
       "dpkg"
-      "ansible@9"
       { name = "FelixKratz/formulae/sketchybar"; }
       { name = "jesseduffield/lazygit/lazygit"; }
     ];
@@ -35,6 +34,7 @@
       "font-sf-pro"
       "twingate"
       "chromium"
+      "macfuse"
     ];
     masApps = {
       # "Spark" = 6445813049;
@@ -61,9 +61,7 @@
       minimize-to-application = true;
       expose-group-apps = true;
       persistent-apps = [
-        "/Applications/SigmaOS.app"
         "/Applications/Safari.app"
-        "${pkgs.slack}/Applications/Slack.app"
         "/System/Applications/Messages.app"
         "/Applications/Ghostty.app"
         "/Applications/Zed Preview.app"

@@ -8,7 +8,8 @@
   {
     "context": "vim_mode == normal",
     "bindings": {
-      "space n t": "project_panel::ToggleFocus"
+      "space n t": "project_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle"
     }
   },
   {
