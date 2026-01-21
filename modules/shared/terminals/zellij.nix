@@ -11,7 +11,8 @@ let
     d_blue = "#062b37";
     magenta = "#D2A6FF";
   };
-in {
+in
+{
 
   xdg.configFile."zellij/config.kdl".text = ''
 
@@ -240,13 +241,8 @@ in {
     }
     default_mode "normal"
     plugins {
-     autolock location="https://github.com/fresh2dev/zellij-autolock/releases/download/0.2.2/zellij-autolock.wasm"
-     triggers  "nvim|vim|vi"
-     watch_triggers  "atuin|zoxide|atac"
-     watch_interval  1.0
     }
     load_plugins {
-        autolock
     }
 
   '';
