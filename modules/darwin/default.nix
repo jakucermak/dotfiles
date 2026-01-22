@@ -66,7 +66,10 @@
         "/Applications/Ghostty.app"
         "/Applications/Zed Preview.app"
       ];
-      persistent-others = [ "/Users/jakubcermak/Downloads" "/Applications" ];
+      persistent-others = [
+        "/Users/jakubcermak/Downloads"
+        "/Applications"
+      ];
       mru-spaces = false;
     };
     finder = {

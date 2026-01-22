@@ -8,7 +8,7 @@
   "icon_theme": {
     "mode": "system",
     "light": "Colored Zed Icons Theme Dark",
-    "dark": "Colored Zed Icons Theme Dark"
+    "dark": "Colored Zed Icons Theme Dark",
   },
   "tabs": {
     "git_status": true,
@@ -32,21 +32,6 @@
     "trust_all_worktrees": true,
   },
   "scroll_beyond_last_line": "vertical_scroll_margin",
-  "ssh_connections": [
-    {
-      "host": "10.9.1.215",
-      "username": "root",
-      "args": [],
-      "projects": [
-        {
-          "paths": ["/home/pi/src"],
-        },
-        {
-          "paths": ["/usr/local/lib/python3.13/dist-packages/sa_api"],
-        },
-      ],
-    },
-  ],
   "file_finder": {
     "modal_max_width": "large",
   },

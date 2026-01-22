@@ -39,9 +39,20 @@
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
   };
 
-  outputs = inputs@{ nixpkgs, nix-darwin, home-manager, nix-homebrew
-    , homebrew-core, homebrew-cask, homebrew-bundle, alacritty-theme, zjstatus
-    , ... }: {
+  outputs =
+    inputs@{
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+      homebrew-bundle,
+      alacritty-theme,
+      zjstatus,
+      ...
+    }:
+    {
 
       darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -85,13 +96,17 @@
                 wm = "yabai";
                 inherit inputs;
               };
-              sharedModules = [{
-                home.username = "jakubcermak";
-                home.homeDirectory = "/Users/jakubcermak";
-              }];
-              users.jakubcermak = { ... }: {
-                imports = [ ./modules/darwin/home.nix ];
-              };
+              sharedModules = [
+                {
+                  home.username = "jakubcermak";
+                  home.homeDirectory = "/Users/jakubcermak";
+                }
+              ];
+              users.jakubcermak =
+                { ... }:
+                {
+                  imports = [ ./modules/darwin/home.nix ];
+                };
             };
           }
         ];
@@ -134,10 +149,12 @@
                 wm = "aerospace";
                 inherit inputs;
               };
-              sharedModules = [{
-                home.username = "jakubcermak";
-                home.homeDirectory = "/Users/jakubcermak";
-              }];
+              sharedModules = [
+                {
+                  home.username = "jakubcermak";
+                  home.homeDirectory = "/Users/jakubcermak";
+                }
+              ];
               users.jakubcermak = import ./modules/darwin/home.nix;
             };
           }
@@ -159,10 +176,12 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
-              sharedModules = [{
-                home.username = "jakubcermak";
-                home.homeDirectory = "/home/jakubcermak";
-              }];
+              sharedModules = [
+                {
+                  home.username = "jakubcermak";
+                  home.homeDirectory = "/home/jakubcermak";
+                }
+              ];
               users.jakubcermak = import ./modules/nixos/home.nix;
             };
           }
