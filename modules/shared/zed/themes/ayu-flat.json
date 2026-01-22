@@ -6,7 +6,7 @@
       "name": "Ayu Dark Flat",
       "appearance": "dark",
       "style": {
-        "surface.background": "#FF0000FF",
+        "surface.background": "#0F131A",
         "title_bar.inactive_background": "#1f2127ff",
         "editor.hover_line_number": "#a1a2a5",
         "background": "#0D1017",
