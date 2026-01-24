@@ -10,14 +10,9 @@ local superscript = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"
 
 local spaces = {}
 
-
-
 local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
-local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
-handle:close()
+local output = handle and handle:read("*a"):match("^%s*(.-)%s*$"):lower() or "light"
 local appearance = output
-
-
 
 for i = 1, 10, 1 do
     local space = sbar.add("space", "space." .. i, {

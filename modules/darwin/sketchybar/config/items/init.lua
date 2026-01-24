@@ -1,5 +1,5 @@
 -- if os.getenv("WM") == "yabai" then
-require("items.spaces")
+require("items.rift")
 -- else
 --     require("items.aerospace")
 -- end

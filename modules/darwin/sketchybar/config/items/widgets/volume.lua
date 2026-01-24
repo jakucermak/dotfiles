@@ -2,8 +2,7 @@ local colors = require("colors")
 local settings = require("settings")
 
 local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
-local output = handle:read("*a"):match("^%s*(.-)%s*$"):lower()
-handle:close()
+local output = handle and handle:read("*a"):match("^%s*(.-)%s*$"):lower() or "light"
 local appearance = output
 
 local popup_width = 250
