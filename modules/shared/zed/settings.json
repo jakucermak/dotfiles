@@ -99,7 +99,7 @@
   "vertical_scroll_margin": 20.0,
   "theme": {
     "mode": "system",
-    "light": "Ayu Light",
+    "light": "Ayu Light Flat",
     "dark": "Ayu Dark Flat",
   },
   "ui_font_size": 18,
