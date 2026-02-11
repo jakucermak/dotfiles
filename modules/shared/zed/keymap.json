@@ -1,5 +1,24 @@
 [
   {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space n t": [
+        "workspace::SendKeystrokes",
+        "cmd-b"
+      ],
+    }
+  },
+  {
+    "context": "Workspace && vim_mode == normal",
+    "bindings": {
+      "space n t": [
+        "workspace::SendKeystrokes",
+        "cmd-b cmd-shift-e"
+      ],
+      "space f f": "file_finder::Toggle"
+    }
+  },
+  {
     "bindings": {
       "ctrl-k": "menu::SelectPrevious",
       "ctrl-j": "menu::SelectNext"

@@ -5,6 +5,24 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "git_panel": {
+    "tree_view": false
+  },
+  "prettier": {
+    "allowed": false
+  },
+  "ssh_connections": [
+    {
+      "host": "him-edge-dev",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "him-edge-dev.local",
+      "args": [],
+      "projects": []
+    }
+  ],
   "icon_theme": {
     "mode": "system",
     "light": "Colored Zed Icons Theme Dark",
@@ -53,6 +71,7 @@
   },
   "bottom_dock_layout": "contained",
   "edit_predictions": {
+    "provider": "zed",
     "mode": "subtle",
     "copilot": {
       "proxy": null,
@@ -68,20 +87,19 @@
     "show": "always",
     "thumb": "always",
   },
-  "features": {
-    "edit_prediction_provider": "zed",
-  },
   "cursor_blink": false,
   "scrollbar": {
     "show": "never",
   },
   "soft_wrap": "bounded",
-  "wrap_guides": [120],
+  "wrap_guides": [
+    120
+  ],
   "preferred_line_length": 120,
   "vertical_scroll_margin": 20.0,
   "theme": {
     "mode": "system",
-    "light": "Ayu Light Flat",
+    "light": "Ayu Light",
     "dark": "Ayu Dark Flat",
   },
   "ui_font_size": 18,
@@ -107,7 +125,6 @@
     "quick_actions": false,
   },
   "show_whitespaces": "all",
-
   "language_models": {
     "openai": {
       "available_models": [],
@@ -117,12 +134,12 @@
     "always_allow_tool_actions": true,
     "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-opus-4-1-thinking",
+      "model": "claude-opus-4-6-thinking",
     },
     "default_profile": "write",
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-sonnet-4",
+      "model": "claude-opus-4-6-thinking",
     },
   },
   "terminal": {
@@ -141,28 +158,31 @@
     },
   },
   "relative_line_numbers": "enabled",
-
+  // "semantic_tokens": "combined",
   "lsp": {
-    "omnisharp": {
-      "binary": {
-        "path": "/Users/jakubcermak/Library/Application Support/Zed/extensions/work/csharp/omnisharp-osx-arm64-net6.0/OmniSharp",
-      },
-    },
     "nixd": {
       "settings": {
         "diagnostic": {
-          "suppress": ["sema-extra-with"],
+          "suppress": [
+            "sema-extra-with"
+          ],
         },
       },
     },
   },
   "languages": {
     "Nix": {
-      "language_servers": ["nixd", "nil"],
+      "language_servers": [
+        "nixd",
+        "nil"
+      ],
     },
     "Python": {
-      "language_servers": ["ty"],
-    },
+      "language_servers": [
+        "basedpyright",
+        "activitywatch"
+      ]
+    }
   },
   "file_types": {
     "Ansible": [

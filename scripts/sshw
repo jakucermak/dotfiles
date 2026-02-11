@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -u
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $(basename "$0") [ssh args...]" >&2
+  exit 2
+fi
+
+while :; do
+  # během běhu ssh nech Ctrl-C fungovat normálně
+  trap - INT
+  ssh "$@"
+  rc=$?
+
+  echo
+  echo "ssh ended (exit code $rc). Press Enter to reconnect. (Close terminal to stop.)"
+
+  # při čekání na Enter ignoruj Ctrl-C
+  trap '' INT
+  while ! IFS= read -r _; do :; done
+done

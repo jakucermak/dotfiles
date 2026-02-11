@@ -3,9 +3,9 @@ local settings = require("settings")
 local app_icons = require("helpers.app_icons")
 
 -- Chinese numerals for space icons (matching the bash script)
-local space_icons = { "WEB⋮", "EDIT⋮", "TERM⋮", "Comm⋮" }
+local space_icons = { "WEB", "EDIT", "TERM", "COMM", "", "", "" }
+local spaces_idx = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "⁰" }
 local max_spaces = #space_icons
-
 local spaces = {}
 
 local function print_table(t, indent)
@@ -47,7 +47,7 @@ local function updateWorkspaceWindows(workspace_index)
                 local app_name = window.title or window.bundle_id or "Unknown"
                 local lookup = app_icons[window.bundle_id] or app_icons[app_name]
                 local icon = ((lookup == nil) and app_icons["Default"] or lookup)
-                icon_line = icon_line .. " " .. icon
+                icon_line = icon_line .. icon .. " "
             end
         end
 
@@ -61,9 +61,16 @@ local function updateWorkspaceWindows(workspace_index)
                         highlight_color = colors[appearance].spaces.fg,
                         color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
                     },
-                    drawing = not no_app or (workspace and workspace.is_active)
                 })
             end)
+            space:set({
+                icon = {
+                    string = (space_icons[workspace_index] == "") and
+                        spaces_idx[workspace_index] .. space_icons[workspace_index] or space_icons[workspace_index],
+                    width = (not no_app) and "dynamic" or 0
+                },
+                drawing = not no_app
+            })
         end
     end)
 end
@@ -101,7 +108,7 @@ local function updateActiveWorkspace()
                 sbar.animate("tanh", 10, function()
                     space:set({
                         icon = { highlight = is_active },
-                        label = { highlight = is_active }
+                        label = { highlight = is_active },
                     })
                 end)
             end
@@ -117,13 +124,18 @@ for i = 1, max_spaces do
             font = "sketchybar-app-font:Regular:15.0",
             highlight_color = colors[appearance].spaces.fg,
             color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
-            y_offset = -2
+            y_offset = -2,
+            width = 0
         },
         icon = {
             string = space_icons[i],
             highlight_color = colors[appearance].spaces.fg,
             color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
-            font = "JetBrainsMono Nerd Font:Regular:15.0"
+            font = {
+                style = settings.font.style_map["Regular"],
+                size = 15.0
+            },
+            width = 0
         },
         background = {
             color = colors.transparent,
@@ -159,23 +171,103 @@ rift_observer:subscribe("rift_windows_changed", function(env)
     end
 end)
 
+local hs_observer = sbar.add("item", {
+    drawing = false,
+    updates = true
+})
+
+local function hs_handle(space, armed)
+    local space_id = tonumber(space:query().name:match("([^%.]+)$"))
+    local no_app = space:query().label.value == ""
+
+    if armed == "0" then
+        space:set({
+            icon = {
+                string = (space_icons[space_id] == "") and
+                    spaces_idx[space_id] or space_icons[space_id],
+                width = no_app and 0 or "dynamic"
+            },
+            label = {
+                string = space:query().label.value:match("^%s*(.-)%s*$") or "",
+                width = 0
+            },
+        })
+    else
+        space:set({
+            icon = {
+                string = spaces_idx[space_id] .. space_icons[space_id] .. " ⋮ ",
+                width = "dynamic"
+            },
+            label = {
+                string = " " .. space:query().label.value,
+                width = "dynamic"
+            },
+        })
+    end
+end
+
+hs_observer:subscribe("opt_hold", function(env)
+    local armed = env.ARMED
+    sbar.animate("tanh", 10, function()
+        for _, space in ipairs(spaces) do
+            hs_handle(space, armed)
+        end
+    end)
+end)
+
+sbar.add("item", {
+    position = "q",
+    background =
+    {
+        color = colors.transparent,
+        border_width = 0
+
+    },
+    drawing = true,
+    updates = true,
+    width = 15,
+})
+
+
 -- Front app display
 local front_app = sbar.add("item", "front_app", {
+    position = "q",
     display = "active",
     icon = { drawing = false },
     label = {
         font = {
-            style = settings.font.style_map["Thin"],
+            style = settings.font.style_map["Black"],
         },
-        color = colors[appearance].spaces.fg
+        color = colors[appearance].orange
     },
     updates = true,
-    padding_left = 0,
-    width = 150
+    width = "dynamic",
+    background = {
+        color = colors.transparent,
+        border_width = 0,
+        padding_right = 13,
+        padding_left = 13
+
+    },
 })
 
+local front_app_bracket = sbar.add("bracket", "front_app.bracket", {
+    front_app.name,
+}, {
+    background = {
+        color = colors.with_alpha(colors[appearance].orange_bg, 0.4),
+        padding_left = 0,
+        padding_right = 0,
+        border_width = 0
+    },
+    width = "dynamic"
+})
+
+
 front_app:subscribe("front_app_switched", function(env)
-    front_app:set({ label = { string = env.INFO } })
+    sbar.animate("tanh", 10, function()
+        front_app:set({ label = { string = env.INFO } })
+    end)
 end)
 
 -- Create bracket with all spaces
@@ -183,7 +275,6 @@ local space_names = {}
 for i = 1, max_spaces do
     table.insert(space_names, spaces[i].name)
 end
-table.insert(space_names, front_app.name)
 
 local bracket = sbar.add("bracket", "items.spaces.bracket", space_names, {
     background = {
@@ -200,7 +291,7 @@ bracket:subscribe("apperace_change", function(env)
 
         front_app:set({
             label = {
-                color = colors[appearance].spaces.fg,
+                color = colors[appearance].orange,
             },
         })
 
@@ -244,8 +335,10 @@ local spacer = sbar.add("item", "spacer.left.panel.inner", {
     width = 15,
 })
 
+
 -- Main panel bracket
 sbar.add("bracket", "items.left.panel", {
+    front_app_bracket.name,
     bracket.name,
     spacer.name
 }, {
@@ -258,6 +351,7 @@ sbar.add("bracket", "items.left.panel", {
         corner_radius = 5,
     },
 })
+
 
 -- Initial setup
 updateActiveWorkspace()

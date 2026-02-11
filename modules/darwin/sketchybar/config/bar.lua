@@ -7,5 +7,7 @@ sbar.bar({
     padding_right = 10,
     padding_left = 10,
     blur_radius = 10,
-    shadow = true
+    shadow = true,
+    notch_width = 220,
+    notch_offset = 0
 })
