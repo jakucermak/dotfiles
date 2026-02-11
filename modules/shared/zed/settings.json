@@ -5,6 +5,8 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "use_system_prompts": false,
+  "use_system_path_prompts": false,
   "git_panel": {
     "tree_view": false
   },
@@ -55,8 +57,8 @@
   },
   "gutter": {
     "folds": true,
-    "runnables": true,
-    "breakpoints": true,
+    "runnables": false,
+    "breakpoints": false,
     "min_line_number_digits": 1,
   },
   "show_signature_help_after_edits": true,
@@ -89,6 +91,8 @@
   },
   "cursor_blink": false,
   "scrollbar": {
+    "selected_symbol": false,
+    "selected_text": false,
     "show": "never",
   },
   "soft_wrap": "bounded",
@@ -115,14 +119,14 @@
   "tab_bar": {
     "show_tab_bar_buttons": false,
     "show_nav_history_buttons": false,
-    "show": true,
+    "show": false,
   },
   "toolbar": {
     "selections_menu": false,
     "code_actions": false,
     "agent_review": false,
-    "breadcrumbs": false,
-    "quick_actions": false,
+    "breadcrumbs": true,
+    "quick_actions": true,
   },
   "show_whitespaces": "all",
   "language_models": {
