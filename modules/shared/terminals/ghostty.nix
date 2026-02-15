@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
 
   xdg.configFile."ghostty/config".text = ''
     # Fonts
@@ -42,46 +43,46 @@
   '';
 
   xdg.configFile."ghostty/themes/ayu_dark".text = ''
-    palette = 0=#51576d
-    palette = 1=#F07178
-    palette = 2=#AAD94C
-    palette = 3=#FFB454
-    palette = 4=#59C2FF
-    palette = 5=#D2A6FF
-    palette = 6=#81c8be
-    palette = 7=#BFBDB6
-    palette = 8=#626880
-    palette = 9=#D95757
-    palette = 10=#8ec772
-    palette = 11=#E6B450
-    palette = 12=#7b9ef0
-    palette = 13=#f2a4db
-    palette = 14=#5abfb5
-    palette = 15=#b5bfe2
-    background =#0D1017
+    palette = 0=#5A6673
+    palette = 1=#E6495A
+    palette = 2=#97C142
+    palette = 3=#E89D37
+    palette = 4=#17ACF2
+    palette = 5=#C385FE
+    palette = 6=#84CEB5
+    palette = 7=#FFFFFF
+    palette = 8=#0A0000
+    palette = 9=#F07178
+    palette = 10=#AAD94C
+    palette = 11=#FFB454
+    palette = 12=#59C2FF
+    palette = 13=#D2A6FF
+    palette = 14=#95E6CB
+    palette = 15=#FFFFFF
+    background =#10141C
     foreground =#BFBDB6
     cursor-color =#E6B450
   '';
 
   xdg.configFile."ghostty/themes/ayu_light_c".text = ''
-    palette = 0=#5C6166
+    palette = 0=#ADAEB1
     palette = 1=#F07171
     palette = 2=#86B300
-    palette = 3=#F2AE49
-    palette = 4=#55B4D4
+    palette = 3=#EBA400
+    palette = 4=#22A4E6
     palette = 5=#A37ACC
-    palette = 6=#81c8be
-    palette = 7=#BFBDB6
-    palette = 8=#8A9199
-    palette = 9=#D95757
-    palette = 10=#6CBF43
-    palette = 11=#FA8D3E
-    palette = 12=#7b9ef0
-    palette = 13=#f2a4db
-    palette = 14=#5abfb5
-    palette = 15=#b5bfe2
-    background =#F8F9FA
+    palette = 6=#4CBF99
+    palette = 7=#ADAEB1
+    palette = 8=#939498
+    palette = 9=#F07171
+    palette = 10=#86B300
+    palette = 11=#EBA400
+    palette = 12=#22A4E6
+    palette = 13=#A37ACC
+    palette = 14=#4CBF99
+    palette = 15=#C5C5C8
+    background =#FCFCFC
     foreground =#5C6166
-    cursor-color =#FFAA33
+    cursor-color =#F29718
   '';
 }
