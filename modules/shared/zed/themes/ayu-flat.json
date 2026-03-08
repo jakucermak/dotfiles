@@ -392,11 +392,11 @@
             "font_weight": null
           }
         },
-        "panel.overlay_background": "#ececedff",
-        "panel.overlay_hover": "#47526640",
-        "minimap.thumb.background": "#5c61664c",
-        "minimap.thumb.hover_background": "#dfe0e1ff",
-        "minimap.thumb.border": "#dfe0e1ff",
+        "panel.overlay_background": "#10141C",
+        "panel.overlay_hover": "#1E242F",
+        "minimap.thumb.background": "#4752661A",
+        "minimap.thumb.hover_background": "#47526640",
+        "minimap.thumb.border": "#00000000",
         "version_control.renamed": "#3b9ee5ff",
         "version_control.conflict": "#f1ad49ff",
         "editor.indent_guide": "#E6B45000"
@@ -794,7 +794,7 @@
         "panel.overlay_background": "#ececedff",
         "panel.overlay_hover": "#dcdddeff",
         "minimap.thumb.background": "#5c61664c",
-        "minimap.thumb.hover_background": "#dfe0e1ff",
+        "minimap.thumb.hover_background": "#dfe0e100",
         "minimap.thumb.border": "#dfe0e1ff",
         "version_control.renamed": "#3b9ee5ff",
         "version_control.conflict": "#f1ad49ff",
