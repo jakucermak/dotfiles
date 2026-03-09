@@ -259,6 +259,89 @@ sbar.add("item", "widgets.ccu.spacer_2", {
         color = colors[appearance].grey,
         font = {
             family = settings.font.numbers,
+            size = 1.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+-- ── Section: Extra Usage ──────────────────────────────────────────────
+
+local extra_label = sbar.add("item", "widgets.ccu.extra_label", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = "Extra Usage",
+        color = colors[appearance].green,
+        width = popup_width / 2,
+        font = {
+            family = settings.font.text,
+            style = settings.font.style_map["Bold"],
+            size = 18.0,
+        },
+    },
+    label = {
+        string = "--%",
+        color = colors[appearance].green,
+        align = "right",
+        width = popup_width / 2,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local extra_bar = sbar.add("item", "widgets.ccu.extra_bar", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = " ",
+        width = 0,
+        padding_left = 0,
+        padding_right = 0,
+        background = {
+            color = colors[appearance].green,
+            height = bar_height,
+            corner_radius = 2,
+        },
+    },
+    label = { drawing = false },
+    background = {
+        color = colors.with_alpha(colors[appearance].green, 0.2),
+        height = bar_height,
+        corner_radius = 2,
+        border_width = 0,
+        padding_left = popup_padding,
+        padding_right = popup_padding,
+    },
+})
+
+local extra_info = sbar.add("item", "widgets.ccu.extra_info", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+sbar.add("item", "widgets.ccu.spacer_3", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
             size = 10.0,
         },
     },
@@ -301,12 +384,14 @@ local function get_claude_usage(callback)
     sbar.exec(cmd, function(result)
         local fh = type(result) == "table" and result.five_hour or nil
         local sd = type(result) == "table" and result.seven_day or nil
-        print("CCU: " .. tostring(result))
+        local eu = type(result) == "table" and result.extra_usage or nil
+
         callback({
             five_hour        = fh and tonumber(fh.utilization),
             weekly           = sd and tonumber(sd.utilization),
             resets_at        = fh and fh.resets_at,
             weekly_resets_at = sd and sd.resets_at,
+            extra_usage      = eu,
         })
     end)
 end
@@ -387,6 +472,20 @@ local function ccu_toggle(env)
             set_bar_percent(weekly_label, weekly_bar, result.weekly)
         end
         weekly_reset:set({ label = { string = "Resets: " .. (result.weekly_resets_at and format_datetime(result.weekly_resets_at) or "---") } })
+
+        local eu = result.extra_usage
+        if eu and eu.is_enabled then
+            local pct = eu.utilization and tonumber(eu.utilization) or 0
+            set_bar_percent(extra_label, extra_bar, pct)
+            extra_bar:set({ background = { drawing = true }, icon = { drawing = true } })
+            local used = eu.used_credits or "?"
+            local limit = eu.monthly_limit or "?"
+            extra_info:set({ label = { string = "Used: $" .. tostring(used) .. " / $" .. tostring(limit) } })
+        else
+            extra_label:set({ label = { string = "Disabled" } })
+            extra_bar:set({ background = { drawing = false }, icon = { drawing = false } })
+            extra_info:set({ label = { string = "" } })
+        end
     end)
 end
 
