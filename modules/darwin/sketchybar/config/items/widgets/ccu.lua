@@ -333,25 +333,41 @@ local extra_info = sbar.add("item", "widgets.ccu.extra_info", {
     background = popup_item_props.background,
 })
 
-sbar.add("item", "widgets.ccu.spacer_3", {
+-- sbar.add("item", "widgets.ccu.spacer_3", {
+--     position = "popup." .. ccu_bracket.name,
+--     width = popup_width,
+--     icon = { drawing = false },
+--     label = {
+--         string = "",
+--         color = colors[appearance].grey,
+--         font = {
+--             family = settings.font.numbers,
+--             size = 10.0,
+--         },
+--     },
+--     background = popup_item_props.background,
+-- })
+
+sbar.add("item", "widgets.ccu.link", {
     position = "popup." .. ccu_bracket.name,
     width = popup_width,
     icon = { drawing = false },
     label = {
-        string = "",
+        string = "open Anthropic usage page ",
         color = colors[appearance].grey,
         font = {
             family = settings.font.numbers,
             size = 10.0,
         },
     },
+    align = "right",
     background = popup_item_props.background,
+    click_script = "open https://claude.ai/settings/usage"
 })
-
 
 -- ── Toggle / Collapse ─────────────────────────────────────────────────
 
-local session_key_file = "/Users/jakubcermak/.config/claude-session-key"
+local session_key_file = os.getenv("HOME") .. "/.config/claude-session-key"
 
 local function read_session_key()
     local f = io.open(session_key_file, "r")

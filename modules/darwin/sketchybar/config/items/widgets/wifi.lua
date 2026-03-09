@@ -196,7 +196,7 @@ wifi_up:subscribe("network_update", function(env)
 end)
 
 wifi:subscribe({ "wifi_change", "system_woke" }, function(env)
-    sbar.exec("ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}'", function(result)
+    sbar.exec("~/Applications/wifi-unredactor.app/Contents/MacOS/wifi-unredactor | jq -r '.ssid'", function(result)
         wifi:set({ label = { string = "W ⋮ " .. result, color = colors[appearance].magenta } })
     end)
 end)
