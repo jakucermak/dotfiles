@@ -1,6 +1,7 @@
 require("items.widgets.wifi")
 require("items.widgets.batterry")
 require("items.widgets.volume")
+require("items.widgets.ccu")
 
 local colors = require("colors")
 
@@ -62,6 +63,7 @@ local spacer = sbar.add("item", "spacer.right", {
 -- end)
 
 local panel = sbar.add("bracket", "items.right.panel", {
+    "widgets.ccu.bracket",
     "widgets.calendar.bracket",
     "widgets.wifi.bracket",
     "widgets.battery.bracket",
