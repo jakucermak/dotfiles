@@ -57,6 +57,33 @@ local function resolve_font(f)
     }
 end
 
+-- ── Subtitle item (line 2) ────────────────────────────────────────────────────
+-- Registered BEFORE island.main so it sits to the LEFT in the center group.
+-- With width=0 it takes no space, but its label starts at the pill's left edge
+-- and spans the pill width.  Hidden at idle via transparent colour + zero width.
+-- click_script forwards taps since the label visually overlaps island.main.
+
+local island_sub       = sbar.add("item", "island.sub", {
+    position      = "center",
+    width         = 0,    -- takes no horizontal space; rendered via label slot
+    updates       = false,
+    click_script  = "islandbar --trigger island_tap",
+    padding_left  = 0,
+    padding_right = 0,
+    icon          = { drawing = false },
+    label         = {
+        drawing       = true,
+        color         = TRANSPARENT,
+        string        = "",
+        width         = 0,
+        font          = resolve_font({ size = 12, style = "Regular" }),
+        padding_left  = 0, -- keep 0 at idle; set to lpl in expand() to avoid layout offset
+        padding_right = 0,
+        align         = "center",
+    },
+    background    = { drawing = false },
+})
+
 -- ── Island item (line 1) ──────────────────────────────────────────────────────
 
 local island           = sbar.add("item", "island.main", {
@@ -87,32 +114,6 @@ local island           = sbar.add("item", "island.main", {
         padding_left  = 4,
         padding_right = 12,
         scroll_texts  = true,
-    },
-    background    = { drawing = false },
-})
-
--- ── Subtitle item (line 2) ────────────────────────────────────────────────────
--- Uses position="left" so it aligns with the pill's left edge regardless of
--- pill width.  y_offset is set OUTSIDE sbar.animate() (instant, no tween) so
--- sketchybar cannot interpolate it toward 0.  Hidden when not in use via
--- transparent colour + zero label width.
-
-local island_sub       = sbar.add("item", "island.sub", {
-    position      = "left",
-    width         = 0, -- takes no horizontal space; rendered via label slot
-    updates       = false,
-    padding_left  = 0,
-    padding_right = 0,
-    icon          = { drawing = false },
-    label         = {
-        drawing       = true,
-        color         = TRANSPARENT,
-        string        = "",
-        width         = 0,
-        font          = resolve_font({ size = 12, style = "Regular" }),
-        padding_left  = 16,
-        padding_right = 0,
-        align         = "center",
     },
     background    = { drawing = false },
 })
@@ -186,6 +187,10 @@ function M.expand(item)
     local l_align = "left"
     local r_align = (R and R.align) or (L and "right" or "center")
 
+    -- Resolve subtitle font before the animate block so sub_y is available.
+    local sfont = S and resolve_font(S.font or { size = 12, style = "Regular" }) or nil
+    local sub_y = sfont and -(sfont.size + 16) or 0
+
     sbar.animate("tanh", 20, function()
         sbar.bar({ height = h, margin = mg })
         island:set({
@@ -209,31 +214,29 @@ function M.expand(item)
                 padding_right = rpr,
             },
         })
+        -- Subtitle inside animate: x-position is driven by the same batch as
+        -- the bar width, so no horizontal slide.  y_offset animates 0 → sub_y
+        -- (a short downward glide that looks intentional).
+        if S then
+            island_sub:set({
+                y_offset = sub_y,
+                label    = {
+                    color         = S.color or WHITE,
+                    string        = S.text or "",
+                    width         = w - lpl - rpr,
+                    font          = sfont,
+                    align         = S.align or "left",
+                    padding_left  = lpl,
+                    padding_right = rpr,
+                },
+            })
+        else
+            island_sub:set({
+                y_offset = 0,
+                label    = { color = TRANSPARENT, string = "", width = 0 },
+            })
+        end
     end)
-
-    -- Subtitle: set OUTSIDE animate so y_offset is never tweened toward 0.
-    -- Position = font_size + 16px gap below the main line's centre.
-    if S then
-        local sfont = resolve_font(S.font or { size = 12, style = "Regular" })
-        local sub_y = -(sfont.size + 16) -- pixels below bar vertical centre
-        island_sub:set({
-            y_offset = sub_y,
-            label    = {
-                color         = S.color or WHITE,
-                string        = S.text or "",
-                width         = w - lpl - rpr,
-                font          = sfont,
-                align         = S.align or "left",
-                padding_left  = lpl,
-                padding_right = rpr,
-            },
-        })
-    else
-        island_sub:set({
-            y_offset = 0,
-            label    = { color = TRANSPARENT, string = "", width = 0 },
-        })
-    end
 
     is_expanded      = true
     -- Add 1 to the deadline so that the full duration elapses before the first
@@ -250,8 +253,9 @@ function M.restore_idle()
     is_expanded      = false
     dismiss_deadline = 0
 
-    -- Clear subtitle instantly (outside animate — same rule as expand).
-    island_sub:set({ y_offset = 0, label = { color = TRANSPARENT, string = "", width = 0 } })
+    -- Clear subtitle instantly (outside animate) so it vanishes before the
+    -- pill shrinks back.  Reset padding so the zero-width label has no footprint.
+    island_sub:set({ y_offset = 0, label = { color = TRANSPARENT, string = "", width = 0, padding_left = 0, padding_right = 0 } })
 
     sbar.animate("tanh", 20, function()
         sbar.bar({ height = IDLE_H, margin = ORIG_MARGIN })
