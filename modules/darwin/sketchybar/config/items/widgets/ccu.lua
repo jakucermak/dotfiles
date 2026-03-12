@@ -45,21 +45,6 @@ local ccu_bracket = sbar.add("bracket", "widgets.ccu.bracket", {
     },
 })
 
-ccu_bracket:subscribe("apperace_change", function(env)
-    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
-        appearance = theme:match("^%s*(.-)%s*$"):lower()
-
-        ccu_bracket:set({
-            background = {
-                color = colors.with_alpha(colors[appearance].magenta_bg, 0.4),
-            },
-        })
-
-        ccu_item:set({
-            label = { color = colors[appearance].magenta },
-        })
-    end)
-end)
 
 sbar.add("item", "widgets.ccu.padding", {
     position = "right",
@@ -348,7 +333,7 @@ local extra_info = sbar.add("item", "widgets.ccu.extra_info", {
 --     background = popup_item_props.background,
 -- })
 
-sbar.add("item", "widgets.ccu.link", {
+local link = sbar.add("item", "widgets.ccu.link", {
     position = "popup." .. ccu_bracket.name,
     width = popup_width,
     icon = { drawing = false },
@@ -412,6 +397,63 @@ local function get_claude_usage(callback)
     end)
 end
 
+
+ccu_bracket:subscribe("apperace_change", function(env)
+    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
+        appearance = theme:match("^%s*(.-)%s*$"):lower()
+
+        ccu_bracket:set({
+            background = {
+                color = colors.with_alpha(colors[appearance].orange_bg, 0.4),
+            },
+        })
+
+        ccu_item:set({
+            label = { color = colors[appearance].orange },
+        })
+
+        session_label:set({
+            icon = { color = colors[appearance].magenta },
+            label = { color = colors[appearance].magenta },
+        })
+
+        session_bar:set({
+            icon = { background = { color = colors[appearance].magenta } },
+            background = { color = colors.with_alpha(colors[appearance].magenta, 0.2) },
+        })
+
+        session_reset:set({ label = { color = colors[appearance].grey } })
+
+        weekly_label:set({
+            icon = { color = colors[appearance].blue },
+            label = { color = colors[appearance].blue },
+        })
+
+        weekly_bar:set({
+            icon = { background = { color = colors[appearance].blue } },
+            background = { color = colors.with_alpha(colors[appearance].blue, 0.2) },
+        })
+
+        weekly_reset:set({ label = { color = colors[appearance].grey } })
+
+        extra_label:set({
+            icon = { color = colors[appearance].green },
+            label = { color = colors[appearance].green },
+        })
+
+        extra_bar:set({
+            icon = { background = { color = colors[appearance].green } },
+            background = { color = colors.with_alpha(colors[appearance].green, 0.2) },
+        })
+
+        extra_info:set({ label = { color = colors[appearance].grey } })
+
+        link:set({ label = { color = colors[appearance].grey } })
+    end)
+end)
+
+
+
 local function format_datetime(iso)
   local date, time = iso:match("^(%d%d%d%d%-%d%d%-%d%d)T(%d%d:%d%d):%d[%d.]*[+-]%d%d:%d%d$")
 
@@ -463,22 +505,10 @@ end
 -- Použití
 
 
-local function ccu_collapse()
-    local drawing = ccu_bracket:query().popup.drawing == "on"
-    if not drawing then return end
-    ccu_bracket:set({ popup = { drawing = false } })
-end
-
-local function ccu_toggle(env)
-    local should_draw = ccu_bracket:query().popup.drawing == "off"
-    if not should_draw then
-        ccu_collapse()
-        return
-    end
-
-    ccu_bracket:set({ popup = { drawing = true } })
-
+local function update_popup()
     get_claude_usage(function(result)
+        if ccu_bracket:query().popup.drawing ~= "on" then return end
+
         if result.five_hour then
             set_bar_percent(session_label, session_bar, result.five_hour)
         end
@@ -494,15 +524,47 @@ local function ccu_toggle(env)
             local pct = eu.utilization and tonumber(eu.utilization) or 0
             set_bar_percent(extra_label, extra_bar, pct)
             extra_bar:set({ background = { drawing = true }, icon = { drawing = true } })
-            local used = eu.used_credits or "?"
-            local limit = eu.monthly_limit or "?"
-            extra_info:set({ label = { string = "Used: $" .. tostring(used) .. " / $" .. tostring(limit) } })
+            local used = eu.used_credits and string.format("%.2f", tonumber(eu.used_credits) / 100) or "?"
+            local limit = eu.monthly_limit and string.format("%.2f", tonumber(eu.monthly_limit) / 100) or "?"
+            extra_info:set({ label = { string = "Used: €" .. used .. " / €" .. limit } })
         else
             extra_label:set({ label = { string = "Disabled" } })
             extra_bar:set({ background = { drawing = false }, icon = { drawing = false } })
             extra_info:set({ label = { string = "" } })
         end
     end)
+end
+
+local popup_is_open = false
+
+local refresh_timer = sbar.add("item", "widgets.ccu.refresh_timer", {
+    update_freq = 10,
+    drawing = false,
+})
+
+refresh_timer:subscribe("routine", function()
+    if popup_is_open then
+        update_popup()
+    end
+end)
+
+local function ccu_collapse()
+    local drawing = ccu_bracket:query().popup.drawing == "on"
+    if not drawing then return end
+    ccu_bracket:set({ popup = { drawing = false } })
+    popup_is_open = false
+end
+
+local function ccu_toggle(env)
+    local should_draw = ccu_bracket:query().popup.drawing == "off"
+    if not should_draw then
+        ccu_collapse()
+        return
+    end
+
+    ccu_bracket:set({ popup = { drawing = true } })
+    popup_is_open = true
+    update_popup()
 end
 
 ccu_item:subscribe("mouse.clicked", ccu_toggle)
