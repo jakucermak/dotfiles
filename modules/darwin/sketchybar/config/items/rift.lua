@@ -44,13 +44,12 @@ local function updateWorkspaceWindows(workspace_index)
         if workspace and workspace.windows then
             for _, window in ipairs(workspace.windows) do
                 no_app = false
-                local app_name = window.title or window.bundle_id or "Unknown"
+                local app_name = window.app_name or window.bundle_id or "Unknown"
                 local lookup = app_icons[window.bundle_id] or app_icons[app_name]
                 local icon = ((lookup == nil) and app_icons["Default"] or lookup)
                 icon_line = icon_line .. icon .. " "
             end
         end
-
         local space = spaces[workspace_index]
         if space then
             sbar.animate("tanh", 10, function()
