@@ -11,6 +11,7 @@ sbar.add("event", "apperace_change", "AppleInterfaceThemeChangedNotification")
 sbar.add("event", "island_tap")
 require("bar")
 require("default")
+require("island")
 require("items")
 sbar.end_config()
 
