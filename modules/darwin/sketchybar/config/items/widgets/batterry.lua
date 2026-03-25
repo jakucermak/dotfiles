@@ -5,6 +5,15 @@ local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || ech
 local output = handle and handle:read("*a"):match("^%s*(.-)%s*$"):lower() or "light"
 local appearance = output
 
+local function notify_island(pct)
+    if pct == 30 then
+        sbar.exec("/opt/homebrew/bin/islandbar --trigger island_battery percent=" .. pct)
+    elseif pct < 10 then
+        sbar.exec("/opt/homebrew/bin/islandbar --trigger island_battery percent=" .. pct)
+    end
+end
+
+
 local function colored_label(charging, label, found, charge, apperance, color, color_bg)
     if charging then
         label = label .. " ⚡"
@@ -14,10 +23,10 @@ local function colored_label(charging, label, found, charge, apperance, color, c
         color_bg = colors.with_alpha(colors[apperance].orange_bg, 0.4)
     elseif found and charge < 10 then
         color = colors[apperance].red
-        color_bg = colors.with_alpha(colors[apperance].red_bg, 0.4)
+        color_bg = colors[apperance].red_bg
     else
         color = colors[apperance].green
-        color_bg = colors.with_alpha(colors[apperance].green_bg, 0.4)
+        color_bg = colors[apperance].green_bg
     end
 
     return label, color, color_bg
@@ -42,7 +51,8 @@ local battery = sbar.add("item", "widgets.battery", {
 })
 
 local battery_bracket = sbar.add("bracket", "widgets.battery.bracket", { battery.name }, {
-    background = { border_width = 0 }
+    background = { border_width = 0 },
+    shadow = true,
 })
 
 battery_bracket:subscribe("apperace_change", function(env)
@@ -55,7 +65,7 @@ function battery_status()
             local icon = "!"
             local label = "?"
             local color = colors[appearance].green
-            local color_bg = colors.with_alpha(colors[appearance].green_bg, 0.4)
+            local color_bg = colors[appearance].green_bg
 
             local found, _, charge = batt_info:find("(%d+)%%")
             if found then
@@ -66,6 +76,7 @@ function battery_status()
             local charging, _, _ = batt_info:find("AC Power")
             local appearance = theme:match("^%s*(.-)%s*$"):lower()
             label, color, color_bg = colored_label(charging, label, found, charge, appearance, color, color_bg)
+            notify_island(charge)
 
 
             local lead = ""

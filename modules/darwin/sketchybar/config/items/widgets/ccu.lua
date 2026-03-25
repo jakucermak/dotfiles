@@ -32,7 +32,7 @@ local ccu_bracket = sbar.add("bracket", "widgets.ccu.bracket", {
     ccu_item.name,
 }, {
     background = {
-        color = colors.with_alpha(colors[appearance].orange, 0.4),
+        color = colors[appearance].orange_bg,
         padding_left = 0,
         border_width = 0,
     },
@@ -318,21 +318,6 @@ local extra_info = sbar.add("item", "widgets.ccu.extra_info", {
     background = popup_item_props.background,
 })
 
--- sbar.add("item", "widgets.ccu.spacer_3", {
---     position = "popup." .. ccu_bracket.name,
---     width = popup_width,
---     icon = { drawing = false },
---     label = {
---         string = "",
---         color = colors[appearance].grey,
---         font = {
---             family = settings.font.numbers,
---             size = 10.0,
---         },
---     },
---     background = popup_item_props.background,
--- })
-
 local link = sbar.add("item", "widgets.ccu.link", {
     position = "popup." .. ccu_bracket.name,
     width = popup_width,
@@ -374,7 +359,8 @@ local function get_claude_usage(callback)
         .. '-H "content-type: application/json" '
         .. '-H "anthropic-client-platform: web_claude_ai" '
         .. '-H "anthropic-client-version: 1.0.0" '
-        .. '-H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" '
+        ..
+        '-H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" '
         .. '-H "origin: https://claude.ai" '
         .. '-H "referer: https://claude.ai/settings/usage" '
         .. '-H "sec-fetch-dest: empty" '
@@ -404,7 +390,7 @@ ccu_bracket:subscribe("apperace_change", function(env)
 
         ccu_bracket:set({
             background = {
-                color = colors.with_alpha(colors[appearance].orange_bg, 0.4),
+                color = colors[appearance].orange_bg,
             },
         })
 
@@ -455,50 +441,54 @@ end)
 
 
 local function format_datetime(iso)
-  local date, time = iso:match("^(%d%d%d%d%-%d%d%-%d%d)T(%d%d:%d%d):%d[%d.]*[+-]%d%d:%d%d$")
+    local date, time = iso:match("^(%d%d%d%d%-%d%d%-%d%d)T(%d%d:%d%d):%d[%d.]*[+-]%d%d:%d%d$")
 
-  if not date then
-    return iso
-  end
-
-  local h, m = time:match("^(%d%d):(%d%d)$")
-  local total_minutes = tonumber(h) * 60 + tonumber(m) + cached_tz_offset_minutes
-
-  local day_offset = 0
-  if total_minutes >= 1440 then
-    total_minutes = total_minutes - 1440
-    day_offset = 1
-  elseif total_minutes < 0 then
-    total_minutes = total_minutes + 1440
-    day_offset = -1
-  end
-
-  local local_h = math.floor(total_minutes / 60)
-  local local_m = total_minutes % 60
-  local local_time = string.format("%02d:%02d", local_h, local_m)
-
-  local local_date = date
-  if day_offset ~= 0 then
-    local y, mo, d = tonumber(date:sub(1,4)), tonumber(date:sub(6,7)), tonumber(date:sub(9,10))
-    d = d + day_offset
-    if d < 1 then
-      mo = mo - 1
-      if mo < 1 then mo = 12; y = y - 1 end
-      local days_in_month = ({ 31,28,31,30,31,30,31,31,30,31,30,31 })[mo]
-      if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
-      d = days_in_month
-    elseif d > 28 then
-      local days_in_month = ({ 31,28,31,30,31,30,31,31,30,31,30,31 })[mo]
-      if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
-      if d > days_in_month then
-        d = 1; mo = mo + 1
-        if mo > 12 then mo = 1; y = y + 1 end
-      end
+    if not date then
+        return iso
     end
-    local_date = string.format("%04d-%02d-%02d", y, mo, d)
-  end
 
-  return string.format("%s %s (%s)", local_date, local_time, cached_tz_name)
+    local h, m = time:match("^(%d%d):(%d%d)$")
+    local total_minutes = tonumber(h) * 60 + tonumber(m) + cached_tz_offset_minutes
+
+    local day_offset = 0
+    if total_minutes >= 1440 then
+        total_minutes = total_minutes - 1440
+        day_offset = 1
+    elseif total_minutes < 0 then
+        total_minutes = total_minutes + 1440
+        day_offset = -1
+    end
+
+    local local_h = math.floor(total_minutes / 60)
+    local local_m = total_minutes % 60
+    local local_time = string.format("%02d:%02d", local_h, local_m)
+
+    local local_date = date
+    if day_offset ~= 0 then
+        local y, mo, d = tonumber(date:sub(1, 4)), tonumber(date:sub(6, 7)), tonumber(date:sub(9, 10))
+        d = d + day_offset
+        if d < 1 then
+            mo = mo - 1
+            if mo < 1 then
+                mo = 12; y = y - 1
+            end
+            local days_in_month = ({ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[mo]
+            if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
+            d = days_in_month
+        elseif d > 28 then
+            local days_in_month = ({ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[mo]
+            if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
+            if d > days_in_month then
+                d = 1; mo = mo + 1
+                if mo > 12 then
+                    mo = 1; y = y + 1
+                end
+            end
+        end
+        local_date = string.format("%04d-%02d-%02d", y, mo, d)
+    end
+
+    return string.format("%s %s (%s)", local_date, local_time, cached_tz_name)
 end
 
 

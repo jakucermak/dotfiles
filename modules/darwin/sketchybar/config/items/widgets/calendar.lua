@@ -39,7 +39,8 @@ local cal = sbar.add("item", "widgets.calendar", {
 })
 
 local bracket = sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
-    background = { color = colors.with_alpha(colors[appearance].orange_bg, 0.4), border_width = 0 }
+    background = { color = colors[appearance].orange_bg, border_width = 0 },
+    shadow = true,
 })
 
 bracket:subscribe("apperace_change", function(env)
@@ -47,7 +48,7 @@ bracket:subscribe("apperace_change", function(env)
         local appearance = theme:match("^%s*(.-)%s*$"):lower()
         bracket:set({
             background = {
-                color = colors.with_alpha(colors[appearance].orange_bg, 0.4)
+                color = colors[appearance].orange_bg
             }
         })
         cal:set({

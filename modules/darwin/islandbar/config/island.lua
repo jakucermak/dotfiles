@@ -199,7 +199,7 @@ function M.expand(item)
                 string        = L and (L.text or "") or "",
                 color         = L and (L.color or WHITE) or TRANSPARENT,
                 font          = resolve_font(L and L.font or {}),
-                width         = l_width,
+                width         = l_width or 0,  -- 0 clears any stale width from a previous layout
                 align         = l_align,
                 padding_left  = lpl,
                 padding_right = lpr,
@@ -208,7 +208,7 @@ function M.expand(item)
                 string        = R and (R.text or "") or "",
                 color         = R and (R.color or WHITE) or TRANSPARENT,
                 align         = r_align,
-                width         = r_width,
+                width         = r_width or 0,  -- 0 clears any stale width from a previous layout
                 font          = resolve_font(R and R.font or {}),
                 padding_left  = rpl,
                 padding_right = rpr,

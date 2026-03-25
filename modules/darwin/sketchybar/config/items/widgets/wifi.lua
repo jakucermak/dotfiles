@@ -92,14 +92,15 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
     wifi_down.name
 }, {
     background = {
-        color = colors.with_alpha(colors[appearance].magenta_bg, 0.4),
+        color = colors[appearance].magenta_bg,
         border_width = 0,
     },
+    shadow = true,
     popup = {
         align = "center",
         height = 40,
         background = {
-            color = colors.with_alpha(colors[appearance].magenta_bg, 0.19),
+            color = colors[appearance].magenta_bg,
             border_color = colors.transparent,
             border_width = 0,
             height = 40,
@@ -112,7 +113,7 @@ wifi_bracket:subscribe("apperace_change", function(env)
         appearance = theme:match("^%s*(.-)%s*$"):lower()
         wifi_bracket:set({
             background = {
-                color = colors.with_alpha(colors[appearance].magenta_bg, 0.4)
+                color = colors[appearance].magenta_bg
             }
         })
         wifi:set({

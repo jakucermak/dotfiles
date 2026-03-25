@@ -254,12 +254,13 @@ local front_app_bracket = sbar.add("bracket", "front_app.bracket", {
     front_app.name,
 }, {
     background = {
-        color = colors.with_alpha(colors[appearance].orange_bg, 0.4),
+        color = colors[appearance].orange_bg,
         padding_left = 0,
         padding_right = 0,
         border_width = 0
     },
-    width = "dynamic"
+    width = "dynamic",
+    shadow = true
 })
 
 
@@ -279,7 +280,8 @@ local bracket = sbar.add("bracket", "items.spaces.bracket", space_names, {
     background = {
         color = colors[appearance].spaces.bg,
         border_width = 0,
-    }
+    },
+    shadow = true
 })
 
 -- Appearance change handling
@@ -288,30 +290,38 @@ bracket:subscribe("apperace_change", function(env)
         local new_appearance = theme:match("^%s*(.-)%s*$"):lower()
         appearance = new_appearance
 
-        front_app:set({
-            label = {
-                color = colors[appearance].orange,
-            },
-        })
-
-        bracket:set({
-            background = {
-                color = colors[appearance].spaces.bg
-            }
-        })
-
-        for index, space in ipairs(spaces) do
-            space:set({
+        sbar.animate("tanh", 10, function()
+            front_app:set({
                 label = {
-                    highlight_color = colors[appearance].spaces.fg,
-                    color = colors.with_alpha(colors[appearance].spaces.fg, 0.4)
-                },
-                icon = {
-                    highlight_color = colors[appearance].spaces.fg,
-                    color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
+                    color = colors[appearance].orange,
                 },
             })
-        end
+
+            front_app_bracket:set({
+                background = {
+                    color = colors[appearance].orange_bg,
+                },
+            })
+
+            bracket:set({
+                background = {
+                    color = colors[appearance].spaces.bg
+                }
+            })
+
+            for index, space in ipairs(spaces) do
+                space:set({
+                    label = {
+                        highlight_color = colors[appearance].spaces.fg,
+                        color = colors.with_alpha(colors[appearance].spaces.fg, 0.4)
+                    },
+                    icon = {
+                        highlight_color = colors[appearance].spaces.fg,
+                        color = colors.with_alpha(colors[appearance].spaces.fg, 0.4),
+                    },
+                })
+            end
+        end)
     end)
 end)
 
