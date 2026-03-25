@@ -1,0 +1,564 @@
+local colors = require("colors")
+local settings = require("settings")
+
+local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'")
+local output = handle and handle:read("*a"):match("^%s*(.-)%s*$"):lower() or "light"
+local appearance = output
+
+-- Cache timezone info once at load using pure Lua (no subprocess)
+local cached_tz_name = os.date("%Z")
+local now = os.time()
+local utc_t = os.date("!*t", now)
+local loc_t = os.date("*t", now)
+local cached_tz_offset_minutes = (os.time(loc_t) - os.time(utc_t)) / 60
+
+local popup_width = 300
+local popup_padding = 10
+local bar_height = 8
+local bar_track_width = popup_width
+
+local ccu_item = sbar.add("item", "widgets.ccu1", {
+    position = "right",
+    icon = { drawing = false, string = "" },
+    label = {
+        string = " CCu ",
+        font = { family = settings.font.numbers },
+        color = colors[appearance].orange,
+        padding_right = 18
+    },
+})
+
+local ccu_bracket = sbar.add("bracket", "widgets.ccu.bracket", {
+    ccu_item.name,
+}, {
+    background = {
+        color = colors[appearance].orange_bg,
+        padding_left = 0,
+        border_width = 0,
+    },
+    popup = {
+        align = "center",
+        background = {
+            border_width = 0,
+        },
+        height = 25
+    },
+})
+
+
+sbar.add("item", "widgets.ccu.padding", {
+    position = "right",
+    width = settings.group_paddings,
+})
+
+local popup_item_props = {
+    background = {
+        color = colors.transparent,
+        border_width = 0,
+        height = 0,
+        padding_left = popup_padding,
+        padding_right = popup_padding,
+    },
+}
+
+local function set_bar_percent(label_item, bar_item, percent)
+    local fill_width = math.floor(percent / 100 * bar_track_width + 0.5)
+    bar_item:set({ icon = { width = fill_width } })
+    label_item:set({ label = { string = percent .. "%" } })
+end
+
+-- ── Section: Current Session ──────────────────────────────────────────
+
+sbar.add("item", "widgets.ccu.spacer_0", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 10.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local session_label = sbar.add("item", "widgets.ccu.session_label", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = "Current Session",
+        color = colors[appearance].magenta,
+        width = popup_width / 2,
+        font = {
+            family = settings.font.text,
+            style = settings.font.style_map["Bold"],
+            size = 18.0,
+        },
+    },
+    label = {
+        string = "--%",
+        color = colors[appearance].magenta,
+        align = "right",
+        width = popup_width / 2,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local session_bar = sbar.add("item", "widgets.ccu.session_bar", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = " ",
+        width = 0,
+        padding_left = 0,
+        padding_right = 0,
+        background = {
+            color = colors[appearance].magenta,
+            height = bar_height,
+            corner_radius = 2,
+        },
+    },
+    label = { drawing = false },
+    background = {
+        color = colors.with_alpha(colors[appearance].magenta, 0.2),
+        height = bar_height,
+        corner_radius = 2,
+        border_width = 0,
+        padding_left = popup_padding,
+        padding_right = popup_padding,
+    },
+})
+
+local session_reset = sbar.add("item", "widgets.ccu.session_reset", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "Resets: --",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+sbar.add("item", "widgets.ccu.spacer_1", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 1.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+-- ── Section: Weekly Usage ─────────────────────────────────────────────
+
+local weekly_label = sbar.add("item", "widgets.ccu.weekly_label", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = "Weekly Usage",
+        color = colors[appearance].blue,
+        width = popup_width / 2,
+        font = {
+            family = settings.font.text,
+            style = settings.font.style_map["Bold"],
+            size = 18.0,
+        },
+    },
+    label = {
+        string = "--%",
+        color = colors[appearance].blue,
+        align = "right",
+        width = popup_width / 2,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local weekly_bar = sbar.add("item", "widgets.ccu.weekly_bar", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = " ",
+        width = 0,
+        padding_left = 0,
+        padding_right = 0,
+        background = {
+            color = colors[appearance].blue,
+            height = bar_height,
+            corner_radius = 2,
+        },
+    },
+    label = { drawing = false },
+    background = {
+        color = colors.with_alpha(colors[appearance].blue, 0.2),
+        height = bar_height,
+        corner_radius = 2,
+        border_width = 0,
+        padding_left = popup_padding,
+        padding_right = popup_padding,
+    },
+})
+
+local weekly_reset = sbar.add("item", "widgets.ccu.weekly_reset", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "Resets: --",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+
+})
+
+
+sbar.add("item", "widgets.ccu.spacer_2", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 1.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+-- ── Section: Extra Usage ──────────────────────────────────────────────
+
+local extra_label = sbar.add("item", "widgets.ccu.extra_label", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = "Extra Usage",
+        color = colors[appearance].green,
+        width = popup_width / 2,
+        font = {
+            family = settings.font.text,
+            style = settings.font.style_map["Bold"],
+            size = 18.0,
+        },
+    },
+    label = {
+        string = "--%",
+        color = colors[appearance].green,
+        align = "right",
+        width = popup_width / 2,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local extra_bar = sbar.add("item", "widgets.ccu.extra_bar", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = {
+        string = " ",
+        width = 0,
+        padding_left = 0,
+        padding_right = 0,
+        background = {
+            color = colors[appearance].green,
+            height = bar_height,
+            corner_radius = 2,
+        },
+    },
+    label = { drawing = false },
+    background = {
+        color = colors.with_alpha(colors[appearance].green, 0.2),
+        height = bar_height,
+        corner_radius = 2,
+        border_width = 0,
+        padding_left = popup_padding,
+        padding_right = popup_padding,
+    },
+})
+
+local extra_info = sbar.add("item", "widgets.ccu.extra_info", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 13.0,
+        },
+    },
+    background = popup_item_props.background,
+})
+
+local link = sbar.add("item", "widgets.ccu.link", {
+    position = "popup." .. ccu_bracket.name,
+    width = popup_width,
+    icon = { drawing = false },
+    label = {
+        string = "open Anthropic usage page ",
+        color = colors[appearance].grey,
+        font = {
+            family = settings.font.numbers,
+            size = 10.0,
+        },
+    },
+    align = "right",
+    background = popup_item_props.background,
+    click_script = "open https://claude.ai/settings/usage"
+})
+
+-- ── Toggle / Collapse ─────────────────────────────────────────────────
+
+local session_key_file = os.getenv("HOME") .. "/.config/claude-session-key"
+
+local function read_session_key()
+    local f = io.open(session_key_file, "r")
+    if not f then return nil end
+    local key = f:read("*a"):match("^%s*(.-)%s*$")
+    f:close()
+    if key == "" then return nil end
+    return key
+end
+
+local function get_claude_usage(callback)
+    local session_key = read_session_key()
+    if not session_key then return end
+
+    local cmd =
+        '/etc/profiles/per-user/jakubcermak/bin/curl -s "https://claude.ai/api/organizations/49f236ea-065f-4887-b49c-b29884f2be3f/usage" '
+        .. '-H "accept: */*" '
+        .. '-H "accept-language: en-US,en;q=0.9" '
+        .. '-H "content-type: application/json" '
+        .. '-H "anthropic-client-platform: web_claude_ai" '
+        .. '-H "anthropic-client-version: 1.0.0" '
+        ..
+        '-H "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" '
+        .. '-H "origin: https://claude.ai" '
+        .. '-H "referer: https://claude.ai/settings/usage" '
+        .. '-H "sec-fetch-dest: empty" '
+        .. '-H "sec-fetch-mode: cors" '
+        .. '-H "sec-fetch-site: same-origin" '
+        .. '-H "Cookie: sessionKey=' .. session_key .. '"'
+
+    sbar.exec(cmd, function(result)
+        local fh = type(result) == "table" and result.five_hour or nil
+        local sd = type(result) == "table" and result.seven_day or nil
+        local eu = type(result) == "table" and result.extra_usage or nil
+
+        callback({
+            five_hour        = fh and tonumber(fh.utilization),
+            weekly           = sd and tonumber(sd.utilization),
+            resets_at        = fh and fh.resets_at,
+            weekly_resets_at = sd and sd.resets_at,
+            extra_usage      = eu,
+        })
+    end)
+end
+
+
+ccu_bracket:subscribe("apperace_change", function(env)
+    sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
+        appearance = theme:match("^%s*(.-)%s*$"):lower()
+
+
+        sbar.animate("tanh", 10, function()
+            ccu_bracket:set({
+                background = {
+                    color = colors[appearance].orange_bg,
+                },
+            })
+
+            ccu_item:set({
+                label = { color = colors[appearance].orange },
+            })
+
+            session_label:set({
+                icon = { color = colors[appearance].magenta },
+                label = { color = colors[appearance].magenta },
+            })
+
+            session_bar:set({
+                icon = { background = { color = colors[appearance].magenta } },
+                background = { color = colors.with_alpha(colors[appearance].magenta, 0.2) },
+            })
+
+            session_reset:set({ label = { color = colors[appearance].grey } })
+
+            weekly_label:set({
+                icon = { color = colors[appearance].blue },
+                label = { color = colors[appearance].blue },
+            })
+
+            weekly_bar:set({
+                icon = { background = { color = colors[appearance].blue } },
+                background = { color = colors.with_alpha(colors[appearance].blue, 0.2) },
+            })
+
+            weekly_reset:set({ label = { color = colors[appearance].grey } })
+
+            extra_label:set({
+                icon = { color = colors[appearance].green },
+                label = { color = colors[appearance].green },
+            })
+
+            extra_bar:set({
+                icon = { background = { color = colors[appearance].green } },
+                background = { color = colors.with_alpha(colors[appearance].green, 0.2) },
+            })
+
+            extra_info:set({ label = { color = colors[appearance].grey } })
+
+            link:set({ label = { color = colors[appearance].grey } })
+        end)
+    end)
+end)
+
+
+
+local function format_datetime(iso)
+    local date, time = iso:match("^(%d%d%d%d%-%d%d%-%d%d)T(%d%d:%d%d):%d[%d.]*[+-]%d%d:%d%d$")
+
+    if not date then
+        return iso
+    end
+
+    local h, m = time:match("^(%d%d):(%d%d)$")
+    local total_minutes = tonumber(h) * 60 + tonumber(m) + cached_tz_offset_minutes
+
+    local day_offset = 0
+    if total_minutes >= 1440 then
+        total_minutes = total_minutes - 1440
+        day_offset = 1
+    elseif total_minutes < 0 then
+        total_minutes = total_minutes + 1440
+        day_offset = -1
+    end
+
+    local local_h = math.floor(total_minutes / 60)
+    local local_m = total_minutes % 60
+    local local_time = string.format("%02d:%02d", local_h, local_m)
+
+    local local_date = date
+    if day_offset ~= 0 then
+        local y, mo, d = tonumber(date:sub(1, 4)), tonumber(date:sub(6, 7)), tonumber(date:sub(9, 10))
+        d = d + day_offset
+        if d < 1 then
+            mo = mo - 1
+            if mo < 1 then
+                mo = 12; y = y - 1
+            end
+            local days_in_month = ({ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[mo]
+            if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
+            d = days_in_month
+        elseif d > 28 then
+            local days_in_month = ({ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[mo]
+            if mo == 2 and (y % 4 == 0 and (y % 100 ~= 0 or y % 400 == 0)) then days_in_month = 29 end
+            if d > days_in_month then
+                d = 1; mo = mo + 1
+                if mo > 12 then
+                    mo = 1; y = y + 1
+                end
+            end
+        end
+        local_date = string.format("%04d-%02d-%02d", y, mo, d)
+    end
+
+    return string.format("%s %s (%s)", local_date, local_time, cached_tz_name)
+end
+
+
+-- Použití
+
+
+local function update_popup()
+    get_claude_usage(function(result)
+        if ccu_bracket:query().popup.drawing ~= "on" then return end
+
+        if result.five_hour then
+            set_bar_percent(session_label, session_bar, result.five_hour)
+        end
+        session_reset:set({ label = { string = "Resets: " .. (result.resets_at and format_datetime(result.resets_at) or "---") } })
+
+        if result.weekly then
+            set_bar_percent(weekly_label, weekly_bar, result.weekly)
+        end
+        weekly_reset:set({ label = { string = "Resets: " .. (result.weekly_resets_at and format_datetime(result.weekly_resets_at) or "---") } })
+
+        local eu = result.extra_usage
+        if eu and eu.is_enabled then
+            local pct = eu.utilization and tonumber(eu.utilization) or 0
+            set_bar_percent(extra_label, extra_bar, pct)
+            extra_bar:set({ background = { drawing = true }, icon = { drawing = true } })
+            local used = eu.used_credits and string.format("%.2f", tonumber(eu.used_credits) / 100) or "?"
+            local limit = eu.monthly_limit and string.format("%.2f", tonumber(eu.monthly_limit) / 100) or "?"
+            extra_info:set({ label = { string = "Used: €" .. used .. " / €" .. limit } })
+        else
+            extra_label:set({ label = { string = "Disabled" } })
+            extra_bar:set({ background = { drawing = false }, icon = { drawing = false } })
+            extra_info:set({ label = { string = "" } })
+        end
+    end)
+end
+
+local popup_is_open = false
+
+local refresh_timer = sbar.add("item", "widgets.ccu.refresh_timer", {
+    update_freq = 10,
+    drawing = false,
+})
+
+refresh_timer:subscribe("routine", function()
+    if popup_is_open then
+        update_popup()
+    end
+end)
+
+local function ccu_collapse()
+    local drawing = ccu_bracket:query().popup.drawing == "on"
+    if not drawing then return end
+    ccu_bracket:set({ popup = { drawing = false } })
+    popup_is_open = false
+end
+
+local function ccu_toggle(env)
+    local should_draw = ccu_bracket:query().popup.drawing == "off"
+    if not should_draw then
+        ccu_collapse()
+        return
+    end
+
+    ccu_bracket:set({ popup = { drawing = true } })
+    popup_is_open = true
+    update_popup()
+end
+
+ccu_item:subscribe("mouse.clicked", ccu_toggle)
+ccu_item:subscribe("mouse.exited.global", ccu_collapse)

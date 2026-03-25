@@ -1,0 +1,90 @@
+[
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space n t": [
+        "workspace::SendKeystrokes",
+        "cmd-b"
+      ],
+    }
+  },
+  {
+    "context": "Workspace && vim_mode == normal",
+    "bindings": {
+      "space n t": [
+        "workspace::SendKeystrokes",
+        "cmd-b cmd-shift-e"
+      ],
+      "space f f": "file_finder::Toggle"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-j": "menu::SelectNext"
+    }
+  },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "space n t": "project_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrevious"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !(showing_code_actions || showing_completions) || MarkdownPreview",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "space h g": "tab_switcher::Toggle",
+      "space h n": "panel::NextPanelTab"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "bindings": {
+      "ctrl-y": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "Editor && showing_completions",
+    "use_key_equivalents": true,
+    "bindings": {
+      "ctrl-y": "editor::ConfirmCompletion",
+      "tab": "editor::ComposeCompletion"
+    }
+  },
+  {
+    "context": "MessageEditor > Editor",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-enter": "agent::Chat",
+      "enter": "editor::Newline",
+      "cmd-i": "agent::ToggleProfileSelector",
+      "shift-ctrl-r": "agent::OpenAgentDiff"
+    }
+  }
+]

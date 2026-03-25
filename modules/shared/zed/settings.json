@@ -1,0 +1,210 @@
+// Zed settings // // For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "use_system_prompts": false,
+  "use_system_path_prompts": false,
+  "git_panel": {
+    "tree_view": false
+  },
+  "prettier": {
+    "allowed": false
+  },
+  "ssh_connections": [
+    {
+      "host": "him-edge-dev",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "him-edge-dev.local",
+      "args": [],
+      "projects": []
+    }
+  ],
+  "icon_theme": {
+    "mode": "system",
+    "light": "Colored Zed Icons Theme Dark",
+    "dark": "Colored Zed Icons Theme Dark",
+  },
+  "tabs": {
+    "git_status": true,
+    "file_icons": false,
+    "close_position": "left",
+  },
+  "which_key": {
+    "enabled": true,
+  },
+  "use_system_window_tabs": true,
+  "status_bar": {
+    "active_encoding_button": "enabled",
+  },
+  "project_panel": {
+    "indent_size": 20.0,
+    "git_status": true,
+    "folder_icons": true,
+    "file_icons": true,
+  },
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "scroll_beyond_last_line": "vertical_scroll_margin",
+  "file_finder": {
+    "modal_max_width": "large",
+  },
+  "gutter": {
+    "folds": true,
+    "runnables": false,
+    "breakpoints": false,
+    "min_line_number_digits": 1,
+  },
+  "show_signature_help_after_edits": true,
+  "auto_signature_help": true,
+  "preview_tabs": {
+    "enable_preview_from_file_finder": true,
+  },
+  "title_bar": {
+    "show_menus": true,
+    "show_onboarding_banner": true,
+    "show_branch_icon": true,
+  },
+  "bottom_dock_layout": "contained",
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "subtle",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null,
+    },
+    "enabled_in_text_threads": false,
+  },
+  "outline_panel": {
+    "dock": "right",
+  },
+  "minimap": {
+    "max_width_columns": 60,
+    "show": "always",
+    "thumb": "always",
+  },
+  "cursor_blink": false,
+  "scrollbar": {
+    "selected_symbol": false,
+    "selected_text": false,
+    "show": "never",
+  },
+  "soft_wrap": "bounded",
+  "wrap_guides": [
+    120
+  ],
+  "preferred_line_length": 120,
+  "vertical_scroll_margin": 20.0,
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Light Flat",
+    "dark": "Ayu Dark Flat",
+  },
+  "ui_font_size": 18,
+  "buffer_font_size": 17,
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true,
+  },
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "tab_bar": {
+    "show_tab_bar_buttons": false,
+    "show_nav_history_buttons": false,
+    "show": false,
+  },
+  "toolbar": {
+    "selections_menu": false,
+    "code_actions": false,
+    "agent_review": false,
+    "breadcrumbs": true,
+    "quick_actions": true,
+  },
+  "show_whitespaces": "all",
+  "language_models": {
+    "openai": {
+      "available_models": [],
+    },
+  },
+  "agent": {
+    "always_allow_tool_actions": true,
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-opus-4-6-thinking",
+    },
+    "default_profile": "write",
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-opus-4-6-thinking",
+    },
+  },
+  "terminal": {
+    "dock": "left",
+    "font_family": "JetBrainsMono Nerd Font",
+  },
+  "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "never",
+  },
+  "git": {
+    "git_gutter": "tracked_files",
+    "gutter_debounce": 1000,
+    "inline_blame": {
+      "enabled": true,
+    },
+  },
+  "relative_line_numbers": "enabled",
+  // "semantic_tokens": "combined",
+  "lsp": {
+    "nixd": {
+      "settings": {
+        "diagnostic": {
+          "suppress": [
+            "sema-extra-with"
+          ],
+        },
+      },
+    },
+  },
+  "languages": {
+    "Nix": {
+      "language_servers": [
+        "nixd",
+        "nil"
+      ],
+    },
+    "Python": {
+      "language_servers": [
+        "basedpyright",
+        "activitywatch"
+      ]
+    }
+  },
+  "file_types": {
+    "Ansible": [
+      "**.ansible.yml",
+      "**/defaults/**.yml",
+      "**/defaults/**.yaml",
+      "**/meta/**.yml",
+      "**/meta/**.yaml",
+      "**/tasks/**.yml",
+      "**/tasks/*.yml",
+      "**/tasks/*.yaml",
+      "**/handlers/*.yml",
+      "**/handlers/*.yaml",
+      "**/group_vars/**.yml",
+      "**/group_vars/**.yaml",
+      "**playbook*.yaml",
+      "**playbook*.yml",
+      "/Users/jakubcermak/HUG/ansible_playbooks/*.yml",
+    ],
+  },
+}
