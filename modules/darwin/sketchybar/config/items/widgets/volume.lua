@@ -13,9 +13,13 @@ local volume_percent = sbar.add("item", "widgets.volume1", {
     label = {
         string = " V ⋮ ??%",
         width = 80,
-        padding_left = -1,
         font = { family = settings.font.numbers },
         color = colors[appearance].red
+    },
+    background = {
+        color = colors[appearance].red_bg,
+        padding_right = 13,
+        border_width = 0
     },
 })
 
@@ -34,17 +38,20 @@ local volume_bracket = sbar.add("bracket", "widgets.volume.bracket", {
 
 volume_bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
-        local appearance = theme:match("^%s*(.-)%s*$"):lower()
+        appearance = theme:match("^%s*(.-)%s*$"):lower()
 
-        volume_bracket:set({
-            background = {
-                color = colors[appearance].red_bg
-            }
-        })
+        sbar.animate("tanh", 10, function()
+            volume_bracket:set({
+                background = {
+                    color = colors[appearance].red_bg
+                }
+            })
 
-        volume_percent:set({
-            label = { color = colors[appearance].red }
-        })
+            volume_percent:set({
+                label = { color = colors[appearance].red },
+                background = { color = colors[appearance].red_bg },
+            })
+        end)
     end)
 end)
 

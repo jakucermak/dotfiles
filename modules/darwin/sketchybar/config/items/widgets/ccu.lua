@@ -388,53 +388,56 @@ ccu_bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
         appearance = theme:match("^%s*(.-)%s*$"):lower()
 
-        ccu_bracket:set({
-            background = {
-                color = colors[appearance].orange_bg,
-            },
-        })
 
-        ccu_item:set({
-            label = { color = colors[appearance].orange },
-        })
+        sbar.animate("tanh", 10, function()
+            ccu_bracket:set({
+                background = {
+                    color = colors[appearance].orange_bg,
+                },
+            })
 
-        session_label:set({
-            icon = { color = colors[appearance].magenta },
-            label = { color = colors[appearance].magenta },
-        })
+            ccu_item:set({
+                label = { color = colors[appearance].orange },
+            })
 
-        session_bar:set({
-            icon = { background = { color = colors[appearance].magenta } },
-            background = { color = colors.with_alpha(colors[appearance].magenta, 0.2) },
-        })
+            session_label:set({
+                icon = { color = colors[appearance].magenta },
+                label = { color = colors[appearance].magenta },
+            })
 
-        session_reset:set({ label = { color = colors[appearance].grey } })
+            session_bar:set({
+                icon = { background = { color = colors[appearance].magenta } },
+                background = { color = colors.with_alpha(colors[appearance].magenta, 0.2) },
+            })
 
-        weekly_label:set({
-            icon = { color = colors[appearance].blue },
-            label = { color = colors[appearance].blue },
-        })
+            session_reset:set({ label = { color = colors[appearance].grey } })
 
-        weekly_bar:set({
-            icon = { background = { color = colors[appearance].blue } },
-            background = { color = colors.with_alpha(colors[appearance].blue, 0.2) },
-        })
+            weekly_label:set({
+                icon = { color = colors[appearance].blue },
+                label = { color = colors[appearance].blue },
+            })
 
-        weekly_reset:set({ label = { color = colors[appearance].grey } })
+            weekly_bar:set({
+                icon = { background = { color = colors[appearance].blue } },
+                background = { color = colors.with_alpha(colors[appearance].blue, 0.2) },
+            })
 
-        extra_label:set({
-            icon = { color = colors[appearance].green },
-            label = { color = colors[appearance].green },
-        })
+            weekly_reset:set({ label = { color = colors[appearance].grey } })
 
-        extra_bar:set({
-            icon = { background = { color = colors[appearance].green } },
-            background = { color = colors.with_alpha(colors[appearance].green, 0.2) },
-        })
+            extra_label:set({
+                icon = { color = colors[appearance].green },
+                label = { color = colors[appearance].green },
+            })
 
-        extra_info:set({ label = { color = colors[appearance].grey } })
+            extra_bar:set({
+                icon = { background = { color = colors[appearance].green } },
+                background = { color = colors.with_alpha(colors[appearance].green, 0.2) },
+            })
 
-        link:set({ label = { color = colors[appearance].grey } })
+            extra_info:set({ label = { color = colors[appearance].grey } })
+
+            link:set({ label = { color = colors[appearance].grey } })
+        end)
     end)
 end)
 

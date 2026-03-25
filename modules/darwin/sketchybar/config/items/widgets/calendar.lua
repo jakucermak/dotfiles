@@ -46,15 +46,18 @@ local bracket = sbar.add("bracket", "widgets.calendar.bracket", { cal.name }, {
 bracket:subscribe("apperace_change", function(env)
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
         local appearance = theme:match("^%s*(.-)%s*$"):lower()
-        bracket:set({
-            background = {
-                color = colors[appearance].orange_bg
-            }
-        })
-        cal:set({
-            icon = { color = colors[appearance].orange },
-            label = { color = colors[appearance].orange }
-        })
+
+        sbar.animate("tanh", 10, function()
+            bracket:set({
+                background = {
+                    color = colors[appearance].orange_bg
+                }
+            })
+            cal:set({
+                icon = { color = colors[appearance].orange },
+                label = { color = colors[appearance].orange }
+            })
+        end)
     end)
 end)
 

@@ -51,15 +51,14 @@ local battery = sbar.add("item", "widgets.battery", {
 })
 
 local battery_bracket = sbar.add("bracket", "widgets.battery.bracket", { battery.name }, {
-    background = { border_width = 0 },
+    background = {
+        border_width = 0,
+    },
     shadow = true,
 })
 
-battery_bracket:subscribe("apperace_change", function(env)
-    battery_status()
-end)
 
-function battery_status()
+local function battery_status()
     sbar.exec("defaults read -g AppleInterfaceStyle 2>/dev/null || echo 'Light'", function(theme)
         sbar.exec("pmset -g batt", function(batt_info)
             local icon = "!"
@@ -74,7 +73,7 @@ function battery_status()
             end
 
             local charging, _, _ = batt_info:find("AC Power")
-            local appearance = theme:match("^%s*(.-)%s*$"):lower()
+            appearance = theme:match("^%s*(.-)%s*$"):lower()
             label, color, color_bg = colored_label(charging, label, found, charge, appearance, color, color_bg)
             notify_island(charge)
 
@@ -84,18 +83,26 @@ function battery_status()
                 lead = "0"
             end
 
-            battery:set({
-                label = { string = "B ⋮ " .. lead .. label, color = color },
-            })
 
-            battery_bracket:set({
-                background = {
-                    color = color_bg
-                }
-            })
+            sbar.animate("tanh", 10, function()
+                battery:set({
+                    label = { string = "B ⋮ " .. lead .. label, color = color },
+                })
+
+                battery_bracket:set({
+                    background = {
+                        color = color_bg
+                    }
+                })
+            end)
         end)
     end)
 end
+
+battery_bracket:subscribe("apperace_change", function(env)
+    battery_status()
+end)
+
 
 battery:subscribe({ "routine", "power_source_change", "system_woke" }, function()
     battery_status()
