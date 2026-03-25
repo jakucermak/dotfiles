@@ -2,6 +2,7 @@
 let
   tmux-ayu = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-ayu";
+    rtpFilePath = "ayu.tmux";
     version = "unstable";
     src = pkgs.fetchFromGitHub {
       owner = "jakucermak";
@@ -11,26 +12,18 @@ let
     };
   };
 
-  tmux-dark-notify = pkgs.tmuxPlugins.mkTmuxPlugin {
-    pluginName = "tmux-dark-notify";
-    version = "unstable";
-    src = pkgs.fetchFromGitHub {
-      owner = "erikw";
-      repo = "tmux-dark-notify";
-      rev = "49d12c539f655523726b57cf464ecb355f1590b7";
-      sha256 = "sha256-SvzptypGHGuQxGwjEZSy/A0ebb5Te+1eu/2TXJBhJBc=";
-    };
+  tmux-dark-notify-src = pkgs.fetchFromGitHub {
+    owner = "erikw";
+    repo = "tmux-dark-notify";
+    rev = "49d12c539f655523726b57cf464ecb355f1590b7";
+    sha256 = "sha256-SvzptypGHGuQxGwjEZSy/A0ebb5Te+1eu/2TXJBhJBc=";
   };
 
-  aw-watcher-tmux = pkgs.tmuxPlugins.mkTmuxPlugin {
-    pluginName = "aw-watcher-tmux";
-    version = "unstable";
-    src = pkgs.fetchFromGitHub {
-      owner = "akohlbecker";
-      repo = "aw-watcher-tmux";
-      rev = "efaa7610add52bd2b39cd98d0e8e082b1e126487";
-      sha256 = "sha256-L6YLyEOmb+vdz6bJdB0m5gONPpBp2fV3i9PiLSNrZNM=";
-    };
+  aw-watcher-tmux-src = pkgs.fetchFromGitHub {
+    owner = "akohlbecker";
+    repo = "aw-watcher-tmux";
+    rev = "efaa7610add52bd2b39cd98d0e8e082b1e126487";
+    sha256 = "sha256-L6YLyEOmb+vdz6bJdB0m5gONPpBp2fV3i9PiLSNrZNM=";
   };
 in
 {
@@ -44,11 +37,8 @@ in
 
     plugins = with pkgs.tmuxPlugins; [
       tmux-ayu
-      tmux-which-key
       tmux-sessionx
       resurrect
-      tmux-dark-notify
-      aw-watcher-tmux
     ];
 
     extraConfig = ''
@@ -79,40 +69,40 @@ in
       set-hook -g after-select-window 'run-shell "printf \"\033]2;%s\033\\\\\" \"$(tmux display-message -p \"#S:#W\")\" > #{pane_tty}"'
       set-hook -g after-select-pane   'run-shell "printf \"\033]2;%s\033\\\\\" \"$(tmux display-message -p \"#S:#W\")\" > #{pane_tty}"'
 
-      # -- Configure Ayu --
+      # Configure Ayu
       set -g @ayu_status_background "none"
       set -g @ayu_window_status_style "none"
       set -g @ayu_pane_status_enabled "off"
       set -g @ayu_pane_border_status "off"
 
-      # -- Status left look and feel --
+      # -- Status left look and feel
       set -g status-left-length 100
       set -g status-left ""
-      set -ga status-left "#{?client_prefix,#{#[bg=#{@thm_red},fg=#{@thm_bg},bold]  #S },#{#[bg=#{@thm_bg},fg=#{@thm_green}]  #S }}"
+      set -ga status-left "#{?client_prefix,#{#[bg=#{@thm_red},fg=#{@thm_bg},bold]  #S },#{#[bg=#{@thm_bg},fg=#{@thm_green}]  #S }}"
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_ui_line},none]│"
-      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_purple}]  #{pane_current_command} "
+      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_purple}]  #{pane_current_command} "
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_ui_line},none]│"
-      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_blue}]  #{=/-32/...:#{s|$USER|~|:#{b:pane_current_path}}} "
+      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_blue}]  #{=/-32/...:#{s|$USER|~|:#{b:pane_current_path}}} "
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_ui_line},none]#{?window_zoomed_flag,│,}"
-      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_accent_tint}]#{?window_zoomed_flag,  zoom ,}"
+      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_accent_tint}]#{?window_zoomed_flag,  zoom ,}"
 
-      # -- Status right look and feel --
+      # -- Status right look and feel
       set -g status-right-length 100
       set -g status-right ""
       set -ga status-right "#[bg=#{@thm_bg},fg=#{@thm_blue}] 󰭦 %Y-%m-%d 󰅐 %H:%M "
 
-      # -- Configure Tmux --
+      # -- Configure Tmux
       set -g status-position top
       set -g status-style "bg=#{@thm_bg}"
       set -g status-justify "absolute-centre"
 
-      # -- Pane border look and feel --
+      # -- Pane border look and feel
       setw -g pane-border-status top
       setw -g pane-border-format ""
       setw -g pane-border-style "bg=#{@thm_bg},fg=#{@thm_accent_on}"
       setw -g pane-border-lines single
 
-      # -- Window look and feel --
+      # -- Window look and feel
       set -wg automatic-rename on
       set -g automatic-rename-format "Window"
       set -g window-status-format " #I#{?#{!=:#{window_name},Window},: #W,} "
@@ -128,6 +118,10 @@ in
       set -g @dark-notify-theme-path-light '$HOME/.tmux/light.conf'
       set -g @dark-notify-theme-path-dark '$HOME/.tmux/dark.conf'
       set -g @sessionx-tmuxinator-mode 'on'
+
+      # -- Plugins that need user PATH and spawn background processes --
+      run-shell "nohup ${tmux-dark-notify-src}/main.tmux >/dev/null 2>&1 &"
+      run-shell "nohup ${aw-watcher-tmux-src}/aw-watcher-tmux.tmux >/dev/null 2>&1 &"
 
       # -- Local dev plugin --
       run /Users/jakubcermak/Projects/personal/tmux-which/tmux-which.tmux
