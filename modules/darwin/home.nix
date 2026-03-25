@@ -10,7 +10,7 @@
     ../shared
     ./sketchybar
     ./hammerspoon
-    ./borders
+    # ./borders
   ]
   ++ (
     if wm == "yabai" then
