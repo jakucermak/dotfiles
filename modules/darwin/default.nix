@@ -2,7 +2,6 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-  imports = [ ./borders ];
 
   environment.systemPackages = [ pkgs.home-manager ];
 
@@ -23,7 +22,6 @@
       { name = "jesseduffield/lazygit/lazygit"; }
     ];
     casks = [
-      "warp"
       "sublime-merge"
       "ghostty"
       "zed@preview"
@@ -35,11 +33,8 @@
       "twingate"
       "chromium"
       "macfuse"
+      "hammerspoon"
     ];
-    masApps = {
-      # "Spark" = 6445813049;
-      # "WireGurad" = 1451685025;
-    };
   };
 
   fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
