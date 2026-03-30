@@ -18,7 +18,6 @@
       ls = "lsd";
       py = "${pkgs.python3}/bin/python3";
       cat = "bat";
-      sw = "telnet towel.blinkenlights.nl";
       vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
       zj = "${pkgs.zellij}/bin/zellij";
     };

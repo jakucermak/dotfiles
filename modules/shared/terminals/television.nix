@@ -1,75 +1,21 @@
 { pkgs, ... }:
 {
 
-  pkgs = pkgs.television;
+  home.packages = [ pkgs.television ];
 
-  xdg.configFile.".config/television/config.toml".text = ''
-    # CONFIGURATION FILE LOCATION ON YOUR SYSTEM:
-    # -------------------------------------------
-    # Defaults:
-    # ---------
-    #  Linux:   `$HOME/.config/television/config.toml`
-    #  macOS:   `$HOME/.config/television/config.toml`
-    #  Windows: `%LocalAppData%\television\config.toml`
-    #
-    # XDG dirs:
-    # ---------
-    # You may use XDG_CONFIG_HOME if set on your system.
-    # In that case, television will expect the configuration file to be in:
-    # `$XDG_CONFIG_HOME/television/config.toml`
-    #
-
-    # General settings
-    # ----------------------------------------------------------------------------
+  xdg.configFile."television/config.toml".force = true;
+  xdg.configFile."television/config.toml".text = ''
     tick_rate = 50
     default_channel = "files"
-    # Shell settings
-    # --------------
-    # Default shell used for executing commands (source, preview, actions).
-    # Options: bash, zsh, fish, powershell, cmd, nu
-    # If not specified, the shell is detected from the environment ($SHELL on Unix).
-    # Channel-specific shell settings override this global setting.
-    # shell = "bash"
-    # History settings
-    # ---------------
-    # Maximum number of entries to keep in the global history (default: 100)
-    # The history tracks search queries across all channels and sessions
-    # Set to 0 to disable history functionality entirely
-    history_size = 200
-    # Whether to use global history (default: false)
-    # When true: history navigation shows entries from all channels
-    # When false: history navigation is scoped to the current channel
     global_history = false
 
     [ui]
-    # How much space to allocate for the UI (in percentage of the screen)
-    # ┌─────────────────────────┐
-    # │     Terminal screen     │
-    # │  ┌───────────────────┐  │
-    # │  │                   │  │
-    # │  │  Television UI    │  │
-    # │  │                   │  │
-    # │  └───────────────────┘  │
-    # │                         │
-    # └─────────────────────────┘
     ui_scale = 100
-    # What orientation should tv be (landscape or portrait)
-    orientation = "landscape"
-    # The theme to use for the UI
-    # A list of builtin themes can be found in the `themes` directory of the television
-    # repository. You may also create your own theme by creating a new file in a `themes`
-    # directory in your configuration directory (see the `config.toml` location above).
-    theme = "default"
+    theme = "catppuccin-mocha"
 
-    # Feature-specific configurations
-    # Each feature can have its own configuration section
     [ui.input_bar]
-    # Where to place the input bar in the UI (top or bottom)
     position = "top"
-    # The input prompt string (defaults to ">" if not specified)
     prompt = ">"
-    # header = "{}"
-    # padding = {"left": 0, "right": 0, "top": 0, "bottom": 0}
     border_type = "rounded" # https://docs.rs/ratatui/latest/ratatui/widgets/block/enum.BorderType.html#variants
 
     [ui.status_bar]
@@ -101,29 +47,13 @@
     hidden = true
 
     [ui.remote_control]
-    # Whether to show channel descriptions in remote control mode
     show_channel_descriptions = true
-    # Whether to sort channels alphabetically
     sort_alphabetically = true
     # disabled = false
 
-    # Theme color overrides
-    # ---------------------
-    # You can override specific colors from the selected theme by adding them here.
-    # This allows you to customize the appearance without creating a full theme file.
-    # Colors can be specified as ANSI color names (e.g., "red", "bright-blue") or
-    # as hex values (e.g., "#ff0000", "#1e1e2e").
-    #
-    # Example overrides:
-    # [ui.theme_overrides]
-    # background = "#000000"
-    # text_fg = "#ffffff"
-    # selection_bg = "#444444"
-    # match_fg = "#ff0000"
-
     # Keybindings and Events
     # ----------------------------------------------------------------------------
-    #
+
     [keybindings]
     # Application control
     # ------------------
@@ -258,5 +188,62 @@
     # controls which keybinding should trigger tv
     # for command history
     "command_history" = "ctrl-r"
+  '';
+
+  xdg.configFile."television/themes/catppuccin-mocha.toml".force = true;
+  xdg.configFile."television/themes/catppuccin-mocha.toml".text = ''
+    # general
+    background = '#1e1e2e'
+    border_fg = '#6c7086'
+    text_fg = '#cdd6f4'
+    dimmed_text_fg = '#6c7086'
+    # input
+    input_text_fg = '#f38ba8'
+    result_count_fg = '#f38ba8'
+    # results
+    result_name_fg = '#89b4fa'
+    result_line_number_fg = '#f9e2af'
+    result_value_fg = '#b4befe'
+    selection_fg = '#a6e3a1'
+    selection_bg = '#313244'
+    match_fg = '#f38ba8'
+    # preview
+    preview_title_fg = '#fab387'
+    # modes
+    channel_mode_fg = '#1e1e2e'
+    channel_mode_bg = '#f5c2e7'
+    remote_control_mode_fg = '#1e1e2e'
+    remote_control_mode_bg = '#a6e3a1'
+    send_to_channel_mode_fg = '#89dceb'
+  '';
+
+  xdg.configFile."television/channels/sesh.toml".force = true;
+  xdg.configFile."television/channels/sesh.toml".text = ''
+    [metadata]
+    name = "sesh"
+    description = "Session manager integrating tmux sessions, zoxide directories, and config paths"
+    requirements = [ "sesh", "fd",]
+
+    [source]
+    command = [ "sesh list --icons", "sesh list -t --icons", "sesh list -c --icons", "sesh list -z --icons", "fd -H -d 2 -t d -E .Trash . ~",]
+    ansi = true
+    output = "{strip_ansi|split: :1..|join: }"
+
+    [preview]
+    command = "sesh preview '{strip_ansi|split: :1..|join: }'"
+
+    [keybindings]
+    enter = "actions:connect"
+    ctrl-d = [ "actions:kill_session", "reload_source",]
+
+    [actions.connect]
+    description = "Connect to selected session"
+    command = "sesh connect '{strip_ansi|split: :1..|join: }'"
+    mode = "execute"
+
+    [actions.kill_session]
+    description = "Kill selected tmux session (press Ctrl+r to reload)"
+    command = "tmux kill-session -t '{strip_ansi|split: :1..|join: }'"
+    mode = "fork"
   '';
 }

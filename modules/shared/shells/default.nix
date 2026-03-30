@@ -1,7 +1,8 @@
-{ ... }: {
+{ ... }:
+{
   imports = [
-    # ./fish.nix
     ./zshell.nix
     ./starship.nix
+    ./sesh.nix
   ];
 }
