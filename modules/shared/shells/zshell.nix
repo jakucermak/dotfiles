@@ -58,7 +58,7 @@
 
       function fzf-loader() {
         eval "$(fzf --zsh)"
-        unfunction fzf-loader
+        zle fzf-history-widget
       }
       zle -N fzf-loader
       bindkey '^R' fzf-loader
@@ -176,6 +176,8 @@
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
       export PATH="${pkgs.zellij}/bin:$PATH"
+
+      export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=fg:#bfbdb6,bg:#10141C,hl:#39bae6 --color=fg+:#bfbdb6,bg+:#0d1017,hl+:#5fd7ff --color=info:#70bf56,prompt:#e6b450,pointer:#d2a6ff --color=marker:#59c2ff,spinner:#d2a6ff,header:#73b8ff'
     '';
   };
 }

@@ -3,7 +3,7 @@
 let
   colors = {
     green = "#AAD94C";
-    orange = "#FFB454";
+    orange = "#E6B450";
     d_orange = "#2e210f";
     red = "#F07178";
     yellow = "#F4B664";
@@ -14,14 +14,14 @@ let
     magenta = "#D2A6FF";
   };
 
-in {
+in
+{
   programs.starship = {
     enable = true;
     enableNushellIntegration = false;
     settings = {
       add_newline = true;
-      format =
-        "$username$directory$git_branch$git_status$golang$python$php$nodejs$rust(${colors.blue})$character";
+      format = "$username$directory$git_branch$git_status$golang$python$php$nodejs$rust(${colors.orange})$character";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";
         style = "bold ${colors.green}";
@@ -34,22 +34,26 @@ in {
       };
 
       git_branch = {
-        format =
-          "[─](${colors.blue}) [$symbol $branch(:$remote_branch)]($style) ";
+        format = "[─](${colors.blue}) [$symbol $branch(:$remote_branch)]($style) ";
         style = "bold ${colors.magenta}";
         symbol = "";
       };
-      golang = { format = "[─](${colors.blue}) [$symbol($version)]($style) "; };
+      golang = {
+        format = "[─](${colors.blue}) [$symbol($version)]($style) ";
+      };
       php = {
         format = "[─](${colors.blue}) [$symbol($version)]($style) ";
         symbol = " ";
       };
       python = {
-        format =
-          "[─](${colors.blue}) [$symbol$pyenv_prefix($version)(( $virtualenv))]($style) ";
+        format = "[─](${colors.blue}) [$symbol$pyenv_prefix($version)(( $virtualenv))]($style) ";
       };
-      nodejs = { format = "[─](${colors.blue}) [$symbol($version)]($style) "; };
-      rust = { format = "[─](${colors.blue}) [$symbol($version)]($style) "; };
+      nodejs = {
+        format = "[─](${colors.blue}) [$symbol($version)]($style) ";
+      };
+      rust = {
+        format = "[─](${colors.blue}) [$symbol($version)]($style) ";
+      };
       nix_shell = {
         format = "[─](${colors.blue}) [$symbol$state]($style) ";
         symbol = "❄️ ";
@@ -63,7 +67,9 @@ in {
         format = "[$user]($style) [─](${colors.blue}) ";
         style_user = "bold ${colors.fg}";
       };
-      character = { format = "[❭](${colors.blue}) "; };
+      character = {
+        format = "[❭](${colors.blue}) ";
+      };
     };
   };
 }
