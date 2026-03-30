@@ -35,6 +35,7 @@
         socat
         ansible-lint
         ansible
+        sesh
       ];
 
       sessionVariables = {
