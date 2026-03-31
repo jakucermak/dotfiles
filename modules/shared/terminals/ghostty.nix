@@ -51,7 +51,7 @@
     palette = 5=#C385FE
     palette = 6=#84CEB5
     palette = 7=#FFFFFF
-    palette = 8=#0A0000
+    palette = 8=#5A6673
     palette = 9=#F07178
     palette = 10=#AAD94C
     palette = 11=#FFB454

@@ -18,7 +18,6 @@
       ls = "lsd";
       py = "${pkgs.python3}/bin/python3";
       cat = "bat";
-      sw = "telnet towel.blinkenlights.nl";
       vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
       zj = "${pkgs.zellij}/bin/zellij";
     };
@@ -59,7 +58,7 @@
 
       function fzf-loader() {
         eval "$(fzf --zsh)"
-        unfunction fzf-loader
+        zle fzf-history-widget
       }
       zle -N fzf-loader
       bindkey '^R' fzf-loader
@@ -177,6 +176,14 @@
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
       export PATH="${pkgs.zellij}/bin:$PATH"
+
+      export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+        --color=fg:#bfbdb6,fg+:#d0d0d0,bg:#10141C,bg+:#0D1017
+        --color=hl:#39bae6,hl+:#5fd7ff,info:#70bf56,marker:#59c2ff
+        --color=prompt:#e6b450,spinner:#d2a6ff,pointer:#d2a6ff,header:#73b8ff
+        --color=gutter:#0D1017,border:#1B1F29,label:#aeaeae,query:#d9d9d9
+        --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="❭ "
+        --marker="❭ " --pointer="▌" --separator="─" --scrollbar="│"'
     '';
   };
 }

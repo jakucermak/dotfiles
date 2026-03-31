@@ -1,9 +1,8 @@
-{ config, ... }: {
+{ config, ... }:
+{
 
   home.file.".config/sketchybar" = {
-    source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/dotfiles/modules/darwin/sketchybar/config";
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/modules/darwin/sketchybar/config";
     recursive = true;
   };
-
 }

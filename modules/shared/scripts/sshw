@@ -7,7 +7,6 @@ if [[ $# -lt 1 ]]; then
 fi
 
 while :; do
-  # během běhu ssh nech Ctrl-C fungovat normálně
   trap - INT
   ssh "$@"
   rc=$?
@@ -15,7 +14,6 @@ while :; do
   echo
   echo "ssh ended (exit code $rc). Press Enter to reconnect. (Close terminal to stop.)"
 
-  # při čekání na Enter ignoruj Ctrl-C
   trap '' INT
   while ! IFS= read -r _; do :; done
 done

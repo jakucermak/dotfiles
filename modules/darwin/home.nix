@@ -1,14 +1,26 @@
-{ wm, pkgs, lib, ... }: {
+{
+  wm,
+  pkgs,
+  lib,
+  ...
+}:
+{
 
   imports = [
-    # home pkgs
     ../shared
     ./sketchybar
-  ] ++ (if wm == "yabai" then [
-    ./yabai.nix
-    ./skhd.nix
-  ] else
-    [ ./aerospace.nix ]);
+    ./hammerspoon
+    # ./borders
+  ]
+  ++ (
+    if wm == "yabai" then
+      [
+        ./yabai.nix
+        ./skhd.nix
+      ]
+    else
+      [ ./aerospace.nix ]
+  );
 
   home = {
 
@@ -21,7 +33,9 @@
       echo "Home Manager: WM is set to ${wm}"
     '';
 
-    sessionVariables = { SKHD_SCRIPTS_DIR = "~/.config/skhd_skripts"; };
+    sessionVariables = {
+      SKHD_SCRIPTS_DIR = "~/.config/skhd_skripts";
+    };
 
   };
 }

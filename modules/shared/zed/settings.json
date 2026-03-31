@@ -13,18 +13,6 @@
   "prettier": {
     "allowed": false
   },
-  "ssh_connections": [
-    {
-      "host": "him-edge-dev",
-      "args": [],
-      "projects": []
-    },
-    {
-      "host": "him-edge-dev.local",
-      "args": [],
-      "projects": []
-    }
-  ],
   "icon_theme": {
     "mode": "system",
     "light": "Colored Zed Icons Theme Dark",
@@ -135,7 +123,6 @@
     },
   },
   "agent": {
-    "always_allow_tool_actions": true,
     "inline_assistant_model": {
       "provider": "zed.dev",
       "model": "claude-opus-4-6-thinking",
@@ -162,7 +149,7 @@
     },
   },
   "relative_line_numbers": "enabled",
-  // "semantic_tokens": "combined",
+  "semantic_tokens": "combined",
   "lsp": {
     "nixd": {
       "settings": {
@@ -187,24 +174,5 @@
         "activitywatch"
       ]
     }
-  },
-  "file_types": {
-    "Ansible": [
-      "**.ansible.yml",
-      "**/defaults/**.yml",
-      "**/defaults/**.yaml",
-      "**/meta/**.yml",
-      "**/meta/**.yaml",
-      "**/tasks/**.yml",
-      "**/tasks/*.yml",
-      "**/tasks/*.yaml",
-      "**/handlers/*.yml",
-      "**/handlers/*.yaml",
-      "**/group_vars/**.yml",
-      "**/group_vars/**.yaml",
-      "**playbook*.yaml",
-      "**playbook*.yml",
-      "/Users/jakubcermak/HUG/ansible_playbooks/*.yml",
-    ],
   },
 }

@@ -1,4 +1,8 @@
 { ... }:
 {
-  imports = [ ./ghostty.nix ];
+  imports = [
+    ./ghostty.nix
+    ./tmux.nix
+    ./television.nix
+  ];
 }
