@@ -11,6 +11,7 @@
       gs = "git status";
       ga = "git add";
       gcm = "git commit -m";
+      gp = "git push";
       lg = "${pkgs.lazygit}/bin/lazygit";
 
       # General aliases
