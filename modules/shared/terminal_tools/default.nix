@@ -1,9 +1,9 @@
 { ... }:
 {
   imports = [
-    ./sesh
+    ./sesh.nix
     ./tmux.nix
     ./television.nix
-    ./zellij
+    ./zellij.nix
   ];
 }
