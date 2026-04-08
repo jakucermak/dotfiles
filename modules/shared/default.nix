@@ -7,6 +7,7 @@
     ./terminals
     ./shells
     ./editors
+    ./terminal_tools
   ];
 
   home =

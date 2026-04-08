@@ -9,12 +9,18 @@
     }
   },
   {
-    "context": "Workspace && vim_mode == normal",
+    "context": "ProjectPanel && not_editing",
     "bindings": {
-      "space n t": [
+      "enter": [
         "workspace::SendKeystrokes",
-        "cmd-b cmd-shift-e"
+        "space cmd-b"
       ],
+    }
+  },
+  {
+    "context": "Workspace && !Editor",
+    "bindings": {
+      "space n t": "project_panel::ToggleFocus",
       "space f f": "file_finder::Toggle"
     }
   },

@@ -67,7 +67,6 @@
       "proxy": null,
       "proxy_no_verify": null,
     },
-    "enabled_in_text_threads": false,
   },
   "outline_panel": {
     "dock": "right",

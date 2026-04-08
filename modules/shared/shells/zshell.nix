@@ -43,14 +43,6 @@
         atload"_zsh_autosuggest_start" \
         zsh-users/zsh-completions
 
-      # Load git and npm functionality in turbo mode
-      zinit wait lucid for \
-        OMZL::git.zsh \
-        OMZP::git/git.plugin.zsh
-
-      zinit wait lucid for \
-        OMZP::npm/npm.plugin.zsh
-
       # Lazy load tools
       eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
 

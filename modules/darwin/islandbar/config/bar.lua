@@ -28,4 +28,5 @@ sbar.bar({
     margin        = bar_margin,
     corner_radius = CORNER_R,
     notch_width   = 0,
+    display       = "main",
 })
