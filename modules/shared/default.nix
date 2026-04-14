@@ -21,7 +21,7 @@
         curl
         fzf
         git
-	glab
+        glab
         nil
         nixd
         nixfmt
