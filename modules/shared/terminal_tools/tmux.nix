@@ -25,6 +25,33 @@ let
     rev = "efaa7610add52bd2b39cd98d0e8e082b1e126487";
     sha256 = "sha256-L6YLyEOmb+vdz6bJdB0m5gONPpBp2fV3i9PiLSNrZNM=";
   };
+
+  tmux-agent-sidebar-src = pkgs.fetchFromGitHub {
+    owner = "hiroppy";
+    repo = "tmux-agent-sidebar";
+    rev = "235ceab7ea1cc37efd16b83f57200578cd6b5039";
+    hash = "sha256-jyz3uvRgYpI2Wf9FY3jQtXEJEkgzr19a9e387ka8Hlg=";
+    name = "tmux-agent-sidebar";
+  };
+
+  tmux-agent-sidebar-bin = pkgs.rustPlatform.buildRustPackage {
+    pname = "tmux-agent-sidebar";
+    version = "unstable-2026-04-14";
+    src = tmux-agent-sidebar-src;
+    cargoHash = "sha256-rtjo+zFvSbgB27ZeJNU+9nogmYA2POXlLmWyt1wGbwY=";
+    doCheck = false;
+  };
+
+  tmux-agent-sidebar = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "tmux-agent-sidebar";
+    rtpFilePath = "tmux-agent-sidebar.tmux";
+    version = "unstable-2026-04-14";
+    src = tmux-agent-sidebar-src;
+    postInstall = ''
+      mkdir -p $target/bin
+      ln -s ${tmux-agent-sidebar-bin}/bin/tmux-agent-sidebar $target/bin/tmux-agent-sidebar
+    '';
+  };
 in
 {
   programs.tmux = {
@@ -39,6 +66,7 @@ in
       tmux-ayu
       tmux-sessionx
       resurrect
+      tmux-agent-sidebar
     ];
 
     extraConfig = ''
