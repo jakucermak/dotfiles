@@ -13,23 +13,36 @@ let
     ];
   };
 
+  osc777Hook = {
+    matcher = "";
+    hooks = [
+      {
+        type = "command";
+        command = ''
+          bash -c '
+            input=$(cat)
+            title=$(printf "%s" "$input" | ${pkgs.jq}/bin/jq -r ".title // \"Claude Code\"")
+            msg=$(printf "%s" "$input" | ${pkgs.jq}/bin/jq -r ".message // \"Task completed\"")
+            if [ -n "$TMUX" ]; then
+              printf "\033Ptmux;\033\033]777;notify;%s;%s\007\033\\" "$title" "$msg" > /dev/tty
+            else
+              printf "\033]777;notify;%s;%s\007" "$title" "$msg" > /dev/tty
+            fi
+          '
+        '';
+      }
+    ];
+  };
+
   hooks = {
     SessionStart = [ (mkHook "session-start") ];
     SessionEnd = [ (mkHook "session-end") ];
     UserPromptSubmit = [ (mkHook "user-prompt-submit") ];
-    Notification = [ (mkHook "notification") ];
+    Notification = [ (mkHook "notification") osc777Hook ];
     Stop = [ (mkHook "stop") ];
-    StopFailure = [ (mkHook "stop-failure") ];
-    PermissionDenied = [ (mkHook "permission-denied") ];
-    CwdChanged = [ (mkHook "cwd-changed") ];
     SubagentStart = [ (mkHook "subagent-start") ];
     SubagentStop = [ (mkHook "subagent-stop") ];
     PostToolUse = [ (mkHook "activity-log") ];
-    TaskCreated = [ (mkHook "task-created") ];
-    TaskCompleted = [ (mkHook "task-completed") ];
-    TeammateIdle = [ (mkHook "teammate-idle") ];
-    WorktreeCreate = [ (mkHook "worktree-create") ];
-    WorktreeRemove = [ (mkHook "worktree-remove") ];
   };
 
   hooksJson = pkgs.writeText "tmux-agent-sidebar-hooks.json" (builtins.toJSON hooks);

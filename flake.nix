@@ -26,15 +26,6 @@
       flake = false;
     };
 
-    # homebrew-FelixKratz-formulae = {
-    #   url = "github:FelixKratz/homebrew-formulae";
-    #   flake = false;
-    # };
-    # homebrew-jesseduffield-formulae = {
-    #   url = "github:jesseduffield/homebrew-formulae";
-    #   flake = false;
-    # };
-
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
   };
@@ -72,7 +63,7 @@
             nixpkgs.overlays = [
               alacritty-theme.overlays.default
               (final: prev: {
-                zjstatus = zjstatus.packages.${prev.system}.default;
+                zjstatus = zjstatus.packages.${prev.stdenv.hostPlatform.system}.default;
               })
             ];
             nix-homebrew = {
@@ -125,21 +116,7 @@
             nix.settings.experimental-features = "nix-command flakes";
             system.stateVersion = 5;
           }
-          # nix-homebrew.darwinModules.nix-homebrew
-          # {
-          #   nixpkgs.overlays = [
-          #     alacritty-theme.overlays.default
-          #     (final: prev: {
-          #       zjstatus = zjstatus.packages.${prev.system}.default;
-          #     })
-          #   ];
-          #   nix-homebrew = {
-          #     enable = true;
-          #     enableRosetta = true;
-          #     user = "jakubcermak";
-          #     autoMigrate = true;
-          #   };
-          # }
+
           home-manager.darwinModules.home-manager
           {
             home-manager = {

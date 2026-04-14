@@ -20,7 +20,7 @@ in
     enable = true;
     enableNushellIntegration = false;
     settings = {
-      add_newline = true;
+      add_newline = false;
       format = "$username$directory$git_branch$git_status$golang$python$php$nodejs$rust(${colors.orange})$character";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";

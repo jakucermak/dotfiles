@@ -41,13 +41,8 @@
       zinit wait lucid for \
         atinit"zicompinit; zicdreplay" \
         zdharma-continuum/fast-syntax-highlighting \
-        atload"_zsh_autosuggest_start" \
+        atload"_zsh_autosuggest_start; eval \"\$(${pkgs.zoxide}/bin/zoxide init zsh)\"; alias cd=z" \
         zsh-users/zsh-completions
-
-      # Lazy load tools
-      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
-
-      alias cd=z
 
       function fzf-loader() {
         eval "$(fzf --zsh)"

@@ -9,13 +9,12 @@
     font-feature = +ss04
     font-feature = +ss05
     font-size = 15
+    adjust-cell-height = 20%
     freetype-load-flags = no-hinting
     window-colorspace = srgb
 
     # Theme
     theme = light:ayu_light_c,dark:ayu_dark
-    background-opacity = 0.85
-    background-blur-radius = 90
 
     # Cursor
     cursor-style = block
@@ -28,11 +27,14 @@
     window-padding-y = 0,0
 
     # macOS
-    macos-titlebar-style = transparent
+    macos-titlebar-style = hidden
+    # macos-titlebar-style = transparent
+    # macos-window-buttons = hidden
     macos-titlebar-proxy-icon = hidden
     confirm-close-surface = false
 
     term = xterm-256color
+    desktop-notifications = true
 
     # Keybindings
     macos-option-as-alt = true
