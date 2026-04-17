@@ -11,7 +11,7 @@
 
     [ui]
     ui_scale = 100
-    theme = "catppuccin-mocha"
+    theme = "ayu-dark"
 
     [ui.input_bar]
     position = "top"
@@ -190,31 +190,31 @@
     "command_history" = "ctrl-r"
   '';
 
-  xdg.configFile."television/themes/catppuccin-mocha.toml".force = true;
-  xdg.configFile."television/themes/catppuccin-mocha.toml".text = ''
+  xdg.configFile."television/themes/ayu-dark.toml".force = true;
+  xdg.configFile."television/themes/ayu-dark.toml".text = ''
     # general
-    background = '#1e1e2e'
-    border_fg = '#6c7086'
-    text_fg = '#cdd6f4'
-    dimmed_text_fg = '#6c7086'
+    background = '#0f1419'
+    border_fg = '#3d4f5c'
+    text_fg = '#e6e1cf'
+    dimmed_text_fg = '#5c6773'
     # input
-    input_text_fg = '#f38ba8'
-    result_count_fg = '#f38ba8'
+    input_text_fg = '#f07178'
+    result_count_fg = '#f07178'
     # results
-    result_name_fg = '#89b4fa'
-    result_line_number_fg = '#f9e2af'
-    result_value_fg = '#b4befe'
-    selection_fg = '#a6e3a1'
-    selection_bg = '#313244'
-    match_fg = '#f38ba8'
+    result_name_fg = '#39bae6'
+    result_line_number_fg = '#e7c547'
+    result_value_fg = '#b8cc52'
+    selection_fg = '#b8cc52'
+    selection_bg = '#253340'
+    match_fg = '#ff7733'
     # preview
-    preview_title_fg = '#fab387'
+    preview_title_fg = '#a37acc'
     # modes
-    channel_mode_fg = '#1e1e2e'
-    channel_mode_bg = '#f5c2e7'
-    remote_control_mode_fg = '#1e1e2e'
-    remote_control_mode_bg = '#a6e3a1'
-    send_to_channel_mode_fg = '#89dceb'
+    channel_mode_fg = '#0f1419'
+    channel_mode_bg = '#ee9ae5'
+    remote_control_mode_fg = '#0f1419'
+    remote_control_mode_bg = '#b8cc52'
+    send_to_channel_mode_fg = '#36a3d9'
   '';
 
   xdg.configFile."television/channels/sesh.toml".force = true;

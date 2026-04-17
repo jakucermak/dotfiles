@@ -12,12 +12,12 @@ let
     };
   };
 
-  tmux-dark-notify-src = pkgs.fetchFromGitHub {
-    owner = "erikw";
-    repo = "tmux-dark-notify";
-    rev = "49d12c539f655523726b57cf464ecb355f1590b7";
-    sha256 = "sha256-SvzptypGHGuQxGwjEZSy/A0ebb5Te+1eu/2TXJBhJBc=";
-  };
+  # tmux-dark-notify-src = pkgs.fetchFromGitHub {
+  #   owner = "erikw";
+  #   repo = "tmux-dark-notify";
+  #   rev = "49d12c539f655523726b57cf464ecb355f1590b7";
+  #   sha256 = "sha256-SvzptypGHGuQxGwjEZSy/A0ebb5Te+1eu/2TXJBhJBc=";
+  # };
 
   aw-watcher-tmux-src = pkgs.fetchFromGitHub {
     owner = "akohlbecker";
@@ -61,6 +61,7 @@ in
       bind -r j select-pane -D
       bind -r h select-pane -L
       bind -r l select-pane -R
+      bind e set-window-option synchronize-panes
 
       bind-key "T" run-shell "sesh connect \"$(
         sesh list --icons | fzf-tmux -p 80%,70% \
@@ -103,6 +104,7 @@ in
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_blue}]  #{=/-32/...:#{s|$USER|~|:#{b:pane_current_path}}} "
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_ui_line},none]#{?window_zoomed_flag,│,}"
       set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_accent_tint}]#{?window_zoomed_flag,  zoom ,}"
+      set -ga status-left "#[bg=#{@thm_bg},fg=#{@thm_accent_tint}]#{?pane_synchronized,  sync ,}"
 
       # -- Status right look and feel
       set -g status-right-length 100
@@ -135,12 +137,12 @@ in
       set -g window-status-current-style "bg=#{@thm_blue},fg=#{@thm_bg},bold"
 
       # -- Plugin settings --
-      set -g @dark-notify-theme-path-light '$HOME/.tmux/light.conf'
-      set -g @dark-notify-theme-path-dark '$HOME/.tmux/dark.conf'
+      # set -g @dark-notify-theme-path-light '$HOME/.tmux/light.conf'
+      # set -g @dark-notify-theme-path-dark '$HOME/.tmux/dark.conf'
       set -g @sessionx-tmuxinator-mode 'on'
+      set -g @sidebar_auto_create off
 
       # -- Plugins that need user PATH and spawn background processes --
-      run-shell "nohup ${tmux-dark-notify-src}/main.tmux >/dev/null 2>&1 &"
       run-shell "nohup ${aw-watcher-tmux-src}/aw-watcher-tmux.tmux >/dev/null 2>&1 &"
 
       # -- Local dev plugin --
