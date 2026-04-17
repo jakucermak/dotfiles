@@ -120,7 +120,7 @@ in
       setw -g pane-border-status top
       setw -g pane-border-format ""
       setw -g pane-border-style "bg=#{@thm_bg},fg=#{@thm_ui_line}"
-      setw -g pane-active-border-style "bg=#{@thm_bg},fg=#{@thm_ui_line}"
+      setw -g pane-active-border-style "bg=#{@thm_bg},fg=#{@thm_accent_tint}"
 
       setw -g pane-border-lines single
 
