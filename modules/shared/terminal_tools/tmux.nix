@@ -64,6 +64,10 @@ in
       bind -r j select-pane -D
       bind -r h select-pane -L
       bind -r l select-pane -R
+      bind -r C-k resize-pane -U 5
+      bind -r C-j resize-pane -D 5
+      bind -r C-h resize-pane -L 5
+      bind -r C-l resize-pane -R 5
       bind e set-window-option synchronize-panes
       bind P if -F "#{==:#{pane-border-format},}" \
         "setw pane-border-status top; setw pane-border-format '#{?pane_active,#[fg=#{@thm_accent_tint}],#[fg=#{@thm_blue}]} [ ###{pane_index} #{?#{@pane_name},#{@pane_name},#{pane_current_command}} ] '; display-message 'Pane names: on'" \
