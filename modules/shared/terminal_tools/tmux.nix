@@ -141,7 +141,7 @@ in
       set -g window-status-bell-style "bg=#{@thm_red},fg=#{@thm_bg},bold"
       set -gF window-status-separator "#[bg=#{@thm_bg},fg=#{@thm_ui_line}]│"
       set -g window-status-current-format " #I#{?#{!=:#{window_name},Window},: #W,} "
-      set -g window-status-current-style "bg=#{@thm_blue},fg=#{@thm_bg},bold"
+      set -g window-status-current-style "bg=#{@thm_bg},fg=#{@thm_accent_tint},bold"
 
       # -- Plugin settings --
       # set -g @dark-notify-theme-path-light '$HOME/.tmux/light.conf'
