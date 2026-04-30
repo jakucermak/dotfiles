@@ -20,9 +20,11 @@ M.powerwatch = {
 
     production = {
         pollSecs        = 300,  -- query ei every 5 min
-        windowHours     = 1,    -- ei averaging window
+        windowHours     = 12,   -- match Activity Monitor's 12 hr power window
         energyThreshold = 500,  -- avg energy impact to trigger on battery
         acThreshold     = 5000, -- avg energy impact to trigger on AC
+        minActiveSecs   = 600,  -- ignore launches shorter than 10 min
+        requiredPolls   = 2,    -- require consecutive high readings
     },
 
     test = {
@@ -30,6 +32,8 @@ M.powerwatch = {
         windowHours     = 1,    -- ei averaging window
         energyThreshold = 100,  -- low threshold to fire easily
         acThreshold     = 500,  -- low AC threshold for testing
+        minActiveSecs   = 20,   -- keep tests from firing on one sample
+        requiredPolls   = 2,
     },
 
     -- Processes to ignore

@@ -41,7 +41,10 @@ in
       tmux-ayu
       tmux-sessionx
       resurrect
-      tmux-agent-sidebar
+      {
+        plugin = tmux-agent-sidebar;
+        extraConfig = "set -g @sidebar_auto_create off";
+      }
     ];
 
     extraConfig = ''
@@ -140,7 +143,6 @@ in
       # set -g @dark-notify-theme-path-light '$HOME/.tmux/light.conf'
       # set -g @dark-notify-theme-path-dark '$HOME/.tmux/dark.conf'
       set -g @sessionx-tmuxinator-mode 'on'
-      set -g @sidebar_auto_create off
 
       # -- Plugins that need user PATH and spawn background processes --
       run-shell "nohup ${aw-watcher-tmux-src}/aw-watcher-tmux.tmux >/dev/null 2>&1 &"
