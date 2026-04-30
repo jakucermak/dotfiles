@@ -65,6 +65,10 @@ in
       bind -r h select-pane -L
       bind -r l select-pane -R
       bind e set-window-option synchronize-panes
+      bind P if -F "#{==:#{pane-border-format},}" \
+        "setw pane-border-status top; setw pane-border-format ' [ ###{pane_index} #{?#{@pane_name},#{@pane_name},#{pane_current_command}} ] '; display-message 'Pane names: on'" \
+        "setw pane-border-status top; setw pane-border-format \"\"; display-message 'Pane names: off'"
+      bind N command-prompt -F -p "pane name:" "set -pt '#{pane_id}' @pane_name '%%%'"
 
       bind-key "T" run-shell "sesh connect \"$(
         sesh list --icons | fzf-tmux -p 80%,70% \
