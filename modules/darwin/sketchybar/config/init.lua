@@ -8,6 +8,7 @@ sbar = require("sketchybar")
 -- Bundle the entire initial configuration into a single message to sketchybar
 sbar.begin_config()
 sbar.add("event", "apperace_change", "AppleInterfaceThemeChangedNotification")
+sbar.add("event", "omniwm_update")
 require("bar")
 require("default")
 require("items")

@@ -35,6 +35,7 @@ in
     baseIndex = 1;
     historyLimit = 10000;
     keyMode = "vi";
+    mouse = true;
     terminal = "xterm-256color";
 
     plugins = with pkgs.tmuxPlugins; [
