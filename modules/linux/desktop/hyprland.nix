@@ -47,10 +47,6 @@
       }
     }
 
-    gestures {
-      workspace_swipe = true
-      workspace_swipe_fingers = 3
-    }
   '';
 
   xdg.configFile."hypr/look.conf".text = ''
@@ -88,7 +84,6 @@
     }
 
     dwindle {
-      pseudotile = true
       preserve_split = true
       smart_split = true
     }
@@ -97,7 +92,6 @@
       disable_hyprland_logo = true
       disable_splash_rendering = true
       force_default_wallpaper = 0
-      new_window_takes_over_fullscreen = 2
     }
   '';
 
