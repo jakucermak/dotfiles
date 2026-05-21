@@ -385,7 +385,7 @@
     [Settings]
     language = en
     folder = ~/Pictures/Wallpapers
-    backend = swww
+    backend = awww
     monitors = All
     fill = fill
     sort = name
