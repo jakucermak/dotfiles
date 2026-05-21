@@ -41,6 +41,32 @@
           }
         else
           pkgs.ghostty;
+      heliumPackage =
+        if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
+          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+        else
+          pkgs.writeShellApplication {
+            name = "helium";
+            text = ''
+              for candidate in /usr/bin/helium /usr/local/bin/helium; do
+                if [ -x "$candidate" ]; then
+                  exec "$candidate" "$@"
+                fi
+              done
+
+              if command -v flatpak >/dev/null 2>&1; then
+                for app_id in net.imput.Helium org.imput.Helium io.github.imputnet.helium; do
+                  if flatpak info "$app_id" >/dev/null 2>&1; then
+                    exec flatpak run "$app_id" "$@"
+                  fi
+                done
+              fi
+
+              echo "Helium is not available as a native ${pkgs.stdenv.hostPlatform.system} package." >&2
+              echo "Install a native Helium package or Flatpak, then this launcher will delegate to it." >&2
+              exit 127
+            '';
+          };
     in
     {
       packages = builtins.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) (
@@ -80,13 +106,13 @@
           virt-manager
         ]
         ++ lib.optionals pkgs.stdenv.isLinux [
-          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+          heliumPackage
         ]
       );
 
       sessionVariables = {
-        EDITOR = lib.mkForce "zeditor";
-        VISUAL = lib.mkForce "zeditor";
+        EDITOR = lib.mkForce "zed";
+        VISUAL = lib.mkForce "zed";
         TERMINAL = "ghostty";
         BROWSER = "helium";
       };
@@ -109,5 +135,23 @@
         "text/plain" = editor;
         "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
       };
+  };
+
+  xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
+    helium = {
+      name = "Helium";
+      genericName = "Web Browser";
+      exec = "helium %U";
+      terminal = false;
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
+      mimeType = [
+        "text/html"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
+    };
   };
 }
