@@ -193,6 +193,7 @@
     exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = waybar
     exec-once = mako
+    exec-once = awww-daemon
     exec-once = wl-paste --type text --watch cliphist store
     exec-once = wl-paste --type image --watch cliphist store
     exec-once = hypridle
