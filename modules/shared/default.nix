@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 {
@@ -78,11 +79,35 @@
           sublime-merge
           virt-manager
         ]
+        ++ lib.optionals pkgs.stdenv.isLinux [
+          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+        ]
       );
 
       sessionVariables = {
-        EDITOR = "nvim";
+        EDITOR = lib.mkForce "zeditor";
+        VISUAL = lib.mkForce "zeditor";
+        TERMINAL = "ghostty";
+        BROWSER = "helium";
       };
 
     };
+
+  xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {
+    enable = true;
+    defaultApplications =
+      let
+        browser = [ "helium.desktop" ];
+        editor = [ "dev.zed.Zed.desktop" ];
+      in
+      {
+        "text/html" = browser;
+        "x-scheme-handler/http" = browser;
+        "x-scheme-handler/https" = browser;
+        "x-scheme-handler/about" = browser;
+        "x-scheme-handler/unknown" = browser;
+        "text/plain" = editor;
+        "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
+      };
+  };
 }
