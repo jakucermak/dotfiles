@@ -298,4 +298,80 @@
       font-size: 14px;
     }
   '';
+
+  xdg.configFile."hypr/hyprpaper.conf".text = ''
+    splash = false
+    ipc = false
+    color = rgba(11131aff)
+  '';
+
+  xdg.configFile."hypr/hypridle.conf".text = ''
+    general {
+      lock_cmd = pidof hyprlock || hyprlock
+      before_sleep_cmd = loginctl lock-session
+      after_sleep_cmd = hyprctl dispatch dpms on
+    }
+
+    listener {
+      timeout = 300
+      on-timeout = loginctl lock-session
+    }
+
+    listener {
+      timeout = 600
+      on-timeout = hyprctl dispatch dpms off
+      on-resume = hyprctl dispatch dpms on
+    }
+  '';
+
+  xdg.configFile."hypr/hyprlock.conf".text = ''
+    general {
+      disable_loading_bar = true
+      hide_cursor = true
+      no_fade_in = false
+    }
+
+    background {
+      monitor =
+      color = rgba(11131aff)
+    }
+
+    label {
+      monitor =
+      text = cmd[update:1000] date +"%H:%M"
+      color = rgba(c0caf5ff)
+      font_size = 64
+      font_family = JetBrainsMono Nerd Font
+      position = 0, 90
+      halign = center
+      valign = center
+    }
+
+    label {
+      monitor =
+      text = $USER
+      color = rgba(7aa2f7ff)
+      font_size = 16
+      font_family = JetBrainsMono Nerd Font
+      position = 0, 20
+      halign = center
+      valign = center
+    }
+
+    input-field {
+      monitor =
+      size = 260, 44
+      outline_thickness = 1
+      dots_size = 0.25
+      dots_spacing = 0.25
+      outer_color = rgba(7aa2f7ff)
+      inner_color = rgba(1a1b26ff)
+      font_color = rgba(c0caf5ff)
+      fade_on_empty = false
+      placeholder_text =
+      position = 0, -55
+      halign = center
+      valign = center
+    }
+  '';
 }
