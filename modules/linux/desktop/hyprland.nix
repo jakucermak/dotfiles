@@ -373,4 +373,9 @@
       valign = center
     }
   '';
+
+  home.file.".dmrc".text = ''
+    [Desktop]
+    Session=gnome
+  '';
 }
