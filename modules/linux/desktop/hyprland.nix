@@ -196,4 +196,106 @@
     export SDL_VIDEODRIVER=wayland
     export CLUTTER_BACKEND=wayland
   '';
+
+  xdg.configFile."waybar/config".text = ''
+    {
+      "layer": "top",
+      "position": "top",
+      "height": 30,
+      "spacing": 8,
+      "modules-left": ["hyprland/workspaces"],
+      "modules-center": ["clock"],
+      "modules-right": ["tray", "network", "pulseaudio", "battery"],
+      "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+      },
+      "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "{:%Y-%m-%d}"
+      },
+      "network": {
+        "format-wifi": "{essid}",
+        "format-ethernet": "wired",
+        "format-disconnected": "offline",
+        "tooltip-format": "{ifname}"
+      },
+      "pulseaudio": {
+        "format": "{volume}%",
+        "format-muted": "muted",
+        "scroll-step": 5
+      },
+      "battery": {
+        "format": "{capacity}%",
+        "format-charging": "{capacity}% charging",
+        "states": {
+          "warning": 30,
+          "critical": 15
+        }
+      },
+      "tray": {
+        "spacing": 8
+      }
+    }
+  '';
+
+  xdg.configFile."waybar/style.css".text = ''
+    * {
+      border: none;
+      border-radius: 0;
+      font-family: "JetBrainsMono Nerd Font", monospace;
+      font-size: 12px;
+      min-height: 0;
+    }
+
+    window#waybar {
+      background: #11131a;
+      color: #c0caf5;
+      border-bottom: 1px solid #2f3549;
+    }
+
+    #workspaces button {
+      color: #7aa2f7;
+      padding: 0 10px;
+      background: transparent;
+    }
+
+    #workspaces button.active {
+      color: #11131a;
+      background: #7aa2f7;
+    }
+
+    #clock,
+    #network,
+    #pulseaudio,
+    #battery,
+    #tray {
+      padding: 0 10px;
+    }
+
+    #battery.warning {
+      color: #e0af68;
+    }
+
+    #battery.critical {
+      color: #f7768e;
+    }
+  '';
+
+  xdg.configFile."walker/config.toml".text = ''
+    terminal = "ghostty"
+
+    [ui]
+    fullscreen = false
+    width = 640
+    height = 420
+  '';
+
+  xdg.configFile."walker/themes/dotfiles.css".text = ''
+    * {
+      font-family: "JetBrainsMono Nerd Font", monospace;
+      font-size: 14px;
+    }
+  '';
 }
