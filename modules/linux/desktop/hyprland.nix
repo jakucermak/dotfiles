@@ -7,6 +7,14 @@
       hyprlock
       waybar
       walker
+      mako
+      cliphist
+      wlogout
+      nwg-look
+      pavucontrol
+      blueman
+      waypaper
+      swww
       wl-clipboard
       grim
       slurp
@@ -17,6 +25,17 @@
       networkmanagerapplet
       nautilus
       xdg-utils
+      (writeShellApplication {
+        name = "cliphist-picker";
+        runtimeInputs = [
+          cliphist
+          walker
+          wl-clipboard
+        ];
+        text = ''
+          cliphist list | walker --dmenu --placeholder Clipboard | cliphist decode | wl-copy
+        '';
+      })
     ]
   );
 
@@ -103,6 +122,13 @@
     bind = $mainMod, Return, exec, $terminal
     bind = $mainMod, E, exec, $editor
     bind = $mainMod, Space, exec, $launcher
+    bind = $mainMod SHIFT, V, exec, cliphist-picker
+    bind = $mainMod SHIFT, Q, exec, wlogout
+    bind = $mainMod SHIFT, S, exec, nwg-look
+    bind = $mainMod SHIFT, A, exec, pavucontrol
+    bind = $mainMod SHIFT, B, exec, blueman-manager
+    bind = $mainMod SHIFT, P, exec, waypaper
+    bind = $mainMod SHIFT, N, exec, makoctl dismiss --all
     bind = $mainMod, Q, killactive
     bind = $mainMod, F, fullscreen
     bind = $mainMod, V, togglefloating
@@ -166,8 +192,12 @@
     exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = waybar
+    exec-once = mako
+    exec-once = wl-paste --type text --watch cliphist store
+    exec-once = wl-paste --type image --watch cliphist store
     exec-once = hypridle
     exec-once = nm-applet --indicator
+    exec-once = blueman-applet
   '';
 
   xdg.configFile."hypr/user.conf".text = ''
@@ -274,6 +304,92 @@
       font-family: "JetBrainsMono Nerd Font", monospace;
       font-size: 14px;
     }
+  '';
+
+  xdg.configFile."mako/config".text = ''
+    font=JetBrainsMono Nerd Font 11
+    background-color=#11131a
+    text-color=#c0caf5
+    border-color=#7aa2f7
+    border-size=1
+    border-radius=0
+    padding=12
+    margin=12
+    width=420
+    height=140
+    default-timeout=6000
+    ignore-timeout=0
+    layer=overlay
+    anchor=top-right
+
+    [urgency=high]
+    border-color=#f7768e
+    default-timeout=0
+  '';
+
+  xdg.configFile."wlogout/layout".text = ''
+    {
+      "label" : "lock",
+      "action" : "hyprlock",
+      "text" : "Lock",
+      "keybind" : "l"
+    }
+    {
+      "label" : "logout",
+      "action" : "hyprctl dispatch exit",
+      "text" : "Logout",
+      "keybind" : "e"
+    }
+    {
+      "label" : "reboot",
+      "action" : "systemctl reboot",
+      "text" : "Reboot",
+      "keybind" : "r"
+    }
+    {
+      "label" : "shutdown",
+      "action" : "systemctl poweroff",
+      "text" : "Shutdown",
+      "keybind" : "s"
+    }
+  '';
+
+  xdg.configFile."wlogout/style.css".text = ''
+    * {
+      font-family: "JetBrainsMono Nerd Font", monospace;
+      font-size: 14px;
+      border-radius: 0;
+    }
+
+    window {
+      background: rgba(17, 19, 26, 0.92);
+    }
+
+    button {
+      color: #c0caf5;
+      background: #1a1b26;
+      border: 1px solid #2f3549;
+      margin: 8px;
+      padding: 16px;
+    }
+
+    button:focus,
+    button:hover {
+      color: #11131a;
+      background: #7aa2f7;
+      border-color: #7aa2f7;
+    }
+  '';
+
+  xdg.configFile."waypaper/config.ini".text = ''
+    [Settings]
+    language = en
+    folder = ~/Pictures/Wallpapers
+    backend = swww
+    monitors = All
+    fill = fill
+    sort = name
+    color = #11131a
   '';
 
   xdg.configFile."hypr/hypridle.conf".text = ''
