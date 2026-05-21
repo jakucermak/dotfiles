@@ -17,10 +17,6 @@
       url = "github:soupglasses/nix-system-graphics";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    helium = {
-      url = "github:AlvaroParker/helium-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     homebrew-core = {

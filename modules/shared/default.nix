@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  inputs,
   ...
 }:
 {
@@ -41,32 +40,6 @@
           }
         else
           pkgs.ghostty;
-      heliumPackage =
-        if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
-          inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
-        else
-          pkgs.writeShellApplication {
-            name = "helium";
-            text = ''
-              for candidate in /usr/bin/helium /usr/local/bin/helium; do
-                if [ -x "$candidate" ]; then
-                  exec "$candidate" "$@"
-                fi
-              done
-
-              if command -v flatpak >/dev/null 2>&1; then
-                for app_id in net.imput.Helium org.imput.Helium io.github.imputnet.helium; do
-                  if flatpak info "$app_id" >/dev/null 2>&1; then
-                    exec flatpak run "$app_id" "$@"
-                  fi
-                done
-              fi
-
-              echo "Helium is not available as a native ${pkgs.stdenv.hostPlatform.system} package." >&2
-              echo "Install a native Helium package or Flatpak, then this launcher will delegate to it." >&2
-              exit 127
-            '';
-          };
     in
     {
       packages = builtins.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) (
@@ -105,16 +78,12 @@
           sublime-merge
           virt-manager
         ]
-        ++ lib.optionals pkgs.stdenv.isLinux [
-          heliumPackage
-        ]
       );
 
       sessionVariables = {
         EDITOR = lib.mkForce "zed";
         VISUAL = lib.mkForce "zed";
         TERMINAL = "ghostty";
-        BROWSER = "helium";
       };
 
     };
@@ -123,33 +92,13 @@
     enable = true;
     defaultApplications =
       let
-        browser = [ "helium.desktop" ];
         editor = [ "dev.zed.Zed.desktop" ];
       in
       {
-        "text/html" = browser;
-        "x-scheme-handler/http" = browser;
-        "x-scheme-handler/https" = browser;
-        "x-scheme-handler/about" = browser;
-        "x-scheme-handler/unknown" = browser;
         "text/plain" = editor;
         "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
       };
   };
 
   xdg.enable = lib.mkIf pkgs.stdenv.isLinux true;
-
-  xdg.dataFile."applications/helium.desktop" = lib.mkIf pkgs.stdenv.isLinux {
-    text = ''
-      [Desktop Entry]
-      Version=1.0
-      Type=Application
-      Name=Helium
-      GenericName=Web Browser
-      Exec=helium %U
-      Terminal=false
-      Categories=Network;WebBrowser;
-      MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
-    '';
-  };
 }
