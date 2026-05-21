@@ -23,20 +23,20 @@
     ]
   );
 
-  xdg.configFile."hypr/hyprland.conf".text = ''
-    source = ~/.config/hypr/monitors.conf
-    source = ~/.config/hypr/input.conf
-    source = ~/.config/hypr/bindings.conf
-    source = ~/.config/hypr/look.conf
-    source = ~/.config/hypr/autostart.conf
-    source = ~/.config/hypr/user.conf
+  xdg.configFile."hypr/dotfiles/hyprland.conf".text = ''
+    source = ~/.config/hypr/dotfiles/monitors.conf
+    source = ~/.config/hypr/dotfiles/input.conf
+    source = ~/.config/hypr/dotfiles/bindings.conf
+    source = ~/.config/hypr/dotfiles/look.conf
+    source = ~/.config/hypr/dotfiles/autostart.conf
+    source = ~/.config/hypr/dotfiles/user.conf
   '';
 
-  xdg.configFile."hypr/monitors.conf".text = ''
+  xdg.configFile."hypr/dotfiles/monitors.conf".text = ''
     monitor = , preferred, auto, 1
   '';
 
-  xdg.configFile."hypr/input.conf".text = ''
+  xdg.configFile."hypr/dotfiles/input.conf".text = ''
     input {
       kb_layout = us
       follow_mouse = 1
@@ -55,7 +55,7 @@
     }
   '';
 
-  xdg.configFile."hypr/look.conf".text = ''
+  xdg.configFile."hypr/dotfiles/look.conf".text = ''
     general {
       gaps_in = 5
       gaps_out = 10
@@ -103,7 +103,7 @@
     }
   '';
 
-  xdg.configFile."hypr/bindings.conf".text = ''
+  xdg.configFile."hypr/dotfiles/bindings.conf".text = ''
     $mainMod = SUPER
     $terminal = ghostty
     $browser = helium
@@ -118,7 +118,6 @@
     bind = $mainMod, F, fullscreen
     bind = $mainMod, V, togglefloating
     bind = $mainMod, P, pseudo
-    bind = $mainMod, J, togglesplit
     bind = $mainMod SHIFT, E, exit
 
     bind = $mainMod, H, movefocus, l
@@ -174,7 +173,7 @@
     bindm = $mainMod, mouse:273, resizewindow
   '';
 
-  xdg.configFile."hypr/autostart.conf".text = ''
+  xdg.configFile."hypr/dotfiles/autostart.conf".text = ''
     exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = waybar
@@ -183,7 +182,7 @@
     exec-once = nm-applet --indicator
   '';
 
-  xdg.configFile."hypr/user.conf".text = ''
+  xdg.configFile."hypr/dotfiles/user.conf".text = ''
     # Local machine overrides go here.
   '';
 
@@ -299,13 +298,13 @@
     }
   '';
 
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
+  xdg.configFile."hypr/dotfiles/hyprpaper.conf".text = ''
     splash = false
     ipc = false
     color = rgba(11131aff)
   '';
 
-  xdg.configFile."hypr/hypridle.conf".text = ''
+  xdg.configFile."hypr/dotfiles/hypridle.conf".text = ''
     general {
       lock_cmd = pidof hyprlock || hyprlock
       before_sleep_cmd = loginctl lock-session
@@ -324,7 +323,7 @@
     }
   '';
 
-  xdg.configFile."hypr/hyprlock.conf".text = ''
+  xdg.configFile."hypr/dotfiles/hyprlock.conf".text = ''
     general {
       disable_loading_bar = true
       hide_cursor = true
