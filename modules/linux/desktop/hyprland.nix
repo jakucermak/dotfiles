@@ -3,10 +3,6 @@
   home.packages = builtins.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) (
     with pkgs;
     [
-      hyprland
-      hyprpaper
-      hypridle
-      hyprlock
       waybar
       walker
       wl-clipboard
@@ -18,7 +14,6 @@
       playerctl
       networkmanagerapplet
       nautilus
-      xdg-desktop-portal-hyprland
       xdg-utils
     ]
   );
@@ -184,16 +179,6 @@
 
   xdg.configFile."hypr/dotfiles/user.conf".text = ''
     # Local machine overrides go here.
-  '';
-
-  xdg.configFile."uwsm/env".text = ''
-    export XDG_CURRENT_DESKTOP=Hyprland
-    export XDG_SESSION_DESKTOP=Hyprland
-    export XDG_SESSION_TYPE=wayland
-    export GDK_BACKEND=wayland,x11
-    export QT_QPA_PLATFORM=wayland;xcb
-    export SDL_VIDEODRIVER=wayland
-    export CLUTTER_BACKEND=wayland
   '';
 
   xdg.configFile."waybar/config".text = ''
