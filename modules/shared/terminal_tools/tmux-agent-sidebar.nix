@@ -3,8 +3,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "hiroppy";
     repo = "tmux-agent-sidebar";
-    rev = "235ceab7ea1cc37efd16b83f57200578cd6b5039";
-    hash = "sha256-jyz3uvRgYpI2Wf9FY3jQtXEJEkgzr19a9e387ka8Hlg=";
+    rev = "e1bfb986f53cf860a9be98f661052ca095c03d84";
+    hash = "sha256-OFSeoPwtJ3Dc9J1VCZIaXt+f4XC9Cb/qDjlxnVa3cK4=";
     name = "tmux-agent-sidebar";
   };
 
@@ -12,7 +12,7 @@ let
     pname = "tmux-agent-sidebar";
     version = "unstable-2026-04-14";
     inherit src;
-    cargoHash = "sha256-rtjo+zFvSbgB27ZeJNU+9nogmYA2POXlLmWyt1wGbwY=";
+    cargoHash = "sha256-a03IQg9koeIv6OpaGGtCb0OB9G5+UYmZUC+ZtLXr3us=";
     doCheck = false;
   };
 in

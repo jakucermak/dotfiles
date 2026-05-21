@@ -20,7 +20,6 @@
       py = "${pkgs.python3}/bin/python3";
       cat = "bat";
       vncviewer = "/Applications/VNC\\ Viewer.app/Contents/MacOS/vncviewer";
-      zj = "${pkgs.zellij}/bin/zellij";
     };
 
     initContent = ''
@@ -71,9 +70,6 @@
         command gcloud "$@"
       }
 
-      # Zellij tab title management - moved to a more efficient implementation
-      if [[ -n $ZELLIJ ]]; then
-        autoload -Uz add-zsh-hook
 
         function set_tab_title() {
           local cmd="$1"
@@ -94,7 +90,6 @@
             fi
           fi
 
-          command nohup ${pkgs.zellij}/bin/zellij action rename-tab "$title" >/dev/null 2>&1
         }
 
         function update_tab_title_precmd() {
@@ -163,7 +158,6 @@
 
       export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
       export PATH="$HOME/.cargo/bin:$PATH"
-      export PATH="${pkgs.zellij}/bin:$PATH"
 
       export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
         --color=fg:#bfbdb6,fg+:#d0d0d0,bg:#10141C,bg+:#0D1017

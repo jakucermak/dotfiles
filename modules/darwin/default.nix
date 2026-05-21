@@ -12,8 +12,6 @@
       "node"
       "mas"
       "telnet"
-      "nmap"
-      "lua"
       "switchaudio-osx"
       "nowplaying-cli"
       "pyenv"
@@ -22,15 +20,11 @@
       { name = "jesseduffield/lazygit/lazygit"; }
     ];
     casks = [
-      "sublime-merge"
-      "ghostty"
       "zed@preview"
-      "chatgpt"
       "vnc-viewer"
       "sf-symbols"
       "font-sf-mono"
       "font-sf-pro"
-      "twingate"
       "chromium"
       "macfuse"
       "hammerspoon"
@@ -65,7 +59,7 @@
         "/Users/jakubcermak/Downloads"
         "/Applications"
       ];
-      mru-spaces = false;
+      mru-spaces = true;
     };
     finder = {
       AppleShowAllExtensions = true;

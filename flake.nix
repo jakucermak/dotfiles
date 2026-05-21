@@ -9,7 +9,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zjstatus.url = "github:dj95/zjstatus";
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-system-graphics = {
+      url = "github:soupglasses/nix-system-graphics";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     homebrew-core = {
@@ -35,14 +42,26 @@
       nixpkgs,
       nix-darwin,
       home-manager,
+      system-manager,
+      nix-system-graphics,
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
       homebrew-bundle,
       alacritty-theme,
-      zjstatus,
       ...
     }:
+    let
+      fedoraArm64System = "aarch64-linux";
+      fedoraArm64Pkgs = import nixpkgs {
+        system = fedoraArm64System;
+        config.allowUnfree = true;
+        overlays = [
+          (final: prev: {
+          })
+        ];
+      };
+    in
     {
 
       darwinConfigurations."mcbp" = nix-darwin.lib.darwinSystem {
@@ -63,7 +82,6 @@
             nixpkgs.overlays = [
               alacritty-theme.overlays.default
               (final: prev: {
-                zjstatus = zjstatus.packages.${prev.stdenv.hostPlatform.system}.default;
               })
             ];
             nix-homebrew = {
@@ -81,6 +99,7 @@
           home-manager.darwinModules.home-manager
           {
             home-manager = {
+              backupFileExtension = "backup";
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
@@ -120,6 +139,7 @@
           home-manager.darwinModules.home-manager
           {
             home-manager = {
+              backupFileExtension = "backup";
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
@@ -161,6 +181,32 @@
               ];
               users.jakubcermak = import ./modules/nixos/home.nix;
             };
+          }
+        ];
+      };
+
+      homeConfigurations."fedora-arm64" = home-manager.lib.homeManagerConfiguration {
+        pkgs = fedoraArm64Pkgs;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [
+          ./modules/linux
+          {
+            home = {
+              username = "jcermak";
+              homeDirectory = "/home/jcermak";
+              stateVersion = "23.11";
+            };
+          }
+        ];
+      };
+
+      systemConfigs."fedora-arm64" = system-manager.lib.makeSystemConfig {
+        modules = [
+          nix-system-graphics.systemModules.default
+          {
+            nixpkgs.hostPlatform = fedoraArm64System;
+            system-manager.allowAnyDistro = true;
+            system-graphics.enable = true;
           }
         ];
       };

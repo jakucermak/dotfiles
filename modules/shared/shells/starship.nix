@@ -21,7 +21,7 @@ in
     enableNushellIntegration = false;
     settings = {
       add_newline = false;
-      format = "$username$directory$git_branch$git_status$golang$python$php$nodejs$rust(${colors.orange})$character";
+      format = "$username$directory$git_branch$git_status$status$cmd_duration$nix_shell$kubernetes$golang$python$php$nodejs$rust$character";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";
         style = "bold ${colors.green}";
@@ -61,6 +61,11 @@ in
       kubernetes = {
         disabled = false;
         format = "[$symbol$context( ($namespace))]($style) ";
+      };
+      status = {
+        disabled = false;
+        format = "[─](${colors.blue}) [$symbol$status]($style) ";
+        style = "bold ${colors.red}";
       };
       username = {
         show_always = false;
