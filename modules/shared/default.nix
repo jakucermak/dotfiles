@@ -139,21 +139,17 @@
 
   xdg.enable = lib.mkIf pkgs.stdenv.isLinux true;
 
-  xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
-    helium = {
-      name = "Helium";
-      genericName = "Web Browser";
-      exec = "helium %U";
-      terminal = false;
-      categories = [
-        "Network"
-        "WebBrowser"
-      ];
-      mimeType = [
-        "text/html"
-        "x-scheme-handler/http"
-        "x-scheme-handler/https"
-      ];
-    };
+  xdg.dataFile."applications/helium.desktop" = lib.mkIf pkgs.stdenv.isLinux {
+    text = ''
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=Helium
+      GenericName=Web Browser
+      Exec=helium %U
+      Terminal=false
+      Categories=Network;WebBrowser;
+      MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
+    '';
   };
 }
