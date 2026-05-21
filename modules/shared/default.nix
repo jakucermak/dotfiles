@@ -137,6 +137,8 @@
       };
   };
 
+  xdg.enable = lib.mkIf pkgs.stdenv.isLinux true;
+
   xdg.desktopEntries = lib.mkIf pkgs.stdenv.isLinux {
     helium = {
       name = "Helium";

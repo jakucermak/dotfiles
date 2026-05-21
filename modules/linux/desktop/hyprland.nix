@@ -107,7 +107,7 @@
     $mainMod = SUPER
     $terminal = ghostty
     $browser = helium
-    $editor = zeditor
+    $editor = zed
     $launcher = walker
 
     bind = $mainMod, Return, exec, $terminal
