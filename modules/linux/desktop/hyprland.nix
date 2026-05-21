@@ -3,7 +3,6 @@
   home.packages = builtins.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) (
     with pkgs;
     [
-      hyprpaper
       hypridle
       hyprlock
       waybar
@@ -167,7 +166,6 @@
     exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     exec-once = waybar
-    exec-once = hyprpaper
     exec-once = hypridle
     exec-once = nm-applet --indicator
   '';
@@ -276,12 +274,6 @@
       font-family: "JetBrainsMono Nerd Font", monospace;
       font-size: 14px;
     }
-  '';
-
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    splash = false
-    ipc = false
-    color = rgba(11131aff)
   '';
 
   xdg.configFile."hypr/hypridle.conf".text = ''
