@@ -26,6 +26,49 @@ let
     sha256 = "sha256-L6YLyEOmb+vdz6bJdB0m5gONPpBp2fV3i9PiLSNrZNM=";
   };
 
+  aw-watcher-tmux = pkgs.runCommand "aw-watcher-tmux-patched" { } ''
+    cp -R ${aw-watcher-tmux-src} "$out"
+    chmod -R u+w "$out"
+
+    substituteInPlace "$out/scripts/monitor-session-activity.sh" \
+      --replace-fail '$(date -Is)' '$(${pkgs.coreutils}/bin/date -Is)' \
+      --replace-fail 'echo $TMP_FILE' 'true'
+
+    substituteInPlace "$out/scripts/monitor-session-activity.sh" \
+      --replace-fail $'log_to_bucket() {\n    sess=$1' $'log_to_bucket() {\n    init_bucket\n    sess=$1'
+  '';
+
+  aw-watcher-tmux-start = pkgs.writeShellApplication {
+    name = "aw-watcher-tmux-start";
+    runtimeInputs = with pkgs; [
+      bash
+      coreutils
+      curl
+      gawk
+      tmux
+    ];
+    text = ''
+      set -euo pipefail
+
+      state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/aw-watcher-tmux"
+      pid_file="$state_dir/watcher.pid"
+      log_file="$state_dir/watcher.log"
+
+      mkdir -p "$state_dir"
+
+      if [ -f "$pid_file" ]; then
+        pid="$(cat "$pid_file" 2>/dev/null || true)"
+        if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+          exit 0
+        fi
+      fi
+
+      echo "[$(date -Is)] starting aw-watcher-tmux" >> "$log_file"
+      nohup ${pkgs.bash}/bin/bash ${aw-watcher-tmux}/scripts/monitor-session-activity.sh >> "$log_file" 2>&1 &
+      echo "$!" > "$pid_file"
+    '';
+  };
+
   tmux-agent-sidebar = pkgs.callPackage ./tmux-agent-sidebar.nix { };
 in
 {
@@ -154,7 +197,7 @@ in
       set -g @sessionx-tmuxinator-mode 'on'
 
       # -- Plugins that need user PATH and spawn background processes --
-      run-shell "nohup ${aw-watcher-tmux-src}/aw-watcher-tmux.tmux >/dev/null 2>&1 &"
+      run-shell -b "${aw-watcher-tmux-start}/bin/aw-watcher-tmux-start"
 
       # -- Local dev plugin --
       run /Users/jakubcermak/Projects/personal/tmux-which/tmux-which.tmux

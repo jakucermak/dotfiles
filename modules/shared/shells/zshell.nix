@@ -102,7 +102,6 @@
 
         add-zsh-hook precmd update_tab_title_precmd
         add-zsh-hook preexec update_tab_title_preexec
-      fi
 
       # VNC viewer setup
       vncparams=(

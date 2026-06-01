@@ -115,13 +115,14 @@
 
   xdg.configFile."hypr/bindings.conf".text = ''
     $mainMod = SUPER
+    $secondMod = ALT_L
     $terminal = ghostty
     $editor = zed
     $launcher = walker
 
     bind = $mainMod, Return, exec, $terminal
     bind = $mainMod, E, exec, $editor
-    bind = $mainMod, Space, exec, $launcher
+    bind = $secondMod, Space, exec, $launcher
     bind = $mainMod SHIFT, V, exec, cliphist-picker
     bind = $mainMod SHIFT, Q, exec, wlogout
     bind = $mainMod SHIFT, S, exec, nwg-look
