@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   tmux-ayu = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-ayu";
@@ -12,18 +12,23 @@ let
     };
   };
 
-  # tmux-dark-notify-src = pkgs.fetchFromGitHub {
-  #   owner = "erikw";
-  #   repo = "tmux-dark-notify";
-  #   rev = "49d12c539f655523726b57cf464ecb355f1590b7";
-  #   sha256 = "sha256-SvzptypGHGuQxGwjEZSy/A0ebb5Te+1eu/2TXJBhJBc=";
-  # };
-
   aw-watcher-tmux-src = pkgs.fetchFromGitHub {
     owner = "akohlbecker";
     repo = "aw-watcher-tmux";
     rev = "efaa7610add52bd2b39cd98d0e8e082b1e126487";
     sha256 = "sha256-L6YLyEOmb+vdz6bJdB0m5gONPpBp2fV3i9PiLSNrZNM=";
+  };
+
+  tmux-floax = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "tmux-floax";
+    rtpFilePath = "floax.tmux";
+    version = "unstable-2026-06-11";
+    src = pkgs.fetchFromGitHub {
+      owner = "omerxx";
+      repo = "tmux-floax";
+      rev = "133f526793d90d2caa323c47687dd5544a2c704b";
+      sha256 = "sha256-9Hb9dn2qHF6KcIhtogvycX3Z0MoQrLPLCzZXtjGlPHw=";
+    };
   };
 
   aw-watcher-tmux = pkgs.runCommand "aw-watcher-tmux-patched" { } ''
@@ -36,6 +41,10 @@ let
 
     substituteInPlace "$out/scripts/monitor-session-activity.sh" \
       --replace-fail $'log_to_bucket() {\n    sess=$1' $'log_to_bucket() {\n    init_bucket\n    sess=$1'
+
+    substituteInPlace "$out/scripts/monitor-session-activity.sh" \
+      --replace-fail "sessions=\$(tmux list-sessions | awk '{print \$1}')" "sessions=\$(tmux list-sessions -F '#{session_name}')" \
+      --replace-fail "act_time=\$(tmux display -t \$sess -p '#{session_activity}')" "act_time=\$(tmux list-windows -t \"\$sess\" -F '#{window_activity}' | ${pkgs.coreutils}/bin/sort -nr | ${pkgs.coreutils}/bin/head -n 1)"
   '';
 
   aw-watcher-tmux-start = pkgs.writeShellApplication {
@@ -69,7 +78,8 @@ let
     '';
   };
 
-  tmux-agent-sidebar = pkgs.callPackage ./tmux-agent-sidebar.nix { };
+  tmux-agent-sidebar-src = pkgs.callPackage ./tmux-agent-sidebar.nix { };
+  tmux-agent-sidebar-home = "$HOME/.tmux/plugins/tmux-agent-sidebar";
 in
 {
   programs.tmux = {
@@ -79,19 +89,29 @@ in
     historyLimit = 10000;
     keyMode = "vi";
     mouse = true;
-    terminal = "xterm-256color";
+    terminal = "tmux-256color";
 
     plugins = with pkgs.tmuxPlugins; [
       tmux-ayu
       tmux-sessionx
-      resurrect
       {
-        plugin = tmux-agent-sidebar;
-        extraConfig = "set -g @sidebar_auto_create off";
+        plugin = tmux-floax;
+        extraConfig = ''
+          set -g @floax-bind '-n M-f'
+          set -g @floax-border-color '#E6B450'
+          set -g @floax-text-color '#E6B450'
+          set -g @floax-width '152'
+          set -g @floax-height '52'
+        '';
       }
+      resurrect
     ];
 
     extraConfig = ''
+      # -- Agent sidebar --
+      set -g @sidebar_auto_create off
+      run-shell -b "bash \"${tmux-agent-sidebar-home}/tmux-agent-sidebar.tmux\""
+
       # -- Basic Settings --
       set -g status-interval 1
       setw -g pane-base-index 1
@@ -112,7 +132,7 @@ in
       bind -r C-j resize-pane -D 5
       bind -r C-h resize-pane -L 5
       bind -r C-l resize-pane -R 5
-      bind e set-window-option synchronize-panes
+      bind S set-window-option synchronize-panes
       bind P if -F "#{==:#{pane-border-format},}" \
         "setw pane-border-status top; setw pane-border-format '#{?pane_active,#[fg=#{@thm_accent_tint}],#[fg=#{@thm_blue}]} [ ###{pane_index} #{?#{@pane_name},#{@pane_name},#{pane_current_command}} ] '; display-message 'Pane names: on'" \
         "setw pane-border-status top; setw pane-border-format \"\"; display-message 'Pane names: off'"
@@ -204,39 +224,57 @@ in
     '';
   };
 
-  # Supporting files
-  home.file.".tmux/tmux-title.sh" = {
-    executable = true;
-    text = ''
-      #!/usr/bin/env bash
-      set -euo pipefail
+  home = {
+    sessionPath = [
+      "$HOME/.tmux/plugins/tmux-agent-sidebar/bin"
+    ];
 
-      client="''${1:-}"
-      if [ -z "$client" ] || [ "$client" = "-" ]; then
-        client="$(tmux display -p '#{client_name}' 2>/dev/null || true)"
-      fi
-
-      tty="$(tmux display -p -t "$client" '#{client_tty}' 2>/dev/null || true)"
-      [ -n "$tty" ] && [ -w "$tty" ] || exit 0
-
-      title="$(tmux display-message -p '
-      #{session_name} | #{?#{==:#{window_name},Window},
-      #{pane_current_path} / #{pane_current_command},
-      #{window_name}}#{?#{&&:#{>:#{window_panes},1},#{!=:#{window_name},Window}},
-       | #{pane_title} / #{pane_current_command},
-      }')"
-
-      printf '\033Ptmux;\033\033]2;%s\007\033\\' "$title" > "$tty"
+    activation.tmuxAgentSidebar = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      plugin_dir="${tmux-agent-sidebar-home}"
+      mkdir -p "$plugin_dir"
+      ${pkgs.rsync}/bin/rsync -a --delete \
+        --exclude=/bin/ \
+        --exclude=/target/ \
+        ${tmux-agent-sidebar-src}/ "$plugin_dir/"
+      chmod -R u+w "$plugin_dir"
+      chmod +x "$plugin_dir/install-wizard.sh" "$plugin_dir/tmux-agent-sidebar.tmux" "$plugin_dir/hook.sh"
     '';
+
+    file = {
+      ".tmux/tmux-title.sh" = {
+        executable = true;
+        text = ''
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          client="''${1:-}"
+          if [ -z "$client" ] || [ "$client" = "-" ]; then
+            client="$(tmux display -p '#{client_name}' 2>/dev/null || true)"
+          fi
+
+          tty="$(tmux display -p -t "$client" '#{client_tty}' 2>/dev/null || true)"
+          [ -n "$tty" ] && [ -w "$tty" ] || exit 0
+
+          title="$(tmux display-message -p '
+          #{session_name} | #{?#{==:#{window_name},Window},
+          #{pane_current_path} / #{pane_current_command},
+          #{window_name}}#{?#{&&:#{>:#{window_panes},1},#{!=:#{window_name},Window}},
+           | #{pane_title} / #{pane_current_command},
+          }')"
+
+          printf '\033Ptmux;\033\033]2;%s\007\033\\' "$title" > "$tty"
+        '';
+      };
+
+      ".tmux/dark.conf".text = ''
+        set -g @ayu_appearance "dark"
+        run ${tmux-ayu}/share/tmux-plugins/tmux-ayu/ayu.tmux
+      '';
+
+      ".tmux/light.conf".text = ''
+        set -g @ayu_appearance "light"
+        run ${tmux-ayu}/share/tmux-plugins/tmux-ayu/ayu.tmux
+      '';
+    };
   };
-
-  home.file.".tmux/dark.conf".text = ''
-    set -g @ayu_appearance "dark"
-    run ${tmux-ayu}/share/tmux-plugins/tmux-ayu/ayu.tmux
-  '';
-
-  home.file.".tmux/light.conf".text = ''
-    set -g @ayu_appearance "light"
-    run ${tmux-ayu}/share/tmux-plugins/tmux-ayu/ayu.tmux
-  '';
 }

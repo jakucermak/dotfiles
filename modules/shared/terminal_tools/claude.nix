@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 let
-  tmux-agent-sidebar = pkgs.callPackage ./tmux-agent-sidebar.nix { };
-  hookScript = "${tmux-agent-sidebar}/share/tmux-plugins/tmux-agent-sidebar/hook.sh";
+  hookScript = "$HOME/.tmux/plugins/tmux-agent-sidebar/hook.sh";
 
   mkHook = arg: {
     matcher = "";
@@ -38,7 +37,10 @@ let
     SessionStart = [ (mkHook "session-start") ];
     SessionEnd = [ (mkHook "session-end") ];
     UserPromptSubmit = [ (mkHook "user-prompt-submit") ];
-    Notification = [ (mkHook "notification") osc777Hook ];
+    Notification = [
+      (mkHook "notification")
+      osc777Hook
+    ];
     Stop = [ (mkHook "stop") ];
     SubagentStart = [ (mkHook "subagent-start") ];
     SubagentStop = [ (mkHook "subagent-stop") ];
@@ -52,14 +54,16 @@ in
     pkgs.claude-code
   ];
 
-  home.activation.tmuxAgentSidebarHooks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    settings="$HOME/.claude/settings.json"
-    mkdir -p "$HOME/.claude"
-    if [ ! -f "$settings" ]; then
-      echo '{}' > "$settings"
-    fi
-    tmp=$(${pkgs.coreutils}/bin/mktemp)
-    ${pkgs.jq}/bin/jq --slurpfile h ${hooksJson} '.hooks = $h[0]' "$settings" > "$tmp"
-    mv "$tmp" "$settings"
-  '';
+  home.activation.tmuxAgentSidebarHooks =
+    lib.hm.dag.entryAfter [ "writeBoundary" "tmuxAgentSidebar" ]
+      ''
+        settings="$HOME/.claude/settings.json"
+        mkdir -p "$HOME/.claude"
+        if [ ! -f "$settings" ]; then
+          echo '{}' > "$settings"
+        fi
+        tmp=$(${pkgs.coreutils}/bin/mktemp)
+        ${pkgs.jq}/bin/jq --slurpfile h ${hooksJson} '.hooks = $h[0]' "$settings" > "$tmp"
+        mv "$tmp" "$settings"
+      '';
 }
