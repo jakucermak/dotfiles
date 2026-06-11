@@ -1,90 +1,99 @@
-{ ... }:
+{ pkgs, ... }:
 {
 
-  xdg.configFile."ghostty/config".text = ''
-    # Fonts
-    font-family = JetBrainsMono Nerd Font
-    font-feature = +ss01
-    font-feature = +ss02
-    font-feature = +ss04
-    font-feature = +ss05
-    font-size = 15
-    adjust-cell-height = 20%
-    freetype-load-flags = no-hinting
-    window-colorspace = srgb
+  xdg.configFile = {
+    "ghostty/config".text = ''
+      # Fonts
+      font-family = JetBrainsMono Nerd Font
+      font-feature = +ss01
+      font-feature = +ss02
+      font-feature = +ss04
+      font-feature = +ss05
+      font-size = 15
+      adjust-cell-height = 20%
+      freetype-load-flags = no-hinting
+      window-colorspace = srgb
 
-    # Theme
-    theme = light:ayu_light_c,dark:ayu_dark
+      # Theme
+      theme = light:ayu_light_c,dark:ayu_dark
+      custom-shader = shaders/cursor_warp.glsl
 
-    # Cursor
-    cursor-style = block
-    mouse-hide-while-typing = true
 
-    # Padding
-    window-padding-balance = true
-    window-padding-color = extend
-    window-padding-x = 10,10
-    window-padding-y = 0,0
+      # Cursor
+      cursor-style = block
+      mouse-hide-while-typing = true
 
-    # macOS
-    macos-titlebar-style = hidden
-    # macos-titlebar-style = transparent
-    # macos-window-buttons = hidden
-    macos-titlebar-proxy-icon = hidden
-    confirm-close-surface = false
+      # Padding
+      window-padding-balance = true
+      window-padding-color = extend
+      window-padding-x = 10,10
+      window-padding-y = 0,0
 
-    term = xterm-256color
-    desktop-notifications = true
+      # macOS
+      macos-titlebar-style = hidden
+      # macos-titlebar-style = transparent
+      # macos-window-buttons = hidden
+      macos-titlebar-proxy-icon = hidden
+      confirm-close-surface = false
 
-    # Keybindings
-    macos-option-as-alt = true
-    keybind = cmd+right=text:\x05
-    keybind = cmd+left=text:\x01
-    keybind = alt+left=esc:b
-    keybind = alt+right=esc:f
-  '';
+      term = xterm-256color
+      desktop-notifications = true
 
-  xdg.configFile."ghostty/themes/ayu_dark".text = ''
-    palette = 0=#5A6673
-    palette = 1=#E6495A
-    palette = 2=#97C142
-    palette = 3=#E89D37
-    palette = 4=#17ACF2
-    palette = 5=#C385FE
-    palette = 6=#84CEB5
-    palette = 7=#FFFFFF
-    palette = 8=#5A6673
-    palette = 9=#F07178
-    palette = 10=#AAD94C
-    palette = 11=#FFB454
-    palette = 12=#59C2FF
-    palette = 13=#D2A6FF
-    palette = 14=#95E6CB
-    palette = 15=#FFFFFF
-    background =#10141C
-    foreground =#BFBDB6
-    cursor-color =#E6B450
-  '';
+      # Keybindings
+      macos-option-as-alt = true
+      keybind = cmd+right=text:\x05
+      keybind = cmd+left=text:\x01
+      keybind = alt+left=esc:b
+      keybind = alt+right=esc:f
+    '';
 
-  xdg.configFile."ghostty/themes/ayu_light_c".text = ''
-    palette = 0=#ADAEB1
-    palette = 1=#F07171
-    palette = 2=#86B300
-    palette = 3=#EBA400
-    palette = 4=#22A4E6
-    palette = 5=#A37ACC
-    palette = 6=#4CBF99
-    palette = 7=#ADAEB1
-    palette = 8=#939498
-    palette = 9=#F07171
-    palette = 10=#86B300
-    palette = 11=#EBA400
-    palette = 12=#22A4E6
-    palette = 13=#A37ACC
-    palette = 14=#4CBF99
-    palette = 15=#C5C5C8
-    background =#FCFCFC
-    foreground =#5C6166
-    cursor-color =#F29718
-  '';
+    "ghostty/shaders/cursor_warp.glsl".source = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/sahaj-b/ghostty-cursor-shaders/refs/heads/main/cursor_warp.glsl";
+      hash = "sha256-WJ9x9TfO6JCgfkCPE9Bi/32T3m2fdCyE5L3mEExdUfs=";
+    };
+
+    "ghostty/themes/ayu_dark".text = ''
+      palette = 0=#5A6673
+      palette = 1=#E6495A
+      palette = 2=#97C142
+      palette = 3=#E89D37
+      palette = 4=#17ACF2
+      palette = 5=#C385FE
+      palette = 6=#84CEB5
+      palette = 7=#FFFFFF
+      palette = 8=#5A6673
+      palette = 9=#F07178
+      palette = 10=#AAD94C
+      palette = 11=#FFB454
+      palette = 12=#59C2FF
+      palette = 13=#D2A6FF
+      palette = 14=#95E6CB
+      palette = 15=#FFFFFF
+      background =#10141C
+      foreground =#BFBDB6
+      cursor-color =#E6B450
+    '';
+
+    "ghostty/themes/ayu_light_c".text = ''
+      palette = 0=#ADAEB1
+      palette = 1=#F07171
+      palette = 2=#86B300
+      palette = 3=#EBA400
+      palette = 4=#22A4E6
+      palette = 5=#A37ACC
+      palette = 6=#4CBF99
+      palette = 7=#ADAEB1
+      palette = 8=#939498
+      palette = 9=#F07171
+      palette = 10=#86B300
+      palette = 11=#EBA400
+      palette = 12=#22A4E6
+      palette = 13=#A37ACC
+      palette = 14=#4CBF99
+      palette = 15=#C5C5C8
+      background =#FCFCFC
+      foreground =#5C6166
+      cursor-color =#F29718
+    '';
+  };
 }
