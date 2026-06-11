@@ -35,44 +35,51 @@
 
   # services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
-  programs.zsh.enable = true;
-  system.stateVersion = 6;
+  programs.zsh = {
+    enable = true;
+    enableBashCompletion = false;
+    enableGlobalCompInit = false;
+  };
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   security.pam.services.sudo_local.touchIdAuth = true;
   users.users.jakubcermak.home = "/Users/jakubcermak";
-  system.primaryUser = "jakubcermak";
 
-  system.defaults = {
-    dock = {
-      autohide = true;
-      show-recents = false;
-      minimize-to-application = true;
-      expose-group-apps = true;
-      persistent-apps = [
-        "/Applications/Safari.app"
-        "/System/Applications/Messages.app"
-        "/Applications/Ghostty.app"
-        "/Applications/Zed Preview.app"
-      ];
-      persistent-others = [
-        "/Users/jakubcermak/Downloads"
-        "/Applications"
-      ];
-      mru-spaces = true;
+  system = {
+    stateVersion = 6;
+    primaryUser = "jakubcermak";
+    defaults = {
+      dock = {
+        autohide = true;
+        show-recents = false;
+        minimize-to-application = true;
+        expose-group-apps = true;
+        persistent-apps = [
+          "/Applications/Safari.app"
+          "/System/Applications/Messages.app"
+          "/Applications/Ghostty.app"
+          "/Applications/Zed Preview.app"
+        ];
+        persistent-others = [
+          "/Users/jakubcermak/Downloads"
+          "/Applications"
+        ];
+        mru-spaces = true;
+      };
+      finder = {
+        AppleShowAllExtensions = true;
+        FXPreferredViewStyle = "clmv";
+      };
+      loginwindow.LoginwindowText = "jakucermak-toolbox";
+      screencapture.location = "~/Pictures/screenshots";
+      screensaver.askForPasswordDelay = 10;
+      NSGlobalDomain = {
+        _HIHideMenuBar = true;
+        ApplePressAndHoldEnabled = false;
+      };
+
+      # If WM is changed to Aerospace = true, Yabai = false
+      spaces.spans-displays = if wm == "yabai" then false else true;
     };
-    finder = {
-      AppleShowAllExtensions = true;
-      FXPreferredViewStyle = "clmv";
-    };
-    loginwindow.LoginwindowText = "jakucermak-toolbox";
-    screencapture.location = "~/Pictures/screenshots";
-    screensaver.askForPasswordDelay = 10;
-    NSGlobalDomain._HIHideMenuBar = true;
-    NSGlobalDomain.ApplePressAndHoldEnabled = false;
-
-    # If WM is changed to Aerospace = true, Yabai = false
-    spaces.spans-displays = if wm == "yabai" then false else true;
-
   };
 }

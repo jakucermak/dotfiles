@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }:
@@ -17,7 +16,6 @@
 
   home =
     let
-      dotfiles = "${config.home.homeDirectory}/dotfiles/";
       ghosttyPackage =
         if pkgs.stdenv.isLinux then
           pkgs.writeShellApplication {
@@ -27,12 +25,14 @@
               export LIBGL_DRIVERS_PATH=${pkgs.mesa}/lib/dri
               export LIBVA_DRIVERS_PATH=${pkgs.mesa}/lib/dri
               export __EGL_VENDOR_LIBRARY_FILENAMES=${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json
-              export LD_LIBRARY_PATH=${lib.makeLibraryPath [
-                pkgs.mesa
-                pkgs.libglvnd
-                pkgs.zlib
-                pkgs.libdrm
-              ]}''${LD_LIBRARY_PATH:+:''${LD_LIBRARY_PATH}}
+              export LD_LIBRARY_PATH=${
+                lib.makeLibraryPath [
+                  pkgs.mesa
+                  pkgs.libglvnd
+                  pkgs.zlib
+                  pkgs.libdrm
+                ]
+              }''${LD_LIBRARY_PATH:+:''${LD_LIBRARY_PATH}}
               export LIBGL_ALWAYS_SOFTWARE=1
 
               exec ${lib.getExe pkgs.ghostty} "$@"
@@ -49,7 +49,6 @@
           twingate
           codex
           chatgpt
-          zed
           ghosttyPackage
           qemu
           bottom

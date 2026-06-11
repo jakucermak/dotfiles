@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   programs.neovim = {
     defaultEditor = true;
@@ -8,7 +9,11 @@
     withRuby = false;
     withPython3 = false;
 
-    extraPackages = with pkgs; [ lua-language-server stylua ripgrep ];
+    extraPackages = with pkgs; [
+      lua-language-server
+      stylua
+      ripgrep
+    ];
 
   };
 

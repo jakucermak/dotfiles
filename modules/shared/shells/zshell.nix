@@ -3,6 +3,7 @@
 {
   programs.zsh = {
     enable = true;
+    completionInit = "";
 
     # Define zinit instead of oh-my-zsh and zplug
 
@@ -33,15 +34,20 @@
       # Load zinit
       source "$ZINIT_HOME/bin/zinit.zsh"
 
-      # Load essential plugins instantly
-      zinit light zsh-users/zsh-autosuggestions
+      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
+      alias cd=z
 
-      # Load less critical plugins in turbo mode (asynchronously)
-      zinit wait lucid for \
-        atinit"zicompinit; zicdreplay" \
-        zdharma-continuum/fast-syntax-highlighting \
-        atload"_zsh_autosuggest_start; eval \"\$(${pkgs.zoxide}/bin/zoxide init zsh)\"; alias cd=z" \
-        zsh-users/zsh-completions
+      # zsh-completions must be loaded before compinit. Keep ZLE wrappers
+      # synchronous so they cannot redraw over a command line that is being typed.
+      zinit light zsh-users/zsh-completions
+      zicompinit
+      autoload -Uz bashcompinit
+      bashcompinit
+      zicdreplay
+      zinit light zdharma-continuum/fast-syntax-highlighting
+      zinit light zsh-users/zsh-autosuggestions
+      unset ZSH_AUTOSUGGEST_USE_ASYNC
+      (( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
 
       function fzf-loader() {
         eval "$(fzf --zsh)"
