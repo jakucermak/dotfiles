@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   services.jankyborders = {
     enable = true;
     order = "above";
