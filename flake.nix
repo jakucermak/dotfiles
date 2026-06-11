@@ -45,9 +45,6 @@
       system-manager,
       nix-system-graphics,
       nix-homebrew,
-      homebrew-core,
-      homebrew-cask,
-      homebrew-bundle,
       alacritty-theme,
       ...
     }:
@@ -56,11 +53,24 @@
       fedoraArm64Pkgs = import nixpkgs {
         system = fedoraArm64System;
         config.allowUnfree = true;
-        overlays = [
-          (final: prev: {
-          })
-        ];
       };
+      mkHomeManagerBackupCommand =
+        pkgs:
+        pkgs.writeShellScript "home-manager-backup" ''
+          set -euo pipefail
+
+          target="$1"
+          stamp="$(${pkgs.coreutils}/bin/date +%Y%m%d%H%M%S)"
+          backup="$target.backup-$stamp"
+          i=0
+
+          while [[ -e "$backup" ]]; do
+            i=$((i + 1))
+            backup="$target.backup-$stamp-$i"
+          done
+
+          ${pkgs.coreutils}/bin/mv -- "$target" "$backup"
+        '';
     in
     {
 
@@ -81,8 +91,6 @@
           {
             nixpkgs.overlays = [
               alacritty-theme.overlays.default
-              (final: prev: {
-              })
             ];
             nix-homebrew = {
               # Install Homebrew under the default prefix
@@ -97,28 +105,31 @@
             };
           }
           home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              backupFileExtension = "backup";
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                wm = "yabai";
-                inherit inputs;
-              };
-              sharedModules = [
-                {
-                  home.username = "jakubcermak";
-                  home.homeDirectory = "/Users/jakubcermak";
-                }
-              ];
-              users.jakubcermak =
-                { ... }:
-                {
-                  imports = [ ./modules/darwin/home.nix ];
+          (
+            { pkgs, ... }:
+            {
+              home-manager = {
+                backupCommand = "${mkHomeManagerBackupCommand pkgs}";
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  wm = "yabai";
+                  inherit inputs;
                 };
-            };
-          }
+                sharedModules = [
+                  {
+                    home.username = "jakubcermak";
+                    home.homeDirectory = "/Users/jakubcermak";
+                  }
+                ];
+                users.jakubcermak =
+                  { ... }:
+                  {
+                    imports = [ ./modules/darwin/home.nix ];
+                  };
+              };
+            }
+          )
         ];
       };
 
@@ -137,24 +148,27 @@
           }
 
           home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              backupFileExtension = "backup";
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                wm = "aerospace";
-                inherit inputs;
+          (
+            { pkgs, ... }:
+            {
+              home-manager = {
+                backupCommand = "${mkHomeManagerBackupCommand pkgs}";
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  wm = "aerospace";
+                  inherit inputs;
+                };
+                sharedModules = [
+                  {
+                    home.username = "jakubcermak";
+                    home.homeDirectory = "/Users/jakubcermak";
+                  }
+                ];
+                users.jakubcermak = import ./modules/darwin/home.nix;
               };
-              sharedModules = [
-                {
-                  home.username = "jakubcermak";
-                  home.homeDirectory = "/Users/jakubcermak";
-                }
-              ];
-              users.jakubcermak = import ./modules/darwin/home.nix;
-            };
-          }
+            }
+          )
         ];
       };
 
