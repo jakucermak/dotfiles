@@ -44,9 +44,27 @@
       autoload -Uz bashcompinit
       bashcompinit
       zicdreplay
+
+      # Repair shells that sourced an older config where _ssh was a bash-style
+      # shim. scp needs zsh's native _ssh for local and remote path completion.
+      unfunction _ssh 2>/dev/null || true
+      autoload -Uz _ssh
+      compdef _ssh ssh scp sftp slogin ssh-add ssh-agent ssh-keygen ssh-keyscan ssh-copy-id
+
       zinit light zdharma-continuum/fast-syntax-highlighting
       zinit light zsh-users/zsh-autosuggestions
       unset ZSH_AUTOSUGGEST_USE_ASYNC
+      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(
+        accept-and-menu-complete
+        complete-word
+        delete-char-or-list
+        expand-or-complete
+        expand-or-complete-prefix
+        list-choices
+        menu-complete
+        menu-expand-or-complete
+        reverse-menu-complete
+      )
       (( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
 
       function fzf-loader() {
@@ -126,20 +144,9 @@
         mkdir -p "$@" && cd "$_";
       }
 
-      # SSH completion
-      _ssh()
-      {
-        local cur prev opts
-        COMPREPLY=()
-        cur="''${COMP_WORDS[COMP_CWORD]}"
-        prev="''${COMP_WORDS[COMP_CWORD-1]}"
-        opts=$(grep '^Host' ~/.ssh/config ~/.ssh/config.d/* 2>/dev/null | grep -v '[?*]' | cut -d ' ' -f 2-)
-
-        COMPREPLY=( $(compgen -W "$opts" -- ''${cur}) )
-        return 0
-      }
-      complete -F _ssh ssh
-
+      # Keep scp local file matches ahead of host/user matches. Otherwise names
+      # like localhost can stop bare local path completion at a shared prefix.
+      zstyle ':completion:*:*:scp:*' tag-order 'files' 'hosts users' '*'
 
       function hugvnc() {
         /Applications/VNC\ Viewer.app/Contents/MacOS/vncviewer "$1" ''${vncparams[@]} -passwordFile ~/passwd
