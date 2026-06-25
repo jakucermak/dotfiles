@@ -97,7 +97,7 @@ in
       {
         plugin = tmux-floax;
         extraConfig = ''
-          set -g @floax-bind '-n M-f'
+          set -g @floax-bind '-n C-f'
           set -g @floax-border-color '#E6B450'
           set -g @floax-text-color '#E6B450'
           set -g @floax-width '152'
@@ -160,8 +160,8 @@ in
       set-hook -g pane-title-changed    'run-shell -b "~/.tmux/tmux-title.sh #{hook_client}"'
       set-hook -g after-rename-window   'run-shell -b "~/.tmux/tmux-title.sh #{hook_client}"'
       set-hook -g after-rename-session  'run-shell -b "~/.tmux/tmux-title.sh #{hook_client}"'
-      set-hook -g after-select-window 'run-shell "printf \"\033]2;%s\033\\\\\" \"$(tmux display-message -p \"#S:#W\")\" > #{pane_tty}"'
-      set-hook -g after-select-pane   'run-shell "printf \"\033]2;%s\033\\\\\" \"$(tmux display-message -p \"#S:#W\")\" > #{pane_tty}"'
+      set-hook -g after-select-window 'run-shell -b "printf \"\033]2;%s\007\" \"$(tmux display-message -p \"#S:#W\")\" > #{client_tty}"'
+      set-hook -g after-select-pane   'run-shell -b "printf \"\033]2;%s\007\" \"$(tmux display-message -p \"#S:#W\")\" > #{client_tty}"'
 
       # Configure Ayu
       set -g @ayu_status_background "none"
@@ -192,7 +192,7 @@ in
       set -g status-justify "absolute-centre"
 
       # -- Pane border look and feel
-      setw -g pane-border-status top
+      # setw -g pane-border-status top
       setw -g pane-border-format ""
       setw -g pane-border-style "bg=#{@thm_bg},fg=#{@thm_ui_line}"
       setw -g pane-active-border-style "bg=#{@thm_bg},fg=#{@thm_accent_tint}"
@@ -262,7 +262,7 @@ in
            | #{pane_title} / #{pane_current_command},
           }')"
 
-          printf '\033Ptmux;\033\033]2;%s\007\033\\' "$title" > "$tty"
+          printf '\033]2;%s\007' "$title" > "$tty"
         '';
       };
 

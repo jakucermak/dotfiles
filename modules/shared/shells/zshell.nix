@@ -52,6 +52,9 @@
       compdef _ssh ssh scp sftp slogin ssh-add ssh-agent ssh-keygen ssh-keyscan ssh-copy-id
 
       zinit light zdharma-continuum/fast-syntax-highlighting
+      # Avoid ZLE's standout background for bracketed paste without changing
+      # fast-syntax-highlighting command/path styles.
+      zle_highlight=( ''${(@)zle_highlight:#paste:*} paste:none )
       zinit light zsh-users/zsh-autosuggestions
       unset ZSH_AUTOSUGGEST_USE_ASYNC
       ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(
@@ -66,6 +69,43 @@
         reverse-menu-complete
       )
       (( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
+      function _dotfiles_fast_highlight_bracketed_paste() {
+        emulate -L zsh
+        setopt extendedglob warncreateglobal typesetsilent
+
+        (( ''${+functions[-fast-highlight-init]} && ''${+functions[-fast-highlight-process]} )) || return
+
+        local -a reply
+        -fast-highlight-init
+        -fast-highlight-process "$PREBUFFER" "$BUFFER" 0
+        if (( ''${FAST_HIGHLIGHT[use_brackets]:-0} && ''${+functions[-fast-highlight-string-process]} )); then
+          _FAST_MAIN_CACHE=( $reply )
+          -fast-highlight-string-process "$PREBUFFER" "$BUFFER"
+        fi
+        region_highlight=( $reply )
+      }
+
+      function _dotfiles_bracketed_paste() {
+        local -i retval
+
+        zle _dotfiles_orig_bracketed_paste -- "$@"
+        retval=$?
+        _dotfiles_fast_highlight_bracketed_paste
+        (( ''${+functions[_zsh_autosuggest_highlight_apply]} )) && _zsh_autosuggest_highlight_apply
+        zle -R
+
+        return $retval
+      }
+
+      if (( ''${+widgets[bracketed-paste]} )); then
+        if [[ ''${widgets[bracketed-paste]} != user:_dotfiles_bracketed_paste ]]; then
+          zle -A bracketed-paste _dotfiles_orig_bracketed_paste
+          zle -N bracketed-paste _dotfiles_bracketed_paste
+        fi
+        if [[ -z ''${ZSH_AUTOSUGGEST_IGNORE_WIDGETS[(r)bracketed-paste]} ]]; then
+          ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(bracketed-paste)
+        fi
+      fi
 
       function fzf-loader() {
         eval "$(fzf --zsh)"
@@ -95,37 +135,11 @@
       }
 
 
-        function set_tab_title() {
-          local cmd="$1"
-          local title
-
-          if [[ -z "$cmd" || "$cmd" == "" ]]; then
-            # Use directory name for empty command (precmd)
-            title="$PWD"
-            title="''${title/#$HOME/~}"
-            title="''${title##*/}"
-          else
-            # Use first word of command
-            title="''${cmd%% *}"
-            # Extract hostname for ssh commands
-            if [[ "$title" == "ssh" ]]; then
-              title="''${cmd#ssh }"
-              title="''${title%% *}"
-            fi
-          fi
-
-        }
-
-        function update_tab_title_precmd() {
-          set_tab_title ""
-        }
-
-        function update_tab_title_preexec() {
-          set_tab_title "$1"
-        }
-
-        add-zsh-hook precmd update_tab_title_precmd
-        add-zsh-hook preexec update_tab_title_preexec
+      # Remove older no-op title hooks from already-running shells when this
+      # file is sourced. tmux owns the Ghostty window title now.
+      precmd_functions=(''${precmd_functions:#update_tab_title_precmd})
+      preexec_functions=(''${preexec_functions:#update_tab_title_preexec})
+      unfunction set_tab_title update_tab_title_precmd update_tab_title_preexec 2>/dev/null || true
 
       # VNC viewer setup
       vncparams=(

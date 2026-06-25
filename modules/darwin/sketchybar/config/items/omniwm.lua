@@ -2,7 +2,7 @@ local colors = require("colors")
 local settings = require("settings")
 local app_icons = require("helpers.app_icons")
 
-local omniwm_path = "/opt/homebrew/bin/omniwmctl"
+local omniwm_path = "/Users/jakubcermak/.local/bin/omniwmctl"
 local jq_path = "/opt/homebrew/bin/jq"
 
 local space_icons = { "WEB", "EDIT", "TERM", "COMM", "", "", "" }
