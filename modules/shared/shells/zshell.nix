@@ -134,6 +134,82 @@
         command gcloud "$@"
       }
 
+      # Automatically load a directory-local .env and Python .venv when entering
+      # that directory. When leaving, unload the variables that were declared in
+      # that .env and deactivate the tracked virtualenv.
+      typeset -g _DOTFILES_AUTO_ENV_FILE=""
+      typeset -ga _DOTFILES_AUTO_ENV_VARS=()
+      typeset -g _DOTFILES_AUTO_VENV=""
+
+      function _dotfiles_env_keys() {
+        local env_file="$1"
+        [[ -f "$env_file" ]] || return 0
+
+        command sed -nE 's/^[[:space:]]*(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*=.*/\2/p' "$env_file"
+      }
+
+      function _dotfiles_unload_env() {
+        local key
+        for key in "''${_DOTFILES_AUTO_ENV_VARS[@]}"; do
+          unset "$key"
+        done
+        _DOTFILES_AUTO_ENV_FILE=""
+        _DOTFILES_AUTO_ENV_VARS=()
+        unset DOTFILES_DOTENV_FILE
+      }
+
+      function _dotfiles_load_env() {
+        local env_file="$1"
+        local -a env_vars
+
+        env_vars=("''${(@f)$(_dotfiles_env_keys "$env_file")}")
+        set -a
+        source "$env_file"
+        set +a
+
+        _DOTFILES_AUTO_ENV_FILE="$env_file"
+        _DOTFILES_AUTO_ENV_VARS=("''${env_vars[@]}")
+        export DOTFILES_DOTENV_FILE="$env_file"
+      }
+
+      function _dotfiles_deactivate_venv() {
+        if [[ -n "$_DOTFILES_AUTO_VENV" && "''${VIRTUAL_ENV:-}" == "$_DOTFILES_AUTO_VENV" ]]; then
+          if (( ''${+functions[deactivate]} )); then
+            deactivate
+          else
+            unset VIRTUAL_ENV VIRTUAL_ENV_PROMPT
+          fi
+        fi
+        _DOTFILES_AUTO_VENV=""
+      }
+
+      function _dotfiles_activate_venv() {
+        local venv_dir="$1"
+        [[ -f "$venv_dir/bin/activate" ]] || return 0
+
+        source "$venv_dir/bin/activate"
+        _DOTFILES_AUTO_VENV="$venv_dir"
+      }
+
+      function _dotfiles_auto_project_env() {
+        local env_file="$PWD/.env"
+        local venv_dir="$PWD/.venv"
+
+        if [[ "$env_file" != "$_DOTFILES_AUTO_ENV_FILE" ]]; then
+          [[ -n "$_DOTFILES_AUTO_ENV_FILE" ]] && _dotfiles_unload_env
+          [[ -f "$env_file" ]] && _dotfiles_load_env "$env_file"
+        fi
+
+        if [[ "$venv_dir" != "$_DOTFILES_AUTO_VENV" ]]; then
+          _dotfiles_deactivate_venv
+          [[ -f "$venv_dir/bin/activate" ]] && _dotfiles_activate_venv "$venv_dir"
+        fi
+      }
+
+      autoload -Uz add-zsh-hook
+      add-zsh-hook chpwd _dotfiles_auto_project_env
+      _dotfiles_auto_project_env
+
 
       # Remove older no-op title hooks from already-running shells when this
       # file is sourced. tmux owns the Ghostty window title now.

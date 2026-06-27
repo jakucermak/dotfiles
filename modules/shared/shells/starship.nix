@@ -21,7 +21,7 @@ in
     enableNushellIntegration = false;
     settings = {
       add_newline = false;
-      format = "$username$directory$git_branch$git_status$status$cmd_duration$nix_shell$kubernetes$golang$python$php$nodejs$rust$character";
+      format = "$username$directory$git_branch$git_status$status$cmd_duration$nix_shell$kubernetes$custom$golang$python$php$nodejs$rust$character";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";
         style = "bold ${colors.green}";
@@ -61,6 +61,16 @@ in
       kubernetes = {
         disabled = false;
         format = "[$symbol$context( ($namespace))]($style) ";
+      };
+      custom.dotenv = {
+        when = ''
+          test -n "$DOTFILES_DOTENV_FILE"
+        '';
+        command = ''
+          printf .env
+        '';
+        format = "[─](${colors.blue}) [$output sourced]($style) ";
+        style = "bold ${colors.yellow}";
       };
       status = {
         disabled = false;

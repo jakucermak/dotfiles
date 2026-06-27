@@ -85,6 +85,11 @@ in
       font = {
         size = 15;
         normal.family = "JetBrainsMono Nerd Font";
+
+        # Closest Alacritty equivalent to Ghostty's adjust-cell-height = 20%.
+        # This makes tmux/box-drawing cells less cramped without changing font size.
+        offset.y = 4;
+        glyph_offset.y = 2;
       };
 
       cursor.style.shape = "Block";

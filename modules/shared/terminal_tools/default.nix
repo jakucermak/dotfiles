@@ -5,5 +5,6 @@
     ./sesh.nix
     ./tmux.nix
     ./television.nix
+    ./yazi.nix
   ];
 }

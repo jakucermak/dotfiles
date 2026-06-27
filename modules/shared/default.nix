@@ -47,6 +47,7 @@
         [
 
           twingate
+          alacritty
           codex
           chatgpt
           ghosttyPackage
@@ -80,9 +81,9 @@
       );
 
       sessionVariables = {
-        EDITOR = lib.mkForce "zed";
-        VISUAL = lib.mkForce "zed";
-        TERMINAL = "ghostty";
+        EDITOR = lib.mkForce "nvim";
+        VISUAL = lib.mkForce "nvim";
+        TERMINAL = "alacritty";
       };
 
     };

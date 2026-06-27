@@ -1,0 +1,42 @@
+#!/bin/bash
+WINDOW_ID=$(/opt/homebrew/bin/yabai -m query --windows | jq -r '.[] | select(.app=="Alacritty" and .title=="mini") | .id' | head -n1)
+
+if [ -n "$WINDOW_ID" ]; then
+    # Window exists, focus it
+    /opt/homebrew/bin/yabai -m window --focus "$WINDOW_ID"
+else
+    # Window doesn't exist, create it
+    ALACRITTY_APP="$HOME/Applications/Home Manager Apps/Alacritty.app"
+    if [ -d "$ALACRITTY_APP" ]; then
+        OPEN_TARGET="$ALACRITTY_APP"
+    else
+        OPEN_TARGET="Alacritty.app"
+    fi
+
+    open -na "$OPEN_TARGET" --args \
+        --title "mini" \
+        --option 'window.dimensions.columns=148' \
+        --option 'window.dimensions.lines=49' \
+        --option 'window.decorations="None"' \
+        --option 'window.dynamic_title=false' \
+        -e /bin/zsh
+
+    # Wait for the window to be created with a timeout
+    max_attempts=20
+    attempt=0
+    new_window_id=""
+
+    while [ -z "$new_window_id" ] && [ $attempt -lt $max_attempts ]; do
+        new_window_id=$(/opt/homebrew/bin/yabai -m query --windows | jq -r '.[] | select(.app=="Alacritty" and .title=="mini") | .id' | tail -n1)
+        attempt=$((attempt + 1))
+        sleep 0.1
+    done
+
+    # Position the window using /opt/homebrew/bin/yabai if it was found
+    if [ -n "$new_window_id" ]; then
+        /opt/homebrew/bin/yabai -m window $new_window_id --toggle float --grid 1291:2056:340:178:1410:1060
+        /opt/homebrew/bin/yabai -m window --focus $new_window_id
+    else
+        echo "Failed to detect new Alacritty window after $max_attempts attempts"
+    fi
+fi

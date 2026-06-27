@@ -95,7 +95,7 @@
           # toggle sticky(+float), picture-in-picture
           # alt - p : /opt/homebrew/bin//opt/homebrew/bin/yabai -m window --toggle sticky --toggle pip
 
-          alt - return : ~/.config/skhd_scripts/ghostty_float
+          alt - return : ~/.config/skhd_scripts/alacritty_float
 
         '';
         executable = true;
@@ -103,9 +103,9 @@
       };
 
       ".config/skhd_scripts".source = ./skhd_scripts;
-      ".config/skhd_scripts/ghostty_float" = {
+      ".config/skhd_scripts/alacritty_float" = {
         executable = true;
-        source = ./skhd_scripts/ghostty_float;
+        source = ./skhd_scripts/alacritty_float;
       };
     };
   };
