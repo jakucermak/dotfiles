@@ -134,11 +134,20 @@
         command gcloud "$@"
       }
 
-      # Automatically load a directory-local .env and Python .venv when entering
-      # that directory. When leaving, unload the variables that were declared in
-      # that .env and deactivate the tracked virtualenv.
-      typeset -g _DOTFILES_AUTO_ENV_FILE=""
+      # Automatically load all .env files in the current directory ancestry and
+      # Python .venv from the current directory. .env files are sourced from
+      # parent to child so closer directories win on conflicting variables.
+      #
+      # The hook remembers the shell's original value for every variable declared
+      # by a managed .env before the hook first touches it. On every directory
+      # change it restores that baseline, then reapplies the active .env stack;
+      # moving up or away therefore restores parent/original values instead of
+      # leaving stale child values behind.
+      typeset -ga _DOTFILES_AUTO_ENV_FILES=()
       typeset -ga _DOTFILES_AUTO_ENV_VARS=()
+      typeset -gA _DOTFILES_AUTO_ENV_ORIGINAL_EXISTS=()
+      typeset -gA _DOTFILES_AUTO_ENV_ORIGINAL_EXPORTS=()
+      typeset -gA _DOTFILES_AUTO_ENV_ORIGINAL_VALUES=()
       typeset -g _DOTFILES_AUTO_VENV=""
 
       function _dotfiles_env_keys() {
@@ -148,28 +157,128 @@
         command sed -nE 's/^[[:space:]]*(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)[[:space:]]*=.*/\2/p' "$env_file"
       }
 
-      function _dotfiles_unload_env() {
-        local key
-        for key in "''${_DOTFILES_AUTO_ENV_VARS[@]}"; do
-          unset "$key"
+      function _dotfiles_find_env_stack() {
+        local dir="$PWD"
+
+        reply=()
+        while [[ -n "$dir" ]]; do
+          [[ -f "$dir/.env" ]] && reply=("$dir/.env" "''${reply[@]}")
+          [[ "$dir" == "/" ]] && break
+          dir="''${dir:h}"
         done
-        _DOTFILES_AUTO_ENV_FILE=""
-        _DOTFILES_AUTO_ENV_VARS=()
-        unset DOTFILES_DOTENV_FILE
       }
 
-      function _dotfiles_load_env() {
-        local env_file="$1"
+      function _dotfiles_env_stack_matches() {
+        local -a desired_files=("$@")
+        local -i index
+
+        (( ''${#desired_files} == ''${#_DOTFILES_AUTO_ENV_FILES} )) || return 1
+        for (( index = 1; index <= ''${#desired_files}; index++ )); do
+          [[ "''${desired_files[$index]}" == "''${_DOTFILES_AUTO_ENV_FILES[$index]}" ]] || return 1
+        done
+
+        return 0
+      }
+
+      function _dotfiles_remember_env_var() {
+        local key="$1"
+        [[ -n "$key" ]] || return 0
+
+        if (( ! ''${+_DOTFILES_AUTO_ENV_ORIGINAL_EXISTS[$key]} )); then
+          if (( ''${+parameters[$key]} )); then
+            _DOTFILES_AUTO_ENV_ORIGINAL_EXISTS[$key]=1
+            _DOTFILES_AUTO_ENV_ORIGINAL_VALUES[$key]="''${(P)key}"
+            if [[ "''${parameters[$key]}" == *export* ]]; then
+              _DOTFILES_AUTO_ENV_ORIGINAL_EXPORTS[$key]=1
+            else
+              _DOTFILES_AUTO_ENV_ORIGINAL_EXPORTS[$key]=0
+            fi
+          else
+            _DOTFILES_AUTO_ENV_ORIGINAL_EXISTS[$key]=0
+            _DOTFILES_AUTO_ENV_ORIGINAL_EXPORTS[$key]=0
+            _DOTFILES_AUTO_ENV_ORIGINAL_VALUES[$key]=""
+          fi
+
+          _DOTFILES_AUTO_ENV_VARS+=("$key")
+        fi
+      }
+
+      function _dotfiles_collect_env_stack_vars() {
+        local env_file key
         local -a env_vars
 
-        env_vars=("''${(@f)$(_dotfiles_env_keys "$env_file")}")
-        set -a
-        source "$env_file"
-        set +a
+        reply=()
+        for env_file in "$@"; do
+          env_vars=( ''${(@f)$(_dotfiles_env_keys "$env_file")} )
+          for key in "''${env_vars[@]}"; do
+            [[ -n "$key" ]] || continue
+            _dotfiles_remember_env_var "$key"
+            [[ -z "''${reply[(r)$key]}" ]] && reply+=("$key")
+          done
+        done
+      }
 
-        _DOTFILES_AUTO_ENV_FILE="$env_file"
-        _DOTFILES_AUTO_ENV_VARS=("''${env_vars[@]}")
-        export DOTFILES_DOTENV_FILE="$env_file"
+      function _dotfiles_restore_managed_env() {
+        local key
+
+        for key in "''${_DOTFILES_AUTO_ENV_VARS[@]}"; do
+          if [[ "''${_DOTFILES_AUTO_ENV_ORIGINAL_EXISTS[$key]}" == 1 ]]; then
+            typeset -g -- "$key=''${_DOTFILES_AUTO_ENV_ORIGINAL_VALUES[$key]}"
+            if [[ "''${_DOTFILES_AUTO_ENV_ORIGINAL_EXPORTS[$key]}" == 1 ]]; then
+              export "$key"
+            else
+              typeset +x "$key" 2>/dev/null || true
+            fi
+          else
+            unset "$key"
+          fi
+        done
+      }
+
+      function _dotfiles_source_env_stack() {
+        local env_file
+        local -i allexport_was_set=0
+        local -i retval=0
+
+        [[ -o allexport ]] && allexport_was_set=1
+        set -a
+        for env_file in "$@"; do
+          source "$env_file" || retval=$?
+        done
+        if (( allexport_was_set )); then
+          set -a
+        else
+          set +a
+        fi
+
+        return $retval
+      }
+
+      function _dotfiles_set_dotenv_file_marker() {
+        local -a env_files=("$@")
+        local IFS=:
+
+        if (( ''${#env_files} )); then
+          export DOTFILES_DOTENV_FILE="''${env_files[*]}"
+        else
+          unset DOTFILES_DOTENV_FILE
+        fi
+      }
+
+      function _dotfiles_reload_env_stack() {
+        local -a env_files=("$@")
+        local -i retval=0
+
+        _dotfiles_collect_env_stack_vars "''${env_files[@]}"
+        _dotfiles_restore_managed_env
+        if (( ''${#env_files} )); then
+          _dotfiles_source_env_stack "''${env_files[@]}" || retval=$?
+        fi
+
+        _DOTFILES_AUTO_ENV_FILES=("''${env_files[@]}")
+        _dotfiles_set_dotenv_file_marker "''${env_files[@]}"
+
+        return $retval
       }
 
       function _dotfiles_deactivate_venv() {
@@ -192,12 +301,14 @@
       }
 
       function _dotfiles_auto_project_env() {
-        local env_file="$PWD/.env"
+        local -a env_files
         local venv_dir="$PWD/.venv"
 
-        if [[ "$env_file" != "$_DOTFILES_AUTO_ENV_FILE" ]]; then
-          [[ -n "$_DOTFILES_AUTO_ENV_FILE" ]] && _dotfiles_unload_env
-          [[ -f "$env_file" ]] && _dotfiles_load_env "$env_file"
+        _dotfiles_find_env_stack
+        env_files=("''${reply[@]}")
+
+        if ! _dotfiles_env_stack_matches "''${env_files[@]}"; then
+          _dotfiles_reload_env_stack "''${env_files[@]}"
         fi
 
         if [[ "$venv_dir" != "$_DOTFILES_AUTO_VENV" ]]; then
@@ -210,6 +321,22 @@
       add-zsh-hook chpwd _dotfiles_auto_project_env
       _dotfiles_auto_project_env
 
+      # Starship custom modules cannot read the previous command status directly.
+      # Capture it before Starship's precmd hook renders the prompt, then return
+      # it so later precmd hooks still see the original exit code.
+      typeset -gi DOTFILES_STARSHIP_EXIT_CODE=0
+
+      function _dotfiles_capture_starship_exit_code() {
+        local -i exit_code=$?
+        DOTFILES_STARSHIP_EXIT_CODE=$exit_code
+        export DOTFILES_STARSHIP_EXIT_CODE
+        return $exit_code
+      }
+
+      precmd_functions=(
+        _dotfiles_capture_starship_exit_code
+        ''${precmd_functions:#_dotfiles_capture_starship_exit_code}
+      )
 
       # Remove older no-op title hooks from already-running shells when this
       # file is sourced. tmux owns the Ghostty window title now.

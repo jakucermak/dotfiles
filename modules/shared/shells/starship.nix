@@ -21,7 +21,7 @@ in
     enableNushellIntegration = false;
     settings = {
       add_newline = false;
-      format = "$username$directory$git_branch$git_status$status$cmd_duration$nix_shell$kubernetes$custom$golang$python$php$nodejs$rust$character";
+      format = "$username$directory$git_branch$git_status\${custom.exit_status}$cmd_duration$nix_shell$kubernetes\${custom.dotenv}$golang$python$php$nodejs$rust$character";
       directory = {
         format = "[$path]($style)[$read_only]($read_only_style) ";
         style = "bold ${colors.green}";
@@ -62,6 +62,22 @@ in
         disabled = false;
         format = "[$symbol$context( ($namespace))]($style) ";
       };
+      custom.exit_status = {
+        when = ''
+          test "''${DOTFILES_STARSHIP_EXIT_CODE:-0}" != 0
+        '';
+        command = ''
+          case "''${DOTFILES_STARSHIP_EXIT_CODE:-0}" in
+            1)
+              printf '\033[1;38;2;240;113;120m1\033[0m'
+              ;;
+            *)
+              printf '\033[1;38;2;230;180;80m%s\033[0m' "''${DOTFILES_STARSHIP_EXIT_CODE:-0}"
+              ;;
+          esac
+        '';
+        format = "[─](${colors.blue}) $output ";
+      };
       custom.dotenv = {
         when = ''
           test -n "$DOTFILES_DOTENV_FILE"
@@ -73,9 +89,7 @@ in
         style = "bold ${colors.yellow}";
       };
       status = {
-        disabled = false;
-        format = "[─](${colors.blue}) [$symbol$status]($style) ";
-        style = "bold ${colors.red}";
+        disabled = true;
       };
       username = {
         show_always = false;
